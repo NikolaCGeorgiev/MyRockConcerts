@@ -6,11 +6,10 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    using MyRockConcerts.Data.Common.Models;
-    using MyRockConcerts.Data.Models;
-
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
+    using MyRockConcerts.Data.Common.Models;
+    using MyRockConcerts.Data.Models;
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
     {
@@ -23,6 +22,24 @@
             : base(options)
         {
         }
+
+        public DbSet<Concert> Concerts { get; set; }
+
+        public DbSet<ConcertGroup> ConcertGroups { get; set; }
+
+        public DbSet<Genre> Genres { get; set; }
+
+        public DbSet<Group> Groups { get; set; }
+
+        public DbSet<GroupGenre> GroupGenres { get; set; }
+
+        public DbSet<Member> Members { get; set; }
+
+        public DbSet<Organiser> Organisers { get; set; }
+
+        public DbSet<UserConcert> UserConcerts { get; set; }
+
+        public DbSet<Venue> Venues { get; set; }
 
         public DbSet<Setting> Settings { get; set; }
 
