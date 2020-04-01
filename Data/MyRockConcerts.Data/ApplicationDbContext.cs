@@ -35,7 +35,7 @@
 
         public DbSet<Member> Members { get; set; }
 
-        public DbSet<Organiser> Organisers { get; set; }
+        public DbSet<Album> Albums { get; set; }
 
         public DbSet<UserConcert> UserConcerts { get; set; }
 

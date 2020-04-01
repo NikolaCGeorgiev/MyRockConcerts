@@ -23,9 +23,8 @@
 
         public DateTime Date { get; set; }
 
-        public int OrganiserId { get; set; }
-
-        public virtual Organiser Organiser { get; set; }
+        [Required]
+        public string TicketUrl { get; set; }
 
         public int VenueId { get; set; }
 

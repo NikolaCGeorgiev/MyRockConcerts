@@ -12,6 +12,7 @@
             this.Members = new HashSet<Member>();
             this.ConcertGroups = new HashSet<ConcertGroup>();
             this.GroupGenres = new HashSet<GroupGenre>();
+            this.Albums = new HashSet<Album>();
         }
 
         [Required]
@@ -29,5 +30,7 @@
         public virtual ICollection<ConcertGroup> ConcertGroups { get; set; }
 
         public virtual ICollection<GroupGenre> GroupGenres { get; set; }
+
+        public virtual ICollection<Album> Albums { get; set; }
     }
 }
