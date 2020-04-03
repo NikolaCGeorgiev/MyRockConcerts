@@ -27,6 +27,14 @@
                           {
                               new RolesSeeder(),
                               new SettingsSeeder(),
+                              new GenresSeeder(),
+                              new GroupsSeeder(),
+                              new GroupGenresSeeder(),
+                              new AlbumsSeeder(),
+                              new MembersSeeder(),
+                              new VenuesSeeder(),
+                              new ConcertsSeeder(),
+                              new ConcertGroupsSeeder(),
                           };
 
             foreach (var seeder in seeders)
