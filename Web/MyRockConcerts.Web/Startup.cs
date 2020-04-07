@@ -2,6 +2,14 @@
 {
     using System.Reflection;
 
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Hosting;
     using MyRockConcerts.Data;
     using MyRockConcerts.Data.Common;
     using MyRockConcerts.Data.Common.Repositories;
@@ -12,14 +20,6 @@
     using MyRockConcerts.Services.Mapping;
     using MyRockConcerts.Services.Messaging;
     using MyRockConcerts.Web.ViewModels;
-
-    using Microsoft.AspNetCore.Builder;
-    using Microsoft.AspNetCore.Hosting;
-    using Microsoft.AspNetCore.Http;
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.Extensions.Configuration;
-    using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.Hosting;
 
     public class Startup
     {
@@ -46,7 +46,14 @@
                         options.MinimumSameSitePolicy = SameSiteMode.None;
                     });
 
-            services.AddControllersWithViews();
+            services.AddControllersWithViews(options =>
+            {
+                options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+            });
+            services.AddAntiforgery(options =>
+            {
+                options.HeaderName = "X-CSRF-TOKEN";
+            });
             services.AddRazorPages();
 
             services.AddSingleton(this.configuration);
@@ -59,6 +66,7 @@
             // Application services
             services.AddTransient<IEmailSender, NullMessageSender>();
             services.AddTransient<ISettingsService, SettingsService>();
+            services.AddTransient<IConcertsService , ConcertsService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

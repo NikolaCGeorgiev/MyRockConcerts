@@ -19,7 +19,7 @@
             await dbContext.Concerts.AddAsync(new Concert
             {
                 Name = "Hills Of Rock 2020",
-                ImgUrl = "https://imgrabo.com/pics/guide/900x600/20191216165917_71977.jpg",
+                ImgUrl = "https://hillsofrock.com/public/resources/images/day1/5.jpg",
                 Date = DateTime.ParseExact("2020-07-24", "yyyy-MM-dd", CultureInfo.InvariantCulture),
                 TicketUrl = "https://www.eventim.bg/bg/bileti/hills-of-rock-2020-plovdiv-rowing-canal-1181470/performance.html",
                 VenueId = 2,

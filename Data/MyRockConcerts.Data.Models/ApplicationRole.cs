@@ -3,9 +3,8 @@ namespace MyRockConcerts.Data.Models
 {
     using System;
 
-    using MyRockConcerts.Data.Common.Models;
-
     using Microsoft.AspNetCore.Identity;
+    using MyRockConcerts.Data.Common.Models;
 
     public class ApplicationRole : IdentityRole, IAuditInfo, IDeletableEntity
     {
