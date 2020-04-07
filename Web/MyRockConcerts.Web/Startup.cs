@@ -66,7 +66,8 @@
             // Application services
             services.AddTransient<IEmailSender, NullMessageSender>();
             services.AddTransient<ISettingsService, SettingsService>();
-            services.AddTransient<IConcertsService , ConcertsService>();
+            services.AddTransient<IConcertsService, ConcertsService>();
+            services.AddTransient<IGroupsService, GroupsService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -90,10 +91,12 @@
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseStatusCodePagesWithRedirects("/Home/Error?statusCode={0}");
                 app.UseDatabaseErrorPage();
             }
             else
             {
+                app.UseStatusCodePagesWithRedirects("/Home/Error?statusCode={0}");
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }

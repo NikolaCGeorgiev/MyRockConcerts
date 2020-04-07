@@ -1,6 +1,5 @@
 ﻿namespace MyRockConcerts.Web.Controllers
 {
-    using System.Diagnostics;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -9,7 +8,6 @@
     using MyRockConcerts.Common;
     using MyRockConcerts.Services.Data;
     using MyRockConcerts.Web.Infrastructure;
-    using MyRockConcerts.Web.ViewModels;
     using MyRockConcerts.Web.ViewModels.Concerts;
     using MyRockConcerts.Web.ViewModels.Home;
 
@@ -51,10 +49,14 @@
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        public IActionResult Error(int? statusCode = null)
         {
-            return this.View(
-                new ErrorViewModel { RequestId = Activity.Current?.Id ?? this.HttpContext.TraceIdentifier });
+            if (statusCode == StatusCodes.NotFound)
+            {
+                return this.Redirect($"/Error/{StatusCodes.NotFound}");
+            }
+
+            return this.Redirect($"/Error/{StatusCodes.InternalServerError}");
         }
     }
 }

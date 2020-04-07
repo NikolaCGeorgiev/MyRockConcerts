@@ -1,0 +1,16 @@
+﻿@{
+    ViewData["Title"] = "Error";
+}
+
+<div class="alert alert-danger" role="alert">
+    <h3>Something went wrong!</h3>
+    <h3>Please try again later. If the error persists, contact the owner.</h3>
+    <div class="margin-bottom-45"></div>
+    <strong>Status code:</strong> <code>@this.Model.StatusCode</code>
+    @if (this.Model.ShowRequestId)
+    {
+        <br />
+        <strong>Request ID:</strong> <code>@this.Model.RequestId</code>
+    }
+</div>
+

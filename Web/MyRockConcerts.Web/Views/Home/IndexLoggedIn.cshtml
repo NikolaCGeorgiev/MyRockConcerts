@@ -16,7 +16,7 @@
         <img src="@concert.ImgUrl" height="400" class="card-img-top" alt="...">
         <div class="card-body">
             <div class="text-center">
-                <a asp-area="Identity" asp-page="/Account/Login" class="btn btn-primary btn-lg">@concert.Name</a>
+                <a asp-controller="Concerts" asp-action="Details" asp-route-id="@concert.Id" class="btn btn-primary btn-lg">@concert.Name</a>
             </div>
             <ul class="list-inline list-unstyled text-right">
                 <li class="list-inline-item">
