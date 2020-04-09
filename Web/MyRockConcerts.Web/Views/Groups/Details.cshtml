@@ -3,66 +3,51 @@
     ViewData["Title"] = Model.Name;
 }
 
-    <div class="container">
-        <div class="text-center">
-            <h1 class="display-4">WE ARE @Model.Name.ToUpper()</h1>
+<div class="container">
+    <div class="text-center">
+        <h1 class="display-4">WE ARE @Model.Name.ToUpper()</h1>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-8 d-flex justify-content-start">
+            <img src="@Model.ImgUrl" height="300" class="d-block w-100" alt="...">
         </div>
-        <br />
-        <div class="row">
-            <div class="col-8 d-flex justify-content-start">
-                <img src="@Model.ImgUrl" height="300" class="d-block w-100" alt="...">
+        <div class="col-4 d-flex">
+            <div class="row">
+                <p>@Model.Description</p>
             </div>
-            <div class="col-4 d-flex">
-                <div class="row">
-                    <p>@Model.Description</p>
-                </div>
-            </div>
-        </div>
-        <br />
-        <div class="text-md-left">
-            <p>
-                Genres:
-                @foreach (var genre in Model.Genres)
-                {
-                    <a href="#" class="alert-link">@genre.Name</a>
-                }
-            </p>
-        </div>
-        <br />
-        <h3 class="display-5">Members:</h3>
-        <div class="row row-cols-1 row-cols-md-3">
-            @if (Model.Members != null)
-            {
-                @foreach (var member in Model.Members)
-                {
-                    <div class="col mb-4">
-                        <div class="card">
-                            <img src="@member.ImgUrl" height="200" class="card-img-top" alt="...">
-                            <div class="card-body align-self-md-center">
-                                <a asp-controller="Members" asp-action="Details" asp-route-id="@member.Id" class="alert-link">@member.FullName</a>
-                            </div>
-                        </div>
-                    </div>
-                }
-            }
-        </div>
-        <br />
-        <h3 class="display-5">Albums:</h3>
-        <div class="row row-cols-1 row-cols-md-3">
-            @if (Model.Albums != null)
-            {
-                @foreach (var album in Model.Albums)
-                {
-                    <div class="col mb-4">
-                        <div class="card">
-                            <img src="@album.CoverUrl" height="200" class="card-img-top" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title">@album.Name</h5>
-                                <p class="card-text">Release Date: @album.ReleaseDate.ToString("yyyy-MM-dd")</p>
-                            </div>
-                        </div>
-                    </div>
-                }
-            }
         </div>
     </div>
+    <br />
+    <div class="text-md-left">
+        <p>
+            Genres:
+            @foreach (var genre in Model.Genres)
+            {
+                <a href="#" class="alert-link">@genre.Name</a>
+            }
+        </p>
+    </div>
+    <br />
+    <h3 class="display-5">Members:</h3>
+    <div class="row row-cols-1 row-cols-md-3">
+        @if (Model.Members != null)
+        {
+            @foreach (var member in Model.Members)
+            {
+                <partial name="_MemberPartial" model="member" />
+            }
+        }
+    </div>
+    <br />
+    <h3 class="display-5">Albums:</h3>
+    <div class="row row-cols-1 row-cols-md-3">
+        @if (Model.Albums != null)
+        {
+            @foreach (var album in Model.Albums)
+            {
+                <partial name="_AlbumPartial" model="album" />
+            }
+        }
+    </div>
+</div>

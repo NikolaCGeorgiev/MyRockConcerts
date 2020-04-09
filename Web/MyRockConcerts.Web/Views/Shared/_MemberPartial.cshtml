@@ -1,0 +1,18 @@
+﻿@using MyRockConcerts.Common
+
+<div class="col mb-4">
+    <div class="card text-center">
+        <img src="@Model.ImgUrl" height="200" class="card-img-top d-block w-100" alt="...">
+        <div class="card-body align-self-md-center">
+            <a class="alert-link" asp-controller="Members" asp-action="Details" asp-route-id="@Model.Id">@Model.FullName</a>
+            @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+            {
+                <p>
+                    <a class="btn btn-primary btn-lg" asp-area="Administration" asp-controller="Members" asp-action="Edit" asp-route-id="@Model.Id" title="Admin">Edit</a>
+                    <a class="btn btn-danger btn-lg" asp-area="Administration" asp-controller="Members" asp-action="Delete" asp-route-id="@Model.Id" title="Admin">Delete</a>
+                </p>
+            }
+        </div>
+    </div>
+</div>
+

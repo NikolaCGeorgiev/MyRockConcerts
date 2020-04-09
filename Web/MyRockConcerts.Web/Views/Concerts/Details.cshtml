@@ -35,14 +35,7 @@
             {
                 @foreach (var group in Model.Groups)
                 {
-                    <div class="col mb-4">
-                        <div class="card">
-                            <img src="@group.ImgUrl" height="200" class="card-img-top d-block w-100" alt="...">
-                            <div class="card-body align-self-md-center">
-                                <a asp-controller="Groups" asp-action="Details" asp-route-id="@group.Id" class="alert-link">@group.Name</a>
-                            </div>
-                        </div>
-                    </div>
+                    <partial name="_GroupPartial" model="group" />
                 }
             }
         </div>        

@@ -1,0 +1,16 @@
+﻿@using MyRockConcerts.Common
+
+<div class="col mb-4">
+    <div class="card text-center">
+        <img src="@Model.CoverUrl" height="200" class="card-img-top d-block w-100" alt="...">
+        <div class="card-body align-self-md-center">
+            <h5 class="card-title">@Model.Name</h5>
+            <p class="card-text">Release Date: @Model.ReleaseDate.ToString("yyyy-MM-dd")</p>
+            @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+            {
+                <a class="btn btn-primary btn-lg" asp-area="Administration" asp-controller="Albums" asp-action="Edit" asp-route-id="@Model.Id" title="Admin">Edit</a>
+                <a class="btn btn-danger btn-lg" asp-area="Administration" asp-controller="Albums" asp-action="Delete" asp-route-id="@Model.Id" title="Admin">Delete</a>
+            }
+        </div>
+    </div>
+</div>
