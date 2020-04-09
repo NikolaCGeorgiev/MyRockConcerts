@@ -10,5 +10,9 @@
         IQueryable<T> GetAll<T>(int? count = null);
 
         Task<T> GetByIdAsync<T>(int id);
+
+        Task<bool> IsInMyConcertsAsync(int concertId, string userId);
+
+        Task AddToMyConcertsAsync(int concertId, string userId);
     }
 }

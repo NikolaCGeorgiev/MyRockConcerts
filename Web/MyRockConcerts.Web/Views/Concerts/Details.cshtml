@@ -5,38 +5,37 @@
     this.ViewData["Title"] = Model.Name;
 }
 
-    <div class="container">
-        <div class="row">
-            <div class="col d-flex justify-content-start">
-                <h1>@this.ViewData["Title"]</h1>
-            </div>
-            <div class="col d-flex justify-content-end">
-                <i class="fas fa-calendar-alt"></i> @Model.Date.ToString("yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture)
-            </div>
-        </div>
-        <br />
-        <img src="@Model.ImgUrl" height="400" class="d-block w-100" alt="...">
-        <br />
-        <div class="row">
-            <div class="col d-flex justify-content-start">
-                <a asp-controller="Concerts" asp-action="Details" asp-route-id="@Model.Id" class="btn btn-success btn-lg">I'll go</a>
-            </div>
-            <div class="col text-lg-center">
-                <a asp-controller="Venues" asp-action="Details" asp-route-id="@Model.VenueId" class="fas fa-map-marked-alt alert-link"> @Model.VenueCountry, @Model.VenueCity, @Model.VenueName</a>                
-            </div>
-            <div class="col d-flex justify-content-end">
-                <a href="@Model.TicketUrl" class="btn btn-success btn-lg">Buy tickets</a>
-            </div>
-        </div>
-        <br />
-        <h3 class="display-5">Performers:</h3>
-        <div class="row row-cols-1 row-cols-md-3">
-            @if (Model.Groups != null)
-            {
-                @foreach (var group in Model.Groups)
-                {
-                    <partial name="_GroupPartial" model="group" />
-                }
-            }
-        </div>        
+<div class="container">
+    <div class="text-center">
+        <h1>@this.ViewData["Title"]</h1>
     </div>
+    <div class="text-center">
+        @if (!Model.IsInMyConcerts)
+        {
+            <a class="btn btn-primary btn-lg" asp-controller="Concerts" asp-action="Add" asp-route-id="@Model.Id">Add to my concerts</a>
+        }
+        <a class="btn btn-primary btn-lg" href="@Model.TicketUrl">Buy tickets</a>
+    </div>
+    <br />
+    <img src="@Model.ImgUrl" height="400" class="d-block w-100" alt="...">
+    <br />
+    <div class="row">
+        <div class="col d-flex justify-content-start">
+            <a class="fas fa-map-marked-alt alert-link" asp-controller="Venues" asp-action="Details" asp-route-id="@Model.VenueId"> @Model.VenueCountry, @Model.VenueCity, @Model.VenueName</a>
+        </div>
+        <div class="col d-flex justify-content-end">
+            <i class="fas fa-calendar-alt"></i> @Model.Date.ToString("yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture)
+        </div>
+    </div>
+    <br />
+    <h3 class="display-5">Performers:</h3>
+    <div class="row row-cols-1 row-cols-md-3">
+        @if (Model.Groups != null)
+        {
+            @foreach (var group in Model.Groups)
+            {
+                <partial name="_GroupPartial" model="group" />
+            }
+        }
+    </div>
+</div>

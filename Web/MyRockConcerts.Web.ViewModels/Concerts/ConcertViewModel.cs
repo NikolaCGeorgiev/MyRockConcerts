@@ -27,6 +27,8 @@
 
         public string VenueName { get; set; }
 
+        public bool IsInMyConcerts { get; set; }
+
         public IEnumerable<GroupInfoViewModel> Groups { get; set; }
     }
 }
