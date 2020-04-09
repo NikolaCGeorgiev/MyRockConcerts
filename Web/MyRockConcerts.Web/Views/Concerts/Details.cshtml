@@ -3,6 +3,7 @@
 
 @{
     this.ViewData["Title"] = Model.Name;
+    var date = Model.Date.ToString("MMM dd, yyyy HH:mm:ss", CultureInfo.InvariantCulture);
 }
 
 <div class="container">
@@ -20,11 +21,11 @@
     <img src="@Model.ImgUrl" height="400" class="d-block w-100" alt="...">
     <br />
     <div class="row">
-        <div class="col d-flex justify-content-start">
-            <a class="fas fa-map-marked-alt alert-link" asp-controller="Venues" asp-action="Details" asp-route-id="@Model.VenueId"> @Model.VenueCountry, @Model.VenueCity, @Model.VenueName</a>
+        <div class="col-6 d-flex justify-content-start">
+            <partial name="_TimeCountDownPartial" model="date">
         </div>
-        <div class="col d-flex justify-content-end">
-            <i class="fas fa-calendar-alt"></i> @Model.Date.ToString("yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture)
+        <div class="col-6 d-flex justify-content-end">
+            <a class="fas fa-map-marked-alt alert-link" asp-controller="Venues" asp-action="Details" asp-route-id="@Model.VenueId"> @Model.VenueCountry, @Model.VenueCity, @Model.VenueName</a>            
         </div>
     </div>
     <br />

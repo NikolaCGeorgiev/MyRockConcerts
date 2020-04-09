@@ -8,6 +8,6 @@
 
         public const int DefaultPageNumber = 1;
 
-        public const int PageSize = 5;
+        public const int PageSize = 3;
     }
 }
