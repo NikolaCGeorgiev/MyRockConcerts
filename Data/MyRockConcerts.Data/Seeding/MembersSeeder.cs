@@ -18,7 +18,7 @@
             await dbContext.Members.AddAsync(new Member
             {
                 FullName = "Joakim Broden",
-                ImgUrl = "https://upload.wikimedia.org/wikipedia/commons/6/65/Sabaton_%E2%80%93_Elbriot_2016_08.jpg",
+                ImgUrl = "https://www.metalcastle.net/wp-content/uploads/2020/03/sabaton-joakim-2.jpg",
                 Description = "Joakim Brodén is a Swedish-Czech singer and songwriter who is the lead vocalist, keyboardist, and occasional third guitarist of the Swedish power metal band Sabaton.",
                 GroupId = 4,
             });
@@ -26,7 +26,7 @@
             await dbContext.Members.AddAsync(new Member
             {
                 FullName = "Tommy Johansson",
-                ImgUrl = "https://live.staticflickr.com/4274/34559545093_a4d0a2541d_b.jpg",
+                ImgUrl = "https://pictures.skullsnbones.com/wp-content/uploads/2019/11/MGP-20191101-Sabaton-015.jpg",
                 Description = "Tommy Johansson, is a Swedish vocalist and guitarist known for his work as a guitarist for Swedish metal band Sabaton and as lead vocalist and guitarist of the band Majestica, a power metal band from Boden, Sweden.",
                 GroupId = 4,
             });

@@ -1,4 +1,5 @@
-﻿@model MyRockConcerts.Web.ViewModels.Concerts.ConcertViewModel
+﻿@using System.Globalization;
+@model MyRockConcerts.Web.ViewModels.Concerts.ConcertViewModel
 
 @{
     this.ViewData["Title"] = Model.Name;
@@ -10,37 +11,39 @@
                 <h1>@this.ViewData["Title"]</h1>
             </div>
             <div class="col d-flex justify-content-end">
-                <a asp-controller="Venues" asp-action="Details" asp-route-id="@Model.VenueId" class="fas fa-map-marked-alt alert-light">@Model.VenueCountry, @Model.VenueCity, @Model.VenueName</a>
+                <i class="fas fa-calendar-alt"></i> @Model.Date.ToString("yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture)
             </div>
         </div>
         <br />
         <img src="@Model.ImgUrl" height="400" class="d-block w-100" alt="...">
-        <br />        
+        <br />
         <div class="row">
             <div class="col d-flex justify-content-start">
                 <a asp-controller="Concerts" asp-action="Details" asp-route-id="@Model.Id" class="btn btn-success btn-lg">I'll go</a>
             </div>
             <div class="col text-lg-center">
-                <i class="fas fa-calendar-alt"></i> @Model.Date
+                <a asp-controller="Venues" asp-action="Details" asp-route-id="@Model.VenueId" class="fas fa-map-marked-alt alert-link"> @Model.VenueCountry, @Model.VenueCity, @Model.VenueName</a>                
             </div>
             <div class="col d-flex justify-content-end">
-                <a href="@Model.TicketUrl" class="btn btn-success btn-lg">Buy ticket</a>
+                <a href="@Model.TicketUrl" class="btn btn-success btn-lg">Buy tickets</a>
             </div>
         </div>
         <br />
-        <h1 class="display-4">Performers</h1>
-        <div class="card-group text-center">
+        <h3 class="display-5">Performers:</h3>
+        <div class="row row-cols-1 row-cols-md-3">
             @if (Model.Groups != null)
             {
                 @foreach (var group in Model.Groups)
                 {
-                    <div class="card">
-                        <img src="@group.ImgUrl" height="200" class="card-img-top d-block w-100" alt="...">
-                        <div class="card-body">
-                            <a asp-controller="Groups" asp-action="Details" asp-route-id="@group.Id" class="align-self-md-center btn btn-info btn-sm">@group.Name</a>
+                    <div class="col mb-4">
+                        <div class="card">
+                            <img src="@group.ImgUrl" height="200" class="card-img-top d-block w-100" alt="...">
+                            <div class="card-body align-self-md-center">
+                                <a asp-controller="Groups" asp-action="Details" asp-route-id="@group.Id" class="alert-link">@group.Name</a>
+                            </div>
                         </div>
                     </div>
                 }
             }
-        </div>
+        </div>        
     </div>

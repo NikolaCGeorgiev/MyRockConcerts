@@ -20,7 +20,7 @@
             {
                 Name = "Hills Of Rock 2020",
                 ImgUrl = "https://hillsofrock.com/public/resources/images/day1/5.jpg",
-                Date = DateTime.ParseExact("2020-07-24", "yyyy-MM-dd", CultureInfo.InvariantCulture),
+                Date = DateTime.ParseExact("2020-07-24 18:00", "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture),
                 TicketUrl = "https://www.eventim.bg/bg/bileti/hills-of-rock-2020-plovdiv-rowing-canal-1181470/performance.html",
                 VenueId = 2,
             });
@@ -29,7 +29,7 @@
             {
                 Name = "Varna Rock 2020",
                 ImgUrl = "https://i2.wp.com/rockthenight.eu/wp/wp-content/uploads/2019/08/2020.08.14-varna-rock.jpg?fit=960%2C360&ssl=1",
-                Date = DateTime.ParseExact("2020-08-14", "yyyy-MM-dd", CultureInfo.InvariantCulture),
+                Date = DateTime.ParseExact("2020-08-14 18:00", "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture),
                 TicketUrl = "https://www.eventim.bg/bg/bileti/varna-rock-2020-barna-plaz-asparuhovo-1148430/performance.html",
                 VenueId = 3,
             });
