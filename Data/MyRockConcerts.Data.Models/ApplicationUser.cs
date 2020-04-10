@@ -16,6 +16,7 @@ namespace MyRockConcerts.Data.Models
             this.Claims = new HashSet<IdentityUserClaim<string>>();
             this.Logins = new HashSet<IdentityUserLogin<string>>();
             this.UserConcerts = new HashSet<UserConcert>();
+            this.UserGroups = new HashSet<UserGroup>();
         }
 
         // Audit info
@@ -35,5 +36,7 @@ namespace MyRockConcerts.Data.Models
         public virtual ICollection<IdentityUserLogin<string>> Logins { get; set; }
 
         public virtual ICollection<UserConcert> UserConcerts { get; set; }
+
+        public virtual ICollection<UserGroup> UserGroups { get; set; }
     }
 }
