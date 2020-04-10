@@ -31,7 +31,7 @@
 
             var viewModel = new GuestIndexViewModel
             {
-                Concerts = this.concertsService.GetAll<GuestConcertViewModel>(2).ToList(),
+                Concerts = this.concertsService.GetAllUpcoming<GuestConcertViewModel>(2).ToList(),
             };
 
             return this.View(viewModel);
@@ -42,7 +42,7 @@
         [Route("/Home/Index")]
         public async Task<IActionResult> IndexLoggedIn(int? pageNumber)
         {
-            var viewModel = this.concertsService.GetAll<LoggedInConcertViewModel>();
+            var viewModel = this.concertsService.GetAllUpcoming<LoggedInConcertViewModel>();
 
             return this.View(await PaginatedList<LoggedInConcertViewModel>
                 .CreateAsync(viewModel, pageNumber ?? GlobalConstants.DefaultPageNumber, GlobalConstants.PageSize));

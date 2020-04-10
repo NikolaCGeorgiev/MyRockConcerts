@@ -33,6 +33,15 @@
                 TicketUrl = "https://www.eventim.bg/bg/bileti/varna-rock-2020-barna-plaz-asparuhovo-1148430/performance.html",
                 VenueId = 3,
             });
+
+            await dbContext.Concerts.AddAsync(new Concert
+            {
+                Name = "Varna Rock 2019",
+                ImgUrl = "https://i2.wp.com/rockthenight.eu/wp/wp-content/uploads/2019/08/2020.08.14-varna-rock.jpg?fit=960%2C360&ssl=1",
+                Date = DateTime.ParseExact("2019-08-14 18:00", "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture),
+                TicketUrl = "https://www.eventim.bg/bg/bileti/varna-rock-2020-barna-plaz-asparuhovo-1148430/performance.html",
+                VenueId = 3,
+            });
         }
     }
 }

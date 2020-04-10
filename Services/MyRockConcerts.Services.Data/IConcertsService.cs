@@ -7,7 +7,7 @@
 
     public interface IConcertsService
     {
-        IQueryable<T> GetAll<T>(int? count = null);
+        IQueryable<T> GetAllUpcoming<T>(int? count = null);
 
         Task<T> GetByIdAsync<T>(int id);
 

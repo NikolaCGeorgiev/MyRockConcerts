@@ -1,5 +1,6 @@
 ﻿namespace MyRockConcerts.Services.Data
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -33,10 +34,12 @@
             return false;
         }
 
-        public IQueryable<T> GetAll<T>(int? count = null)
+        public IQueryable<T> GetAllUpcoming<T>(int? count = null)
         {
+            var filterDate = DateTime.UtcNow;
+
             IQueryable<Concert> query =
-                this.concertsRepository.All().OrderBy(x => x.Date);
+                this.concertsRepository.All().Where(x => x.Date > filterDate).OrderBy(x => x.Date);
 
             if (count.HasValue)
             {
