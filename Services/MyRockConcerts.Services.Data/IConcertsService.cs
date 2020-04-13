@@ -14,5 +14,7 @@
         Task<bool> IsInMyConcertsAsync(int concertId, string userId);
 
         Task AddToMyConcertsAsync(int concertId, string userId);
+
+        Task RemoveFromMyConcertsAsync(int concertId, string userId);
     }
 }

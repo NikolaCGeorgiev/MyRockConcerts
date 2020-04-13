@@ -1,4 +1,5 @@
-﻿@using System.Globalization;
+﻿@using MyRockConcerts.Common
+@using System.Globalization;
 @using MyRockConcerts.Web.Infrastructure;
 @model PaginatedList<MyRockConcerts.Web.ViewModels.Concerts.LoggedInConcertViewModel>
 
@@ -18,6 +19,10 @@
             <div class="card-body">
                 <div class="text-center">
                     <a asp-controller="Concerts" asp-action="Details" asp-route-id="@concert.Id" class="btn btn-primary btn-lg">@concert.Name</a>
+                    @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                    {
+                        <a class="btn btn-primary btn-lg" asp-area="Administration" asp-controller="Concerts" asp-action="Edit" asp-route-id="@concert.Id" title="Admin">Edit</a>
+                    }
                 </div>
                 <ul class="list-inline list-unstyled text-right">
                     <li class="list-inline-item">

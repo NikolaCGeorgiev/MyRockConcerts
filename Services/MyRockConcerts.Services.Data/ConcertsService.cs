@@ -81,5 +81,17 @@
 
             return concerts.To<T>();
         }
+
+        public async Task RemoveFromMyConcertsAsync(int concertId, string userId)
+        {
+            var userConcert = new UserConcert
+            {
+                UserId = userId,
+                ConcertId = concertId,
+            };
+
+            this.userConcertRepository.Delete(userConcert);
+            await this.userConcertRepository.SaveChangesAsync();
+        }
     }
 }

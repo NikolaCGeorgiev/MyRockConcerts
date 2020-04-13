@@ -15,6 +15,10 @@
         {
             <a class="btn btn-primary btn-lg" asp-controller="Concerts" asp-action="AddToMyConcerts" asp-route-id="@Model.Id">Add to my concerts</a>
         }
+        else
+        {
+            <a class="btn btn-primary btn-lg" asp-controller="Concerts" asp-action="RemoveFromMyConcerts" asp-route-id="@Model.Id">Remove from my concerts</a>
+        }
         <a class="btn btn-primary btn-lg" href="@Model.TicketUrl">Buy tickets</a>
     </div>
     <br />

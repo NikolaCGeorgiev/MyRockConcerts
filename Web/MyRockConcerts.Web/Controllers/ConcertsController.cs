@@ -55,7 +55,7 @@
 
             await this.concertsService.AddToMyConcertsAsync(id, userId);
 
-            return this.Redirect("/Home/Index");
+            return this.Redirect("/Concerts/MyConcerts");
         }
 
         [Authorize]
@@ -67,6 +67,16 @@
 
             return this.View(await PaginatedList<LoggedInConcertViewModel>
                 .CreateAsync(viewModel, pageNumber ?? GlobalConstants.DefaultPageNumber, GlobalConstants.PageSize));
+        }
+
+        [Authorize]
+        public async Task<IActionResult> RemoveFromMyConcerts(int id)
+        {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            await this.concertsService.RemoveFromMyConcertsAsync(id, userId);
+
+            return this.Redirect("/Concerts/MyConcerts");
         }
     }
 }
