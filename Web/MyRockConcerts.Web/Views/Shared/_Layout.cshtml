@@ -1,4 +1,8 @@
 ﻿@using MyRockConcerts.Common
+@using MyRockConcerts.Data.Models
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
 <!DOCTYPE html>
 <html>
 <head>
@@ -26,29 +30,115 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <partial name="_LoginPartial" />
-                    <ul class="navbar-nav flex-grow-1">
-                        @*<li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Settings" asp-action="Index">Settings</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>*@
-                    </ul>
+                    @if (this.SignInManager.IsSignedIn(this.User))
+                    {
+                        <ul class="navbar-nav flex-grow-1">
+                            <li class="nav-item">
+                                <div class="dropdown">
+                                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Concerts
+                                    </a>
+
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                        <a class="dropdown-item" asp-controller="Home" asp-action="Index">Upcoming concerts</a>
+                                        @if (!this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                                        {
+                                            <a class="dropdown-item" asp-controller="Home" asp-action="Index">My concerts</a>
+                                        }
+                                        @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                                        {
+                                            <a class="dropdown-item" asp-area="Administration" asp-controller="Concerts" asp-action="Create">Add concert</a>
+                                        }
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="nav-item">
+                                <div class="dropdown">
+                                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Groups
+                                    </a>
+
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                        <a class="dropdown-item" asp-controller="Groups" asp-action="All">All groups</a>
+                                        @if (!this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                                        {
+                                            <a class="dropdown-item" asp-controller="Home" asp-action="Index">My groups</a>
+                                        }
+                                        @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                                        {
+                                            <a class="dropdown-item" asp-area="Administration" asp-controller="Groups" asp-action="Create">Add group</a>
+                                        }
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="nav-item">
+                                <div class="dropdown">
+                                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Genres
+                                    </a>
+
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                        <a class="dropdown-item" asp-controller="Genres" asp-action="All">All genres</a>
+                                        @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                                        {
+                                            <a class="dropdown-item" asp-area="Administration" asp-controller="Genres" asp-action="Create">Add genre</a>
+                                        }
+                                    </div>
+                                </div>
+                            </li>
+                            @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                            {
+                                <li class="nav-item">
+                                    <div class="dropdown">
+                                        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Members
+                                        </a>
+
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                            <a class="dropdown-item" asp-controller="Home" asp-action="Index" title="Admin">All members</a>
+                                            <a class="dropdown-item" href="#">Add member</a>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="nav-item">
+                                    <div class="dropdown">
+                                        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Albums
+                                        </a>
+
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                            <a class="dropdown-item" asp-controller="Home" asp-action="Index" title="Admin">All albums</a>
+                                            <a class="dropdown-item" href="#">Add album</a>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="nav-item">
+                                    <div class="dropdown">
+                                        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Venues
+                                        </a>
+
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                            <a class="dropdown-item" asp-controller="Home" asp-action="Index" title="Admin">All venues</a>
+                                            <a class="dropdown-item" href="#">Add venue</a>
+                                        </div>
+                                    </div>
+                                </li>
+                            }
+                        </ul>
+                    }
                 </div>
             </div>
         </nav>
     </header>
-    
+
     <div class="container">
         <partial name="_CookieConsentPartial" />
         <main role="main" class="pb-3">
             @this.RenderBody()
         </main>
     </div>
-    
+
     <footer class="border-top footer text-muted">
         <div class="container">
             &copy; @DateTime.Now.Year - @GlobalConstants.SystemName - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>

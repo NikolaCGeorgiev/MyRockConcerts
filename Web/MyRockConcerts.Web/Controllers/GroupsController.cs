@@ -27,6 +27,11 @@
             this.groupsService = groupsService;
         }
 
+        public IActionResult All()
+        {
+            return this.View();
+        }
+
         [Authorize]
         public async Task<IActionResult> Details(int id)
         {
