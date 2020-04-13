@@ -1,9 +1,9 @@
 ﻿namespace MyRockConcerts.Services.Data
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+
     using Microsoft.EntityFrameworkCore;
     using MyRockConcerts.Data.Common.Repositories;
     using MyRockConcerts.Data.Models;
@@ -71,6 +71,15 @@
 
             await this.userConcertRepository.AddAsync(userConcert);
             await this.userConcertRepository.SaveChangesAsync();
+        }
+
+        public IQueryable<T> GetMyConcerts<T>(string userId)
+        {
+            var filterDate = DateTime.UtcNow;
+
+            var concerts = this.userConcertRepository.All().Where(x => x.UserId == userId).Select(x => x.Concert).Where(x => x.Date > filterDate);
+
+            return concerts.To<T>();
         }
     }
 }

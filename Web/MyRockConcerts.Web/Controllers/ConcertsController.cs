@@ -6,8 +6,10 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using MyRockConcerts.Common;
     using MyRockConcerts.Data.Models;
     using MyRockConcerts.Services.Data;
+    using MyRockConcerts.Web.Infrastructure;
     using MyRockConcerts.Web.ViewModels.Concerts;
     using MyRockConcerts.Web.ViewModels.Groups;
 
@@ -47,13 +49,24 @@
         }
 
         [Authorize]
-        public async Task<IActionResult> Add(int id)
+        public async Task<IActionResult> AddToMyConcerts(int id)
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             await this.concertsService.AddToMyConcertsAsync(id, userId);
 
             return this.Redirect("/Home/Index");
+        }
+
+        [Authorize]
+        public async Task<IActionResult> MyConcerts(int? pageNumber)
+        {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var viewModel = this.concertsService.GetMyConcerts<LoggedInConcertViewModel>(userId);
+
+            return this.View(await PaginatedList<LoggedInConcertViewModel>
+                .CreateAsync(viewModel, pageNumber ?? GlobalConstants.DefaultPageNumber, GlobalConstants.PageSize));
         }
     }
 }

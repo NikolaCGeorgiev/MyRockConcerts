@@ -13,7 +13,7 @@
     <div class="text-center">
         @if (!Model.IsInMyConcerts)
         {
-            <a class="btn btn-primary btn-lg" asp-controller="Concerts" asp-action="Add" asp-route-id="@Model.Id">Add to my concerts</a>
+            <a class="btn btn-primary btn-lg" asp-controller="Concerts" asp-action="AddToMyConcerts" asp-route-id="@Model.Id">Add to my concerts</a>
         }
         <a class="btn btn-primary btn-lg" href="@Model.TicketUrl">Buy tickets</a>
     </div>

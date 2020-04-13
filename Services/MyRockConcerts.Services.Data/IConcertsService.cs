@@ -3,11 +3,11 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    using MyRockConcerts.Data.Models;
-
     public interface IConcertsService
     {
         IQueryable<T> GetAllUpcoming<T>(int? count = null);
+
+        IQueryable<T> GetMyConcerts<T>(string userId);
 
         Task<T> GetByIdAsync<T>(int id);
 
