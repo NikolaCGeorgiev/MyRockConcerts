@@ -15,12 +15,12 @@
                 return;
             }
 
-            await dbContext.ConcertGroups.AddAsync(new ConcertGroup { ConcertId = 2, GroupId = 2 });
+            await dbContext.ConcertGroups.AddAsync(new ConcertGroup { ConcertId = 3, GroupId = 2 });
+            await dbContext.ConcertGroups.AddAsync(new ConcertGroup { ConcertId = 3, GroupId = 3 });
+            await dbContext.ConcertGroups.AddAsync(new ConcertGroup { ConcertId = 3, GroupId = 4 });
+            await dbContext.ConcertGroups.AddAsync(new ConcertGroup { ConcertId = 2, GroupId = 1 });
             await dbContext.ConcertGroups.AddAsync(new ConcertGroup { ConcertId = 2, GroupId = 3 });
             await dbContext.ConcertGroups.AddAsync(new ConcertGroup { ConcertId = 2, GroupId = 4 });
-            await dbContext.ConcertGroups.AddAsync(new ConcertGroup { ConcertId = 1, GroupId = 1 });
-            await dbContext.ConcertGroups.AddAsync(new ConcertGroup { ConcertId = 1, GroupId = 3 });
-            await dbContext.ConcertGroups.AddAsync(new ConcertGroup { ConcertId = 1, GroupId = 4 });
         }
     }
 }
