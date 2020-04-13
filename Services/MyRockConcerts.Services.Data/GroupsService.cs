@@ -22,6 +22,13 @@
             this.groupsRepository = groupsRepository;
         }
 
+        public IQueryable<T> GetAll<T>()
+        {
+            var groups = this.groupsRepository.All().OrderBy(x => x.Name);
+
+            return groups.To<T>();
+        }
+
         public async Task<T> GetGroupByIdAsync<T>(int id)
         {
             var group = this.groupsRepository.All().Where(x => x.Id == id);

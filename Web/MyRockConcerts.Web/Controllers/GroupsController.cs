@@ -4,7 +4,9 @@
 
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using MyRockConcerts.Common;
     using MyRockConcerts.Services.Data;
+    using MyRockConcerts.Web.Infrastructure;
     using MyRockConcerts.Web.ViewModels.Genres;
     using MyRockConcerts.Web.ViewModels.Groups;
 
@@ -27,9 +29,13 @@
             this.groupsService = groupsService;
         }
 
-        public IActionResult All()
+        [Authorize]
+        public async Task<IActionResult> All(int? pageNumber)
         {
-            return this.View();
+            var viewModel = this.groupsService.GetAll<GroupInfoViewModel>();
+
+            return this.View(await PaginatedList<GroupInfoViewModel>
+                .CreateAsync(viewModel, pageNumber ?? GlobalConstants.DefaultPageNumber, GlobalConstants.PageSize));
         }
 
         [Authorize]

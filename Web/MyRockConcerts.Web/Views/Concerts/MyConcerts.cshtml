@@ -6,73 +6,75 @@
     this.ViewData["Title"] = "My Concerts";
 }
 
-<div class="text-center">
-    <h1 class="display-4">@this.ViewData["Title"]</h1>
-</div>
-
-@foreach (var concert in Model)
-{
-    <div class="card mb-3">
-        <img src="@concert.ImgUrl" height="400" class="card-img-top" alt="...">
-        <div class="card-body">
-            <div class="text-center">
-                <a asp-controller="Concerts" asp-action="Details" asp-route-id="@concert.Id" class="btn btn-primary btn-lg">@concert.Name</a>
-            </div>
-            <ul class="list-inline list-unstyled text-right">
-                <li class="list-inline-item">
-                    <i class="fas fa-map-marked-alt"></i> @concert.VenueCountry, @concert.VenueCity
-                </li>
-                <li class="list-inline-item">
-                    <i class="fas fa-calendar-alt"></i> @concert.Date.ToString("MMM dd, yyyy HH:mm", CultureInfo.InvariantCulture)
-                </li>
-            </ul>
-        </div>
+<div class="container">
+    <div class="text-center">
+        <h1 class="display-4">@this.ViewData["Title"]</h1>
     </div>
-}
 
-<nav>
-    <ul class="pagination justify-content-center">
-        @if (this.Model.PageIndex == 1)
-        {
-            <li class="page-item disabled">
-                <a class="page-link" href="#">Previous</a>
-            </li>
-        }
-        else
-        {
-            <li class="page-item">
-                <a class="page-link"
-                   asp-controller="Home"
-                   asp-action="IndexLoggedIn"
-                   asp-route-pagenumber="@(this.Model.PageIndex - 1)">Previous</a>
-            </li>
-        }
+    @foreach (var concert in Model)
+    {
+        <div class="card mb-3">
+            <img src="@concert.ImgUrl" height="400" class="card-img-top" alt="...">
+            <div class="card-body">
+                <div class="text-center">
+                    <a asp-controller="Concerts" asp-action="Details" asp-route-id="@concert.Id" class="btn btn-primary btn-lg">@concert.Name</a>
+                </div>
+                <ul class="list-inline list-unstyled text-right">
+                    <li class="list-inline-item">
+                        <i class="fas fa-map-marked-alt"></i> @concert.VenueCountry, @concert.VenueCity
+                    </li>
+                    <li class="list-inline-item">
+                        <i class="fas fa-calendar-alt"></i> @concert.Date.ToString("MMM dd, yyyy HH:mm", CultureInfo.InvariantCulture)
+                    </li>
+                </ul>
+            </div>
+        </div>
+    }
 
-        @for (int i = 1; i <= this.Model.TotalPages; i++)
-        {
-            var active = i == this.Model.PageIndex ? "active" : string.Empty;
-            <li class="page-item @active">
-                <a class="page-link"
-                   asp-controller="Home"
-                   asp-action="IndexLoggedIn"
-                   asp-route-pagenumber="@i">@i</a>
-            </li>
-        }
+    <nav>
+        <ul class="pagination justify-content-center">
+            @if (this.Model.PageIndex == 1)
+            {
+                <li class="page-item disabled">
+                    <a class="page-link" href="#">Previous</a>
+                </li>
+            }
+            else
+            {
+                <li class="page-item">
+                    <a class="page-link"
+                       asp-controller="Home"
+                       asp-action="IndexLoggedIn"
+                       asp-route-pagenumber="@(this.Model.PageIndex - 1)">Previous</a>
+                </li>
+            }
 
-        @if (this.Model.PageIndex == this.Model.TotalPages)
-        {
-            <li class="page-item disabled">
-                <a class="page-link" href="#">Next</a>
-            </li>
-        }
-        else
-        {
-            <li class="page-item">
-                <a class="page-link"
-                   asp-controller="Home"
-                   asp-action="IndexLoggedIn"
-                   asp-route-pagenumber="@(this.Model.PageIndex + 1)">Next</a>
-            </li>
-        }
-    </ul>
-</nav>
+            @for (int i = 1; i <= this.Model.TotalPages; i++)
+            {
+                var active = i == this.Model.PageIndex ? "active" : string.Empty;
+                <li class="page-item @active">
+                    <a class="page-link"
+                       asp-controller="Home"
+                       asp-action="IndexLoggedIn"
+                       asp-route-pagenumber="@i">@i</a>
+                </li>
+            }
+
+            @if (this.Model.PageIndex == this.Model.TotalPages)
+            {
+                <li class="page-item disabled">
+                    <a class="page-link" href="#">Next</a>
+                </li>
+            }
+            else
+            {
+                <li class="page-item">
+                    <a class="page-link"
+                       asp-controller="Home"
+                       asp-action="IndexLoggedIn"
+                       asp-route-pagenumber="@(this.Model.PageIndex + 1)">Next</a>
+                </li>
+            }
+        </ul>
+    </nav>
+</div>

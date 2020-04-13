@@ -1,7 +1,66 @@
-﻿
+﻿@using MyRockConcerts.Web.Infrastructure;
+@model PaginatedList<MyRockConcerts.Web.ViewModels.Groups.GroupInfoViewModel>
+
 @{
-    ViewData["Title"] = "All";
+    this.ViewData["Title"] = "All Groups";
 }
 
-<h1>All</h1>
+<div class="container">
+    <div class="text-center">
+        <h1 class="display-4">@this.ViewData["Title"]</h1>
+    </div>
 
+    <div class="row row-cols-1 row-cols-md-3">
+        @foreach (var group in Model)
+        {
+            <partial name="_GroupPartial" model="group" />
+        }
+    </div>
+
+    <nav>
+        <ul class="pagination justify-content-center">
+            @if (this.Model.PageIndex == 1)
+            {
+                <li class="page-item disabled">
+                    <a class="page-link" href="#">Previous</a>
+                </li>
+            }
+            else
+            {
+                <li class="page-item">
+                    <a class="page-link"
+                       asp-controller="Groups"
+                       asp-action="All"
+                       asp-route-pagenumber="@(this.Model.PageIndex - 1)">Previous</a>
+                </li>
+            }
+
+            @for (int i = 1; i <= this.Model.TotalPages; i++)
+            {
+                var active = i == this.Model.PageIndex ? "active" : string.Empty;
+                <li class="page-item @active">
+                    <a class="page-link"
+                       asp-controller="Groups"
+                       asp-action="All"
+                       asp-route-pagenumber="@i">@i</a>
+                </li>
+            }
+
+            @if (this.Model.PageIndex == this.Model.TotalPages)
+            {
+                <li class="page-item disabled">
+                    <a class="page-link" href="#">Next</a>
+                </li>
+            }
+            else
+            {
+                <li class="page-item">
+                    <a class="page-link"
+                       asp-controller="Groups"
+                       asp-action="All"
+                       asp-route-pagenumber="@(this.Model.PageIndex + 1)">Next</a>
+                </li>
+            }
+        </ul>
+    </nav>
+</div>

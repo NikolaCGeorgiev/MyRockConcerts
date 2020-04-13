@@ -9,7 +9,6 @@
             @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
             {
                 <a class="btn btn-primary btn-lg" asp-area="Administration" asp-controller="Albums" asp-action="Edit" asp-route-id="@Model.Id" title="Admin">Edit</a>
-                <a class="btn btn-danger btn-lg" asp-area="Administration" asp-controller="Albums" asp-action="Delete" asp-route-id="@Model.Id" title="Admin">Delete</a>
             }
         </div>
     </div>
