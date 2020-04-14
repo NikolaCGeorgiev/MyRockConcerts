@@ -8,7 +8,9 @@
     {
         IQueryable<T> GetAll<T>();
 
-        Task<IEnumerable<T>> GetGroupsByConcertIdAsync<T>(int id);
+        IQueryable<T> GetGroupsByGenreId<T>(int genreId);
+
+        Task<IEnumerable<T>> GetGroupsByConcertIdAsync<T>(int concertId);
 
         Task<T> GetGroupByIdAsync<T>(int id);
     }

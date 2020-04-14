@@ -21,6 +21,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Data\MyRockConcerts.Data.Models\MyRockConcerts.Data.Models.csproj" />
     <ProjectReference Include="..\..\Services\MyRockConcerts.Services.Mapping\MyRockConcerts.Services.Mapping.csproj" />
+    <ProjectReference Include="..\MyRockConcerts.Web.Infrastructure\MyRockConcerts.Web.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

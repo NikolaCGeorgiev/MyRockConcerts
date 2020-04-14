@@ -37,5 +37,13 @@
 
             return await genres.To<T>().ToListAsync();
         }
+
+        public async Task<string> GetNameByIdAsync(int genreId)
+        {
+            var name = this.genresRepository.All().Where(x => x.Id == genreId)
+                .Select(x => x.Name).FirstOrDefaultAsync();
+
+            return await name;
+        }
     }
 }

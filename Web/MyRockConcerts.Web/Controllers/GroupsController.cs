@@ -55,5 +55,22 @@
 
             return this.View(group);
         }
+
+        [Authorize]
+        public async Task<IActionResult> ByGenre(int? pageNumber, int id)
+        {
+            var groupsInfo = this.groupsService.GetGroupsByGenreId<GroupInfoViewModel>(id);
+            var groups = await PaginatedList<GroupInfoViewModel>
+                .CreateAsync(groupsInfo, pageNumber ?? GlobalConstants.DefaultPageNumber, GlobalConstants.PageSize);
+            var genreName = await this.genresService.GetNameByIdAsync(id);
+
+            var viewModel = new GroupsListViewModel
+            {
+                GenreName = genreName,
+                Groups = groups,
+            };
+
+            return this.View(viewModel);
+        }
     }
 }
