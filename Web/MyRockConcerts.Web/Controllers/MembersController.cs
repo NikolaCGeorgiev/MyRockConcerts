@@ -2,6 +2,7 @@
 {
     using System.Threading.Tasks;
 
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using MyRockConcerts.Services.Data;
     using MyRockConcerts.Web.ViewModels.Members;
@@ -15,9 +16,10 @@
             this.membersService = membersService;
         }
 
+        [Authorize]
         public async Task<IActionResult> Details(int id)
         {
-            var member = await this.membersService.GetMemberIdAsync<MemberDetailsViewModel>(id);
+            var member = await this.membersService.GetByIdAsync<MemberDetailsViewModel>(id);
 
             if (member == null)
             {

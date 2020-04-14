@@ -1,6 +1,5 @@
 ﻿namespace MyRockConcerts.Services.Data
 {
-    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -18,9 +17,11 @@
             this.membersRepository = membersRepository;
         }
 
-        public async Task<T> GetMemberIdAsync<T>(int id)
+        public async Task<T> GetByIdAsync<T>(int memberId)
         {
-            var member = this.membersRepository.All().Where(x => x.Id == id);
+            var member = this.membersRepository
+                .All()
+                .Where(m => m.Id == memberId);
 
             return await member.To<T>().FirstOrDefaultAsync();
         }

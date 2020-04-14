@@ -1,7 +1,31 @@
-﻿
+﻿@model MyRockConcerts.Web.ViewModels.Venues.VanueDetailsViewModel
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = @Model.Name;
 }
 
-<h1>Details</h1>
+    <div class="container">
+        <div class="text-center">
+            <h1 class="display-4">@Model.Name</h1>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-8 d-flex justify-content-start">
+                <img src="@Model.ImgUrl" height="400" class="d-block w-100" alt="...">
+            </div>
+            <div class="col-4 d-flex">
+                <div class="row">
+                    <ul>
+                        <li>Country: @Model.Country</li>
+                        <li>City: @Model.City</li>
+                        <li>Address: @Model.Address</li>
+                        <li>Capacity: @Model.Capacity</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="text-center">
+            <h1 class="display-4">TODO MAP API</h1>
+        </div>
+    </div>
+
 

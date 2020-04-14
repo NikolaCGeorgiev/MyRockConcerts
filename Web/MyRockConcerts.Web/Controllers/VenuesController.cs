@@ -1,16 +1,27 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace MyRockConcerts.Web.Controllers
+﻿namespace MyRockConcerts.Web.Controllers
 {
+    using System.Threading.Tasks;
+
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+    using MyRockConcerts.Services.Data;
+    using MyRockConcerts.Web.ViewModels.Venues;
+
     public class VenuesController : BaseController
     {
-        public IActionResult Details(int id)
+        private readonly IVenuesService venuesService;
+
+        public VenuesController(IVenuesService venuesService)
         {
-            return this.View();
+            this.venuesService = venuesService;
+        }
+
+        [Authorize]
+        public async Task<IActionResult> Details(int id)
+        {
+            var venue = await this.venuesService.GetByIdAsync<VanueDetailsViewModel>(id);
+
+            return this.View(venue);
         }
     }
 }
