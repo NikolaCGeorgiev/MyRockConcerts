@@ -4,10 +4,8 @@
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using MyRockConcerts.Common;
-    using MyRockConcerts.Data.Models;
     using MyRockConcerts.Services.Data;
     using MyRockConcerts.Web.Infrastructure;
     using MyRockConcerts.Web.ViewModels.Concerts;
@@ -17,16 +15,13 @@
     {
         private readonly IConcertsService concertsService;
         private readonly IGroupsService groupsService;
-        private readonly UserManager<ApplicationUser> userManager;
 
         public ConcertsController(
             IConcertsService concertsService,
-            IGroupsService groupsService,
-            UserManager<ApplicationUser> userManager)
+            IGroupsService groupsService)
         {
             this.concertsService = concertsService;
             this.groupsService = groupsService;
-            this.userManager = userManager;
         }
 
         [Authorize]

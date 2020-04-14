@@ -8,10 +8,16 @@
     {
         IQueryable<T> GetAll<T>();
 
+        Task<T> GetGroupByIdAsync<T>(int id);
+
         IQueryable<T> GetGroupsByGenreId<T>(int genreId);
 
         Task<IEnumerable<T>> GetGroupsByConcertIdAsync<T>(int concertId);
 
-        Task<T> GetGroupByIdAsync<T>(int id);
+        Task<bool> IsMyFavoriteAsync(int groupId, string userId);
+
+        Task AddToMyFavoritesAsync(int groupId, string userId);
+
+        Task RemoveFromMyFavoritesAsync(int groupId, string userId);
     }
 }

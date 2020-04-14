@@ -24,12 +24,5 @@
 
             return await member.To<T>().FirstOrDefaultAsync();
         }
-
-        public async Task<IEnumerable<T>> GetMembersByGroupIdAsync<T>(int id)
-        {
-            var members = this.membersRepository.All().Where(x => x.GroupId == id);
-
-            return await members.To<T>().ToListAsync();
-        }
     }
 }

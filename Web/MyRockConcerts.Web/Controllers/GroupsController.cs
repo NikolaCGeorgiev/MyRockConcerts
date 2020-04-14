@@ -1,5 +1,6 @@
 ﻿namespace MyRockConcerts.Web.Controllers
 {
+    using System.Security.Claims;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Authorization;
@@ -12,19 +13,13 @@
 
     public class GroupsController : BaseController
     {
-        private readonly IMembersService membersService;
-        private readonly IAlbumsService albumsService;
         private readonly IGenresService genresService;
         private readonly IGroupsService groupsService;
 
         public GroupsController(
-            IMembersService membersService,
-            IAlbumsService albumsService,
             IGenresService genresService,
             IGroupsService groupsService)
         {
-            this.membersService = membersService;
-            this.albumsService = albumsService;
             this.genresService = genresService;
             this.groupsService = groupsService;
         }
@@ -41,9 +36,7 @@
         [Authorize]
         public async Task<IActionResult> Details(int id)
         {
-            // var members = await this.membersService.GetMembersByGroupIdAsync<MemberDetailsViewModel>(id);
             // var albums = await this.albumsService.GetAlbumsByGroupIdAsync<AlbumDetailsViewModel>(id);
-            var genres = await this.genresService.GetGenresByGroupIdAsync<GenreViewModel>(id);
             var group = await this.groupsService.GetGroupByIdAsync<GroupDetailsViewModel>(id);
 
             if (group == null)
@@ -51,7 +44,11 @@
                 return this.NotFound();
             }
 
+            var genres = await this.genresService.GetGenresByGroupIdAsync<GenreViewModel>(id);
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
             group.Genres = genres;
+            group.IsMyFavorite = await this.groupsService.IsMyFavoriteAsync(id, userId);
 
             return this.View(group);
         }
@@ -71,6 +68,26 @@
             };
 
             return this.View(viewModel);
+        }
+
+        [Authorize]
+        public async Task<IActionResult> Follow(int id)
+        {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            await this.groupsService.AddToMyFavoritesAsync(id, userId);
+
+            return this.Redirect("/Home/Index");
+        }
+
+        [Authorize]
+        public async Task<IActionResult> Unfollow(int id)
+        {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            await this.groupsService.RemoveFromMyFavoritesAsync(id, userId);
+
+            return this.Redirect("/Home/Index");
         }
     }
 }

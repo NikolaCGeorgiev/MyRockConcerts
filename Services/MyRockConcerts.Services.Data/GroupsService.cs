@@ -14,15 +14,35 @@
         private readonly IRepository<ConcertGroup> concertGroupsRepository;
         private readonly IDeletableEntityRepository<Group> groupsRepository;
         private readonly IRepository<GroupGenre> groupGenresRepository;
+        private readonly IRepository<UserGroup> userGroupsRepository;
 
         public GroupsService(
             IRepository<ConcertGroup> concertGroupsRepository,
             IDeletableEntityRepository<Group> groupsRepository,
-            IRepository<GroupGenre> groupGenresRepository)
+            IRepository<GroupGenre> groupGenresRepository,
+            IRepository<UserGroup> userGroupsRepository)
         {
             this.concertGroupsRepository = concertGroupsRepository;
             this.groupsRepository = groupsRepository;
             this.groupGenresRepository = groupGenresRepository;
+            this.userGroupsRepository = userGroupsRepository;
+        }
+
+        public async Task AddToMyFavoritesAsync(int groupId, string userId)
+        {
+            if (await this.IsMyFavoriteAsync(groupId, userId))
+            {
+                return;
+            }
+
+            var userGroup = new UserGroup
+            {
+                UserId = userId,
+                GroupId = groupId,
+            };
+
+            await this.userGroupsRepository.AddAsync(userGroup);
+            await this.userGroupsRepository.SaveChangesAsync();
         }
 
         public IQueryable<T> GetAll<T>()
@@ -62,6 +82,32 @@
                 .OrderBy(g => g.Name);
 
             return groups.To<T>();
+        }
+
+        public async Task<bool> IsMyFavoriteAsync(int groupId, string userId)
+        {
+            var userGroups = await this.userGroupsRepository
+                .All()
+                .FirstOrDefaultAsync(ug => ug.GroupId == groupId && ug.UserId == userId);
+
+            if (userGroups != null)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public async Task RemoveFromMyFavoritesAsync(int groupId, string userId)
+        {
+            var userGroup = new UserGroup
+            {
+                UserId = userId,
+                GroupId = groupId,
+            };
+
+            this.userGroupsRepository.Delete(userGroup);
+            await this.userGroupsRepository.SaveChangesAsync();
         }
     }
 }

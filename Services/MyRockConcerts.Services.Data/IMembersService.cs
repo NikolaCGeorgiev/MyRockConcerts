@@ -5,8 +5,6 @@
 
     public interface IMembersService
     {
-        Task<IEnumerable<T>> GetMembersByGroupIdAsync<T>(int id);
-
         Task<T> GetMemberIdAsync<T>(int id);
     }
 }

@@ -24,9 +24,11 @@
 
         public async Task<bool> IsInMyConcertsAsync(int concertId, string userId)
         {
-            var concert = await this.userConcertRepository.All().FirstOrDefaultAsync(x => x.UserId == userId && x.ConcertId == concertId);
+            var userConcerts = await this.userConcertRepository
+                .All()
+                .FirstOrDefaultAsync(uc => uc.UserId == userId && uc.ConcertId == concertId);
 
-            if (concert != null)
+            if (userConcerts != null)
             {
                 return true;
             }
@@ -39,7 +41,10 @@
             var filterDate = DateTime.UtcNow;
 
             IQueryable<Concert> query =
-                this.concertsRepository.All().Where(x => x.Date > filterDate).OrderBy(x => x.Date);
+                this.concertsRepository
+                .All()
+                .Where(c => c.Date > filterDate)
+                .OrderBy(c => c.Date);
 
             if (count.HasValue)
             {
@@ -51,7 +56,9 @@
 
         public async Task<T> GetByIdAsync<T>(int id)
         {
-            var concert = this.concertsRepository.All().Where(x => x.Id == id);
+            var concert = this.concertsRepository
+                .All()
+                .Where(c => c.Id == id);
 
             return await concert.To<T>().FirstOrDefaultAsync();
         }
@@ -77,7 +84,11 @@
         {
             var filterDate = DateTime.UtcNow;
 
-            var concerts = this.userConcertRepository.All().Where(x => x.UserId == userId).Select(x => x.Concert).Where(x => x.Date > filterDate);
+            var concerts = this.userConcertRepository
+                .All()
+                .Where(uc => uc.UserId == userId)
+                .Select(uc => uc.Concert)
+                .Where(c => c.Date > filterDate);
 
             return concerts.To<T>();
         }

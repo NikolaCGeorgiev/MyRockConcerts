@@ -31,7 +31,7 @@
                     <li class="page-item">
                         <a class="page-link"
                            asp-controller="Groups"
-                           asp-action="GroupsByGenre"
+                           asp-action="ByGenre"
                            asp-route-pagenumber="@(this.Model.Groups.PageIndex - 1)">Previous</a>
                     </li>
                 }
@@ -42,7 +42,7 @@
                     <li class="page-item @active">
                         <a class="page-link"
                            asp-controller="Groups"
-                           asp-action="GroupsByGenre"
+                           asp-action="ByGenre"
                            asp-route-pagenumber="@i">@i</a>
                     </li>
                 }
@@ -58,7 +58,7 @@
                     <li class="page-item">
                         <a class="page-link"
                            asp-controller="Groups"
-                           asp-action="GroupsByGenre"
+                           asp-action="ByGenre"
                            asp-route-pagenumber="@(this.Model.Groups.PageIndex + 1)">Next</a>
                     </li>
                 }

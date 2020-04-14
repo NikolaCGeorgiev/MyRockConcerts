@@ -18,6 +18,8 @@
 
         public string Description { get; set; }
 
+        public bool IsMyFavorite { get; set; }
+
         public IEnumerable<AlbumDetailsViewModel> Albums { get; set; }
 
         public IEnumerable<MemberDetailsViewModel> Members { get; set; }

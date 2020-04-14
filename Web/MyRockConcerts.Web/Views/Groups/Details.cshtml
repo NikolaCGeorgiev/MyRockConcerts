@@ -7,6 +7,17 @@
     <div class="text-center">
         <h1 class="display-4">WE ARE @Model.Name.ToUpper()</h1>
     </div>
+    <div class="text-center">
+        @if (!Model.IsMyFavorite)
+        {
+            <a class="btn btn-primary btn-lg" asp-controller="Groups" asp-action="Follow" asp-route-id="@Model.Id">Follow</a>
+        }
+        else
+        {
+            <a class="btn btn-primary btn-lg" asp-controller="Groups" asp-action="Unfollow" asp-route-id="@Model.Id">Unfollow</a>
+        }
+        <a class="btn btn-primary btn-lg" href="#">Tour</a>
+    </div>
     <br />
     <div class="row">
         <div class="col-8 d-flex justify-content-start">
