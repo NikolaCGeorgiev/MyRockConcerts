@@ -3,8 +3,10 @@
     using MyRockConcerts.Data.Models;
     using MyRockConcerts.Services.Mapping;
 
-    public class GenresViewModel : IMapFrom<Genre>
+    public class GenreViewModel : IMapFrom<Genre>
     {
+        public int Id { get; set; }
+
         public string Name { get; set; }
     }
 }

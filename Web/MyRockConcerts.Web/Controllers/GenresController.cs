@@ -1,18 +1,45 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace MyRockConcerts.Web.Controllers
+﻿namespace MyRockConcerts.Web.Controllers
 {
+    using System.Threading.Tasks;
+
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+    using MyRockConcerts.Services.Data;
+    using MyRockConcerts.Web.ViewModels.Genres;
+
     public class GenresController : BaseController
     {
-        [Authorize]
-        public IActionResult All()
+        private readonly IGenresService genresService;
+
+        public GenresController(IGenresService genresService)
         {
-            return this.View();
+            this.genresService = genresService;
+        }
+
+        [Authorize]
+        public async Task<IActionResult> All()
+        {
+            var genres = await this.genresService.AllAsync<GenreViewModel>();
+
+            var viewModel = new GenresListViewModel
+            {
+                Genres = genres,
+            };
+
+            return this.View(viewModel);
+        }
+
+        [Authorize]
+        public async Task<IActionResult> GetGroups(int id)
+        {
+            var genres = await this.genresService.AllAsync<GenreViewModel>();
+
+            var viewModel = new GenresListViewModel
+            {
+                Genres = genres,
+            };
+
+            return this.View(viewModel);
         }
     }
 }

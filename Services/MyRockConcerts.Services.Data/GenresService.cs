@@ -12,10 +12,21 @@
     public class GenresService : IGenresService
     {
         private readonly IRepository<GroupGenre> groupGenresRepository;
+        private readonly IDeletableEntityRepository<Genre> genresRepository;
 
-        public GenresService(IRepository<GroupGenre> groupGenresRepository)
+        public GenresService(
+            IRepository<GroupGenre> groupGenresRepository,
+            IDeletableEntityRepository<Genre> genresRepository)
         {
             this.groupGenresRepository = groupGenresRepository;
+            this.genresRepository = genresRepository;
+        }
+
+        public async Task<IEnumerable<T>> AllAsync<T>()
+        {
+            var genres = this.genresRepository.All().OrderBy(x => x.Name);
+
+            return await genres.To<T>().ToListAsync();
         }
 
         public async Task<IEnumerable<T>> GetGenresByGroupIdAsync<T>(int id)

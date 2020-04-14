@@ -1,7 +1,18 @@
-﻿
+﻿@model MyRockConcerts.Web.ViewModels.Genres.GenresListViewModel
+
 @{
-    ViewData["Title"] = "All";
+    ViewData["Title"] = "AllGenres";
 }
 
-<h1>All</h1>
+<div class="row row-cols-1 row-cols-md-4">
+    @foreach (var genre in Model.Genres)
+    {
+        <div class="col mb-4">
+            <div class="card-body align-self-md-center">
+                <a class="alert-link" asp-controller="Genres" asp-action="GetGroups" asp-route-id="@genre.Id">@genre.Name</a>
+            </div>
+        </div>
+    }
+</div>
+
 

@@ -1,9 +1,8 @@
 ﻿namespace MyRockConcerts.Web.Areas.Administration.Controllers
 {
+    using Microsoft.AspNetCore.Mvc;
     using MyRockConcerts.Services.Data;
     using MyRockConcerts.Web.ViewModels.Administration.Dashboard;
-
-    using Microsoft.AspNetCore.Mvc;
 
     public class DashboardController : AdministrationController
     {

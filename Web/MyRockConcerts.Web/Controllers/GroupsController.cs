@@ -43,7 +43,7 @@
         {
             // var members = await this.membersService.GetMembersByGroupIdAsync<MemberDetailsViewModel>(id);
             // var albums = await this.albumsService.GetAlbumsByGroupIdAsync<AlbumDetailsViewModel>(id);
-            var genres = await this.genresService.GetGenresByGroupIdAsync<GenresViewModel>(id);
+            var genres = await this.genresService.GetGenresByGroupIdAsync<GenreViewModel>(id);
             var group = await this.groupsService.GetGroupByIdAsync<GroupDetailsViewModel>(id);
 
             if (group == null)

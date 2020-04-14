@@ -22,6 +22,6 @@
 
         public IEnumerable<MemberDetailsViewModel> Members { get; set; }
 
-        public IEnumerable<GenresViewModel> Genres { get; set; }
+        public IEnumerable<GenreViewModel> Genres { get; set; }
     }
 }
