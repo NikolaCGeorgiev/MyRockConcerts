@@ -13,13 +13,16 @@
     {
         private readonly IDeletableEntityRepository<Concert> concertsRepository;
         private readonly IRepository<UserConcert> userConcertRepository;
+        private readonly IRepository<ConcertGroup> concertsGroupsRepository;
 
         public ConcertsService(
             IDeletableEntityRepository<Concert> concertsRepository,
-            IRepository<UserConcert> userConcertRepository)
+            IRepository<UserConcert> userConcertRepository,
+            IRepository<ConcertGroup> concertsGroupsRepository)
         {
             this.concertsRepository = concertsRepository;
             this.userConcertRepository = userConcertRepository;
+            this.concertsGroupsRepository = concertsGroupsRepository;
         }
 
         public async Task<bool> IsInMyConcertsAsync(int concertId, string userId)
@@ -40,8 +43,7 @@
         {
             var filterDate = DateTime.UtcNow;
 
-            IQueryable<Concert> query =
-                this.concertsRepository
+            IQueryable<Concert> query = this.concertsRepository
                 .All()
                 .Where(c => c.Date > filterDate)
                 .OrderBy(c => c.Date);
@@ -88,7 +90,8 @@
                 .All()
                 .Where(uc => uc.UserId == userId)
                 .Select(uc => uc.Concert)
-                .Where(c => c.Date > filterDate);
+                .Where(c => c.Date > filterDate)
+                .OrderBy(c => c.Date);
 
             return concerts.To<T>();
         }
@@ -103,6 +106,20 @@
 
             this.userConcertRepository.Delete(userConcert);
             await this.userConcertRepository.SaveChangesAsync();
+        }
+
+        public IQueryable<T> GetByGroupsId<T>(int groupId)
+        {
+            var filterDate = DateTime.UtcNow;
+
+            var concerts = this.concertsGroupsRepository
+                .All()
+                .Where(cg => cg.GroupId == groupId)
+                .Select(cg => cg.Concert)
+                .Where(c => c.Date > filterDate)
+                .OrderBy(c => c.Date);
+
+            return concerts.To<T>();
         }
     }
 }

@@ -1,13 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using MyRockConcerts.Services.Data;
-using MyRockConcerts.Web.ViewModels.Members;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace MyRockConcerts.Web.Controllers
+﻿namespace MyRockConcerts.Web.Controllers
 {
+    using System.Threading.Tasks;
+
+    using Microsoft.AspNetCore.Mvc;
+    using MyRockConcerts.Services.Data;
+    using MyRockConcerts.Web.ViewModels.Members;
+
     public class MembersController : BaseController
     {
         private readonly IMembersService membersService;

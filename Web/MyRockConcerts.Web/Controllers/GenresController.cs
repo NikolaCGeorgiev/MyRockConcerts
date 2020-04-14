@@ -28,18 +28,5 @@
 
             return this.View(viewModel);
         }
-
-        [Authorize]
-        public async Task<IActionResult> GetGroups(int id)
-        {
-            var genres = await this.genresService.AllAsync<GenreViewModel>();
-
-            var viewModel = new GenresListViewModel
-            {
-                Genres = genres,
-            };
-
-            return this.View(viewModel);
-        }
     }
 }

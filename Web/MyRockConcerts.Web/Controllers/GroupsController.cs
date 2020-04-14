@@ -8,6 +8,7 @@
     using MyRockConcerts.Common;
     using MyRockConcerts.Services.Data;
     using MyRockConcerts.Web.Infrastructure;
+    using MyRockConcerts.Web.ViewModels.Concerts;
     using MyRockConcerts.Web.ViewModels.Genres;
     using MyRockConcerts.Web.ViewModels.Groups;
 
@@ -15,13 +16,16 @@
     {
         private readonly IGenresService genresService;
         private readonly IGroupsService groupsService;
+        private readonly IConcertsService concertsService;
 
         public GroupsController(
             IGenresService genresService,
-            IGroupsService groupsService)
+            IGroupsService groupsService,
+            IConcertsService concertsService)
         {
             this.genresService = genresService;
             this.groupsService = groupsService;
+            this.concertsService = concertsService;
         }
 
         [Authorize]
@@ -99,6 +103,15 @@
             await this.groupsService.RemoveFromMyFavoritesAsync(id, userId);
 
             return this.Redirect("/Groups/MyGroups");
+        }
+
+        [Authorize]
+        public async Task<IActionResult> Tour(int? pageNumber, int id)
+        {
+            var viewModel = this.concertsService.GetByGroupsId<LoggedInConcertViewModel>(id);
+
+            return this.View(await PaginatedList<LoggedInConcertViewModel>
+                .CreateAsync(viewModel, pageNumber ?? GlobalConstants.DefaultPageNumber, GlobalConstants.PageSize));
         }
     }
 }

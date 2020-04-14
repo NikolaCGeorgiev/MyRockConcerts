@@ -9,6 +9,8 @@
 
         IQueryable<T> GetMyConcerts<T>(string userId);
 
+        IQueryable<T> GetByGroupsId<T>(int groupId);
+
         Task<T> GetByIdAsync<T>(int id);
 
         Task<bool> IsInMyConcertsAsync(int concertId, string userId);
