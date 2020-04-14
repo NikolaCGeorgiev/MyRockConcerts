@@ -57,7 +57,7 @@
 
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                         <a class="dropdown-item" asp-controller="Groups" asp-action="All">All groups</a>
-                                        <a class="dropdown-item" asp-controller="Home" asp-action="Index">Favorites groups</a>
+                                        <a class="dropdown-item" asp-controller="Groups" asp-action="MyGroups">Favorites groups</a>
                                         @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
                                         {
                                             <a class="dropdown-item" asp-area="Administration" asp-controller="Groups" asp-action="Create">Add group</a>

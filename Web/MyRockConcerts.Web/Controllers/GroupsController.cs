@@ -34,6 +34,17 @@
         }
 
         [Authorize]
+        public async Task<IActionResult> MyGroups(int? pageNumber)
+        {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var viewModel = this.groupsService.GetAll<GroupInfoViewModel>(userId);
+
+            return this.View(await PaginatedList<GroupInfoViewModel>
+                .CreateAsync(viewModel, pageNumber ?? GlobalConstants.DefaultPageNumber, GlobalConstants.PageSize));
+        }
+
+        [Authorize]
         public async Task<IActionResult> Details(int id)
         {
             // var albums = await this.albumsService.GetAlbumsByGroupIdAsync<AlbumDetailsViewModel>(id);
@@ -77,7 +88,7 @@
 
             await this.groupsService.AddToMyFavoritesAsync(id, userId);
 
-            return this.Redirect("/Home/Index");
+            return this.Redirect("/Groups/MyGroups");
         }
 
         [Authorize]
@@ -87,7 +98,7 @@
 
             await this.groupsService.RemoveFromMyFavoritesAsync(id, userId);
 
-            return this.Redirect("/Home/Index");
+            return this.Redirect("/Groups/MyGroups");
         }
     }
 }

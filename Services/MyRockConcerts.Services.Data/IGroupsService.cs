@@ -6,7 +6,7 @@
 
     public interface IGroupsService
     {
-        IQueryable<T> GetAll<T>();
+        IQueryable<T> GetAll<T>(string userId = null);
 
         Task<T> GetGroupByIdAsync<T>(int id);
 

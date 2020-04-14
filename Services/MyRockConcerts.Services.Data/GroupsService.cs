@@ -45,13 +45,17 @@
             await this.userGroupsRepository.SaveChangesAsync();
         }
 
-        public IQueryable<T> GetAll<T>()
+        public IQueryable<T> GetAll<T>(string userId = null)
         {
             var groups = this.groupsRepository
-                .All()
-                .OrderBy(g => g.Name);
+                .All();
 
-            return groups.To<T>();
+            if (userId != null)
+            {
+                groups = this.userGroupsRepository.All().Where(x => x.UserId == userId).Select(x => x.Group);
+            }
+
+            return groups.OrderBy(x => x.Name).To<T>();
         }
 
         public async Task<T> GetGroupByIdAsync<T>(int id)
