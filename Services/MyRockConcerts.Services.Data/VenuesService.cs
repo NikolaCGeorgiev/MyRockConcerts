@@ -22,7 +22,7 @@
             this.venuesRepository = venuesRepository;
         }
 
-        public async Task<bool> CreateAsync(string name, string imgUrl, string country, string city, string address, int capacity)
+        public async Task<int> CreateAsync(string name, string imgUrl, string country, string city, string address, int capacity)
         {
             if (this.venuesRepository.All().FirstOrDefault(x => x.Name == name) != null)
             {
@@ -40,9 +40,9 @@
             };
 
             await this.venuesRepository.AddAsync(venue);
-            var result = await this.venuesRepository.SaveChangesAsync();
+            await this.venuesRepository.SaveChangesAsync();
 
-            return result > 0;
+            return venue.Id;
         }
 
         public async Task<IEnumerable<T>> GetAllAsync<T>()

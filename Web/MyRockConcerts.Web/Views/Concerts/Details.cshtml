@@ -21,7 +21,7 @@
         }
         <a class="btn btn-primary btn-lg" href="@Model.TicketUrl">Buy tickets</a>
     </div>
-    <br />
+    <hr />
     <img src="@Model.ImgUrl" height="400" class="d-block w-100" alt="...">
     <br />
     <div class="row">
@@ -32,7 +32,7 @@
             <a class="fas fa-map-marked-alt alert-link" asp-controller="Venues" asp-action="Details" asp-route-id="@Model.VenueId"> @Model.VenueCountry, @Model.VenueCity, @Model.VenueName</a>            
         </div>
     </div>
-    <br />
+    <hr />
     <h3 class="display-5">Performers:</h3>
     <div class="row row-cols-1 row-cols-md-3">
         @if (Model.Groups.Any())

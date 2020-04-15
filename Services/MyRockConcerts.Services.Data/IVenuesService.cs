@@ -9,6 +9,6 @@
 
         Task<IEnumerable<T>> GetAllAsync<T>();
 
-        Task<bool> CreateAsync(string name, string imgUrl, string country, string city, string address, int capacity);
+        Task<int> CreateAsync(string name, string imgUrl, string country, string city, string address, int capacity);
     }
 }

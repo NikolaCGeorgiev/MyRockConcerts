@@ -1,15 +1,14 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using MyRockConcerts.Services.Data;
-using MyRockConcerts.Web.ViewModels.InputModels.Venues;
-using MyRockConcerts.Web.ViewModels.Venues;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace MyRockConcerts.Web.Areas.Administration.Controllers
+﻿namespace MyRockConcerts.Web.Areas.Administration.Controllers
 {
+    using System;
+    using System.Threading.Tasks;
+
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+    using MyRockConcerts.Services.Data;
+    using MyRockConcerts.Web.ViewModels.InputModels.Venues;
+    using MyRockConcerts.Web.ViewModels.Venues;
+
     public class VenuesController : AdministrationController
     {
         private const string CreateSuccessMessage = "You successfully created venue!";
@@ -51,10 +50,10 @@ namespace MyRockConcerts.Web.Areas.Administration.Controllers
 
             try
             {
-                await this.venuesService.CreateAsync(input.Name, input.ImgUrl, input.Country, input.City, input.Address, input.Capacity);
+                var id = await this.venuesService.CreateAsync(input.Name, input.ImgUrl, input.Country, input.City, input.Address, input.Capacity);
 
                 this.TempData["Success"] = CreateSuccessMessage;
-                return this.Redirect("/Home/Index");
+                return this.Redirect("/Venues/Details/" + id);
             }
             catch (Exception e)
             {
