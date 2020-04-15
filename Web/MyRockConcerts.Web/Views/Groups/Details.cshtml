@@ -3,7 +3,7 @@
     ViewData["Title"] = Model.Name;
 }
 
-<div class="container">
+<div class="container-fluid">
     <div class="text-center">
         <h1 class="display-4">WE ARE @Model.Name.ToUpper()</h1>
     </div>
@@ -18,7 +18,7 @@
         }
         <a class="btn btn-primary btn-lg" asp-controller="Groups" asp-action="Tour" asp-route-id="@Model.Id">Tour</a>
     </div>
-    <br />
+    <hr />
     <div class="row">
         <div class="col-8 d-flex justify-content-start">
             <img src="@Model.ImgUrl" height="300" class="d-block w-100" alt="...">
@@ -29,7 +29,7 @@
             </div>
         </div>
     </div>
-    <br />
+    <hr />
     <div class="text-md-left">
         <p>
             Genres:
@@ -39,7 +39,7 @@
             }
         </p>
     </div>
-    <br />
+    <hr />
     <h3 class="display-5">Members:</h3>
     <div class="row row-cols-1 row-cols-md-3">
         @if (Model.Members != null)
@@ -50,7 +50,7 @@
             }
         }
     </div>
-    <br />
+    <hr />
     <h3 class="display-5">Albums:</h3>
     <div class="row row-cols-1 row-cols-md-3">
         @if (Model.Albums != null)

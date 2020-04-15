@@ -3,29 +3,43 @@
     ViewData["Title"] = @Model.Name;
 }
 
-    <div class="container">
-        <div class="text-center">
-            <h1 class="display-4">@Model.Name</h1>
+<div class="container">
+    @if (this.TempData["Success"] != null)
+    {
+
+        @await Component.InvokeAsync("SuccessAlert", new { message = this.TempData["Success"] })
+
+    }
+
+    @if (this.TempData["Error"] != null)
+    {
+
+        @await Component.InvokeAsync("ErrorAlert", new { message = this.TempData["Error"] })
+
+    }
+
+    <div class="text-center">
+        <h1 class="display-4">@Model.Name</h1>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-8 d-flex justify-content-start">
+            <img src="@Model.ImgUrl" height="400" class="d-block w-100" alt="...">
         </div>
-        <br />
-        <div class="row">
-            <div class="col-8 d-flex justify-content-start">
-                <img src="@Model.ImgUrl" height="400" class="d-block w-100" alt="...">
+        <div class="col-4 d-flex">
+            <div class="row">
+                <ul>
+                    <li>Country: @Model.Country</li>
+                    <li>City: @Model.City</li>
+                    <li>Address: @Model.Address</li>
+                    <li>Capacity: @Model.Capacity</li>
+                </ul>
             </div>
-            <div class="col-4 d-flex">
-                <div class="row">
-                    <ul>
-                        <li>Country: @Model.Country</li>
-                        <li>City: @Model.City</li>
-                        <li>Address: @Model.Address</li>
-                        <li>Capacity: @Model.Capacity</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="text-center">
-            <h1 class="display-4">TODO MAP API</h1>
         </div>
     </div>
+    <div class="text-center">
+        <h1 class="display-4">TODO MAP API</h1>
+    </div>
+</div>
 
 

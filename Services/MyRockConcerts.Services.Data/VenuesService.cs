@@ -1,5 +1,6 @@
 ﻿namespace MyRockConcerts.Services.Data
 {
+    using System;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -10,11 +11,37 @@
 
     public class VenuesService : IVenuesService
     {
+        private const string ErrorMessage = "Venue with this name alredy exist.";
+
         private readonly IDeletableEntityRepository<Venue> venuesRepository;
 
-        public VenuesService(IDeletableEntityRepository<Venue> venuesRepository)
+        public VenuesService(
+            IDeletableEntityRepository<Venue> venuesRepository)
         {
             this.venuesRepository = venuesRepository;
+        }
+
+        public async Task<bool> CreateAsync(string name, string imgUrl, string country, string city, string address, int capacity)
+        {
+            if (this.venuesRepository.All().FirstOrDefault(x => x.Name == name) != null)
+            {
+                throw new Exception(ErrorMessage);
+            }
+
+            var venue = new Venue
+            {
+                Name = name,
+                ImgUrl = imgUrl,
+                Country = country,
+                City = city,
+                Address = address,
+                Capacity = capacity,
+            };
+
+            await this.venuesRepository.AddAsync(venue);
+            var result = await this.venuesRepository.SaveChangesAsync();
+
+            return result > 0;
         }
 
         public async Task<T> GetByIdAsync<T>(int venueId)
