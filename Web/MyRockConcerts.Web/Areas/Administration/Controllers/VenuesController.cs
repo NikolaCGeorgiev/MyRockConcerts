@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using MyRockConcerts.Services.Data;
 using MyRockConcerts.Web.ViewModels.InputModels.Venues;
+using MyRockConcerts.Web.ViewModels.Venues;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,19 @@ namespace MyRockConcerts.Web.Areas.Administration.Controllers
         public VenuesController(IVenuesService venuesService)
         {
             this.venuesService = venuesService;
+        }
+
+        [Authorize]
+        public async Task<IActionResult> All()
+        {
+            var venues = await this.venuesService.GetAllAsync<VanueDetailsViewModel>();
+
+            var viewModel = new VenuesListViewModel
+            {
+                Venues = venues,
+            };
+
+            return this.View(viewModel);
         }
 
         [Authorize]

@@ -7,7 +7,8 @@
 <div class="container">
         <img src="https://cdn.dribbble.com/users/1651691/screenshots/5336717/404_v2.png" height="400" class="d-block w-100" alt="..." />
         <div class="text-center">
-            <a asp-controller="Home" asp-action ="Index" class="btn btn-primary btn-lg">Home</a>
+            <a asp-area="" asp-controller="Home" asp-action="Index" class="btn btn-primary btn-lg">Upcoming Concerts</a>
+            <a asp-area="" asp-controller="Groups" asp-action="All" class="btn btn-primary btn-lg">Groups</a>
         </div>
         <strong>Status code:</strong> <code>@this.Model.StatusCode</code>
         @if (this.Model.ShowRequestId)
