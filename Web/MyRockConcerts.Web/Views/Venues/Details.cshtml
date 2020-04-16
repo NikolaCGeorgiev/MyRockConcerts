@@ -6,18 +6,8 @@
 <div class="container">
     @if (this.TempData["Success"] != null)
     {
-
         @await Component.InvokeAsync("SuccessAlert", new { message = this.TempData["Success"] })
-
     }
-
-    @if (this.TempData["Error"] != null)
-    {
-
-        @await Component.InvokeAsync("ErrorAlert", new { message = this.TempData["Error"] })
-
-    }
-
     <div class="text-center">
         <h1 class="display-4">@Model.Name</h1>
     </div>

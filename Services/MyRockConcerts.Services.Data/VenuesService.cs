@@ -12,7 +12,7 @@
 
     public class VenuesService : IVenuesService
     {
-        private const string ErrorMessage = "Venue with this name alredy exist.";
+        private const string ErrorMessageNameExist = "Venue with this name alredy exist!";
 
         private readonly IDeletableEntityRepository<Venue> venuesRepository;
 
@@ -26,7 +26,7 @@
         {
             if (this.venuesRepository.All().FirstOrDefault(x => x.Name == name) != null)
             {
-                throw new Exception(ErrorMessage);
+                throw new ArgumentException(ErrorMessageNameExist);
             }
 
             var venue = new Venue

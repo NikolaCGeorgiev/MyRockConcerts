@@ -7,7 +7,7 @@
     <div class="text-center">
         <h1 class="display-4">@Model.FullName</h1>
     </div>
-    <br />
+    <hr />
     <div class="row">
         <div class="col-6 d-flex justify-content-start">
             <img src="@Model.ImgUrl" height="300" class="d-block w-100" alt="...">
@@ -18,7 +18,7 @@
             </div>
         </div>
     </div>
-    <br />
+    <hr />
     <div class="text-center">
         <a asp-controller="Groups" asp-action="Details" asp-route-id="@Model.GroupId" class="alert-link">Back to @Model.GroupName</a>
     </div>

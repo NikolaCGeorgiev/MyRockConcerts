@@ -1,0 +1,40 @@
+﻿@model MyRockConcerts.Web.ViewModels.Venues.VenuesListViewModel
+@{
+    ViewData["Title"] = "All Venues";
+}
+
+<div class="container-fluid">
+    <div class="text-center">
+        <h1>@this.ViewData["Title"]</h1>
+    </div>
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Country</th>
+                <th scope="col">City</th>
+                <th scope="col">Address</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.Venues.Count(); i++)
+            {
+                var venue = Model.Venues.ToList()[i];
+                var row = i + 1;
+
+                <tr>
+                    <th scope="row">@row</th>
+                    <td>@venue.Name</td>
+                    <td>@venue.Country</td>
+                    <td>@venue.City</td>
+                    <td>@venue.Address</td>
+                    <td><a class="alert-link" asp-area="Administration" asp-controller="Venues" asp-action="Edit" asp-route-id="@venue.Id" title="Admin">Edit</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
