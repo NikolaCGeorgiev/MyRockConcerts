@@ -89,8 +89,8 @@
                                     </a>
 
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                        <a class="dropdown-item" asp-controller="Home" asp-action="Index" title="Admin">All members</a>
-                                        <a class="dropdown-item" href="#">Add member</a>
+                                        <a class="dropdown-item" asp-area="Administration" asp-controller="Members" asp-action="All" title="Admin">All members</a>
+                                        <a class="dropdown-item" asp-area="Administration" asp-controller="Members" asp-action="Create" title="Admin">Add member</a>
                                     </div>
                                 </div>
                             </li>
@@ -102,7 +102,7 @@
 
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                         <a class="dropdown-item" asp-area="Administration" asp-controller="Albums" asp-action="All" title="Admin">All albums</a>
-                                        <a class="dropdown-item" asp-area="Administration" asp-controller="Albums" asp-action="Create" title="Admin">Create album</a>
+                                        <a class="dropdown-item" asp-area="Administration" asp-controller="Albums" asp-action="Create" title="Admin">Add album</a>
                                     </div>
                                 </div>
                             </li>
@@ -114,7 +114,7 @@
 
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                         <a class="dropdown-item" asp-area="Administration" asp-controller="Venues" asp-action="All" title="Admin">All venues</a>
-                                        <a class="dropdown-item" asp-area="Administration" asp-controller="Venues" asp-action="Create" title="Admin">Create venue</a>
+                                        <a class="dropdown-item" asp-area="Administration" asp-controller="Venues" asp-action="Create" title="Admin">Add venue</a>
                                     </div>
                                 </div>
                             </li>

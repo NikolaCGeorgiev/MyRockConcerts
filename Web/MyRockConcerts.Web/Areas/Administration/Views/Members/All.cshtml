@@ -1,0 +1,40 @@
+﻿@model MyRockConcerts.Web.ViewModels.Albums.AlbumsListViewModel
+@{
+    ViewData["Title"] = "All Albums";
+}
+
+<div class="container-fluid">
+    <div class="text-center">
+        <h1>@this.ViewData["Title"]</h1>
+    </div>
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Group name</th>
+                <th scope="col">Release date</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.Albums.Count(); i++)
+            {
+                var album = Model.Albums.ToList()[i];
+                var row = i + 1;
+
+                <tr>
+                    <th scope="row">@row</th>
+                    <td>@album.Name</td>
+                    <td>@album.Group.Name</td>
+                    <td>@album.ReleaseDate.ToString("yyyy-MM-dd")</td>
+                    <td><a class="alert-link" asp-area="Administration" asp-controller="Albums" asp-action="Edit" asp-route-id="@album.Id" title="Admin">Edit</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
+

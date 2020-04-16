@@ -7,36 +7,22 @@
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using MyRockConcerts.Services.Data;
-    using MyRockConcerts.Web.ViewModels.Albums;
     using MyRockConcerts.Web.ViewModels.Groups;
-    using MyRockConcerts.Web.ViewModels.InputModels.Albums;
+    using MyRockConcerts.Web.ViewModels.InputModels.Members;
 
-    public class AlbumsController : AdministrationController
+    public class MembersController : AdministrationController
     {
-        private const string CreateSuccessMessage = "You successfully added an album!";
+        private const string CreateSuccessMessage = "You successfully added a member!";
 
         private readonly IGroupsService groupsService;
-        private readonly IAlbumsService albumsService;
+        private readonly IMembersService membersService;
 
-        public AlbumsController(
+        public MembersController(
             IGroupsService groupsService,
-            IAlbumsService albumsService)
+            IMembersService membersService)
         {
             this.groupsService = groupsService;
-            this.albumsService = albumsService;
-        }
-
-        [Authorize]
-        public async Task<IActionResult> All()
-        {
-            var albums = await this.albumsService.GetAllAsync<AlbumInfoViewModel>();
-
-            var viewModel = new AlbumsListViewModel
-            {
-                Albums = albums,
-            };
-
-            return this.View(viewModel);
+            this.membersService = membersService;
         }
 
         [Authorize]
@@ -46,7 +32,7 @@
             {
                 var groups = await this.groupsService.GetAll<GroupDropDownViewModel>().ToListAsync();
 
-                var viewModel = new AlbumCreateInputModel
+                var viewModel = new MemberCreateInputModel
                 {
                     Groups = groups,
                 };
@@ -61,7 +47,7 @@
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> Create(AlbumCreateInputModel input)
+        public async Task<IActionResult> Create(MemberCreateInputModel input)
         {
             if (!this.ModelState.IsValid)
             {
@@ -70,7 +56,7 @@
 
             try
             {
-                var id = await this.albumsService.CreateAsync(input.Name, input.CoverUrl, input.ReleaseDate, input.GroupId);
+                var id = await this.membersService.CreateAsync(input.FullName, input.ImgUrl, input.Description, input.GroupId);
 
                 this.TempData["Success"] = CreateSuccessMessage;
                 return this.Redirect("/Groups/Details/" + input.GroupId);

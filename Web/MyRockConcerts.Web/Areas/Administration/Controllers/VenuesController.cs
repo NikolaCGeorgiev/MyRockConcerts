@@ -11,7 +11,7 @@
 
     public class VenuesController : AdministrationController
     {
-        private const string CreateSuccessMessage = "You successfully created venue!";
+        private const string CreateSuccessMessage = "You successfully added a venue!";
 
         private readonly IVenuesService venuesService;
 
