@@ -1,4 +1,5 @@
-﻿@model MyRockConcerts.Web.ViewModels.Groups.GroupDetailsViewModel
+﻿@using MyRockConcerts.Common
+@model MyRockConcerts.Web.ViewModels.Groups.GroupDetailsViewModel
 @{
     ViewData["Title"] = Model.Name;
 }
@@ -65,4 +66,10 @@
             }
         }
     </div>
+    @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+    {
+        <div class="text-center">
+            <h1 class="display-4"><a class="btn btn-primary btn-lg" asp-area="Administration" asp-controller="Albums" asp-action="Create" asp-route-id="@Model.Id" title="Admin">Add album</a></h1>
+        </div>
+    }
 </div>

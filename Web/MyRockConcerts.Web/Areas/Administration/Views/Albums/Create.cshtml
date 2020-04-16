@@ -1,7 +1,6 @@
 ﻿@model MyRockConcerts.Web.ViewModels.InputModels.Albums.AlbumCreateInputModel
 @{
     ViewData["Title"] = "Create Album";
-    var groups = Model.Groups.Select(x => new SelectListItem(x.Name, x.Id.ToString()));
 }
 
 <div class="text-center">
@@ -35,9 +34,17 @@
     </div>
 
     <div class="form-group row">
-        <label asp-for="GroupId"></label>
-        <select asp-for="GroupId" asp-items="groups" class="form-control"></select>
-        <span asp-validation-for="GroupId" class="text-danger"></span>
+        @if (this.TempData["groupId"] == null)
+        {
+            var groups = Model.Groups.Select(x => new SelectListItem(x.Name, x.Id.ToString()));
+            <label asp-for="GroupId"></label>
+            <select asp-for="GroupId" asp-items="groups" class="form-control"></select>
+            <span asp-validation-for="GroupId" class="text-danger"></span>
+        }
+        else
+        {
+            <input asp-for="GroupId" type="hidden" class="form-control" value=@this.TempData["groupId"]>
+        }
     </div>
     <hr />
     <div class="text-center">

@@ -27,16 +27,23 @@ namespace MyRockConcerts.Web.Areas.Administration.Controllers
         }
 
         [Authorize]
-        public async Task<IActionResult> Create()
+        public async Task<IActionResult> Create(int? id = null)
         {
-            var groups = await this.groupsService.GetAll<GroupDropDownViewModel>().ToListAsync();
-
-            var viewModel = new AlbumCreateInputModel
+            if (id == null)
             {
-                Groups = groups,
-            };
+                var groups = await this.groupsService.GetAll<GroupDropDownViewModel>().ToListAsync();
 
-            return this.View(viewModel);
+                var viewModel = new AlbumCreateInputModel
+                {
+                    Groups = groups,
+                };
+
+                return this.View(viewModel);
+            }
+
+            this.TempData["groupId"] = id;
+
+            return this.View();
         }
 
         [HttpPost]
