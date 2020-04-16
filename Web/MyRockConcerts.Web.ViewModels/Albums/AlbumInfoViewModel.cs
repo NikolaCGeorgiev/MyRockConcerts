@@ -1,0 +1,20 @@
+﻿namespace MyRockConcerts.Web.ViewModels.Albums
+{
+    using System;
+
+    using MyRockConcerts.Data.Models;
+    using MyRockConcerts.Services.Mapping;
+
+    public class AlbumInfoViewModel : IMapFrom<Album>
+    {
+        public int Id { get; set; }
+
+        public string Name { get; set; }
+
+        public string CoverUrl { get; set; }
+
+        public Group Group { get; set; }
+
+        public DateTime ReleaseDate { get; set; }
+    }
+}

@@ -1,4 +1,5 @@
-﻿@model MyRockConcerts.Web.ViewModels.InputModels.Albums.AlbumCreateInputModel
+﻿@using System
+@model MyRockConcerts.Web.ViewModels.InputModels.Albums.AlbumCreateInputModel
 @{
     ViewData["Title"] = "Create Album";
 }
@@ -27,9 +28,7 @@
 
     <div class="form-group row">
         <label asp-for="ReleaseDate"></label>
-        <input asp-for="ReleaseDate" type="text" class="form-control" placeholder="yyyy-MM-dd"
-               onfocus="(this.type='date')"
-               onblur="(this.type='text')">
+        <input asp-for="ReleaseDate" type="text" class="form-control" onfocus="(this.type='date')" onblur="(this.type='text')" value="@DateTime.UtcNow">
         <span asp-validation-for="ReleaseDate" class="text-danger"></span>
     </div>
 

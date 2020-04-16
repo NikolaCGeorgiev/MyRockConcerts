@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MyRockConcerts.Services.Data;
+using MyRockConcerts.Web.ViewModels.Albums;
 using MyRockConcerts.Web.ViewModels.Groups;
 using MyRockConcerts.Web.ViewModels.InputModels.Albums;
 using System;
@@ -24,6 +25,19 @@ namespace MyRockConcerts.Web.Areas.Administration.Controllers
         {
             this.groupsService = groupsService;
             this.albumsService = albumsService;
+        }
+
+        [Authorize]
+        public async Task<IActionResult> All()
+        {
+            var albums = await this.albumsService.GetAllAsync<AlbumInfoViewModel>();
+
+            var viewModel = new AlbumsListViewModel
+            {
+                Albums = albums,
+            };
+
+            return this.View(viewModel);
         }
 
         [Authorize]

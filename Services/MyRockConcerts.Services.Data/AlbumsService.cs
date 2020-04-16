@@ -55,5 +55,12 @@
 
             return await albums.To<T>().ToListAsync();
         }
+
+        public async Task<IEnumerable<T>> GetAllAsync<T>()
+        {
+            var albums = this.albumsRepository.All();
+
+            return await albums.To<T>().ToListAsync();
+        }
     }
 }
