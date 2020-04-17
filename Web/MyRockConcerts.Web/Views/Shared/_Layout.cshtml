@@ -72,11 +72,7 @@
                                 </a>
 
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                    <a class="dropdown-item" asp-area="" asp-controller="Genres" asp-action="All">All genres</a>
-                                    @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
-                                    {
-                                        <a class="dropdown-item" asp-area="Administration" asp-controller="Genres" asp-action="Create">Add genre</a>
-                                    }
+                                    <a class="dropdown-item" asp-area="" asp-controller="Genres" asp-action="All">All genres</a>                                    
                                 </div>
                             </div>
                         </li>

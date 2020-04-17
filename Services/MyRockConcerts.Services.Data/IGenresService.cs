@@ -10,5 +10,7 @@
         Task<IEnumerable<T>> AllAsync<T>();
 
         Task<string> GetNameByIdAsync(int genreId);
+
+        Task<int> CreateAsync(string name);
     }
 }

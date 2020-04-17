@@ -4,78 +4,84 @@
     ViewData["Title"] = Model.Name;
 }
 
-    <div class="container-fluid">
-        @if (this.TempData["Success"] != null)
+<div class="container-fluid">
+    @if (this.TempData["Success"] != null)
+    {
+        @await Component.InvokeAsync("SuccessAlert", new { message = this.TempData["Success"] })
+    }
+    <div class="text-center">
+        <h1 class="display-4">WE ARE @Model.Name.ToUpper()</h1>
+    </div>
+    <div class="text-center">
+        @if (!Model.IsMyFavorite)
         {
-            @await Component.InvokeAsync("SuccessAlert", new { message = this.TempData["Success"] })
+            <a class="btn btn-primary btn-lg" asp-controller="Groups" asp-action="Follow" asp-route-id="@Model.Id">Follow</a>
         }
-        <div class="text-center">
-            <h1 class="display-4">WE ARE @Model.Name.ToUpper()</h1>
+        else
+        {
+            <a class="btn btn-primary btn-lg" asp-controller="Groups" asp-action="Unfollow" asp-route-id="@Model.Id">Unfollow</a>
+        }
+        <a class="btn btn-primary btn-lg" asp-controller="Groups" asp-action="Tour" asp-route-id="@Model.Id">Tour</a>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-8 d-flex justify-content-start">
+            <img src="@Model.ImgUrl" height="300" class="d-block w-100" alt="...">
         </div>
-        <div class="text-center">
-            @if (!Model.IsMyFavorite)
-            {
-                <a class="btn btn-primary btn-lg" asp-controller="Groups" asp-action="Follow" asp-route-id="@Model.Id">Follow</a>
-            }
-            else
-            {
-                <a class="btn btn-primary btn-lg" asp-controller="Groups" asp-action="Unfollow" asp-route-id="@Model.Id">Unfollow</a>
-            }
-            <a class="btn btn-primary btn-lg" asp-controller="Groups" asp-action="Tour" asp-route-id="@Model.Id">Tour</a>
-        </div>
-        <hr />
-        <div class="row">
-            <div class="col-8 d-flex justify-content-start">
-                <img src="@Model.ImgUrl" height="300" class="d-block w-100" alt="...">
+        <div class="col-4 d-flex">
+            <div class="row">
+                <p>@Model.Description</p>
             </div>
-            <div class="col-4 d-flex">
-                <div class="row">
-                    <p>@Model.Description</p>
+        </div>
+    </div>
+    <hr />
+    <div class="text-md-left">
+        <p>
+            Genres:
+            @foreach (var genre in Model.Genres)
+            {
+                <a class="alert-link" asp-controller="Groups" asp-action="ByGenre" asp-route-id="@genre.Id">@genre.Name</a>
+            }
+            @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+            {
+                <div class="text-center">
+                    <h1 class="display-4"><a class="btn btn-primary btn-lg" asp-area="Administration" asp-controller="Genres" asp-action="Add" asp-route-id="@Model.Id" title="Admin">Add genre</a></h1>
                 </div>
-            </div>
-        </div>
-        <hr />
-        <div class="text-md-left">
-            <p>
-                Genres:
-                @foreach (var genre in Model.Genres)
-                {
-                    <a class="alert-link" asp-controller="Groups" asp-action="ByGenre" asp-route-id="@genre.Id">@genre.Name</a>
-                }
-            </p>
-        </div>
-        <hr />
-        <h3 class="display-5">Members:</h3>
-        <div class="row row-cols-1 row-cols-md-3">
-            @if (Model.Members != null)
-            {
-                @foreach (var member in Model.Members)
-                {
-                    <partial name="_MemberPartial" model="member" />
-                }
             }
-        </div>
-        @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+        </p>
+    </div>
+    <hr />
+    <h3 class="display-5">Members:</h3>
+    <div class="row row-cols-1 row-cols-md-3">
+        @if (Model.Members != null)
         {
-            <div class="text-center">
-                <h1 class="display-4"><a class="btn btn-primary btn-lg" asp-area="Administration" asp-controller="Members" asp-action="Create" asp-route-id="@Model.Id" title="Admin">Add member</a></h1>
-            </div>
-        }
-        <hr />
-        <h3 class="display-5">Albums:</h3>
-        <div class="row row-cols-1 row-cols-md-3">
-            @if (Model.Albums != null)
+            @foreach (var member in Model.Members)
             {
-                @foreach (var album in Model.Albums)
-                {
-                    <partial name="_AlbumPartial" model="album" />
-                }
+                <partial name="_MemberPartial" model="member" />
             }
-        </div>
-        @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
-        {
-            <div class="text-center">
-                <h1 class="display-4"><a class="btn btn-primary btn-lg" asp-area="Administration" asp-controller="Albums" asp-action="Create" asp-route-id="@Model.Id" title="Admin">Add album</a></h1>
-            </div>
         }
     </div>
+    @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+    {
+        <div class="text-center">
+            <h1 class="display-4"><a class="btn btn-primary btn-lg" asp-area="Administration" asp-controller="Members" asp-action="Create" asp-route-id="@Model.Id" title="Admin">Add member</a></h1>
+        </div>
+    }
+    <hr />
+    <h3 class="display-5">Albums:</h3>
+    <div class="row row-cols-1 row-cols-md-3">
+        @if (Model.Albums != null)
+        {
+            @foreach (var album in Model.Albums)
+            {
+                <partial name="_AlbumPartial" model="album" />
+            }
+        }
+    </div>
+    @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+    {
+        <div class="text-center">
+            <h1 class="display-4"><a class="btn btn-primary btn-lg" asp-area="Administration" asp-controller="Albums" asp-action="Create" asp-route-id="@Model.Id" title="Admin">Add album</a></h1>
+        </div>
+    }
+</div>

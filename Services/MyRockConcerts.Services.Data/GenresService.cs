@@ -1,5 +1,6 @@
 ﻿namespace MyRockConcerts.Services.Data
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -11,6 +12,8 @@
 
     public class GenresService : IGenresService
     {
+        private const string ErrorMessageNameExist = "Genre with this name alredy exist!";
+
         private readonly IRepository<GroupGenre> groupGenresRepository;
         private readonly IDeletableEntityRepository<Genre> genresRepository;
 
@@ -27,6 +30,24 @@
             var genres = this.genresRepository.All().OrderBy(x => x.Name);
 
             return await genres.To<T>().ToListAsync();
+        }
+
+        public async Task<int> CreateAsync(string name)
+        {
+            if (this.genresRepository.All().FirstOrDefault(x => x.Name == name) != null)
+            {
+                throw new ArgumentException(ErrorMessageNameExist);
+            }
+
+            var genre = new Genre
+            {
+                Name = name,
+            };
+
+            await this.genresRepository.AddAsync(genre);
+            await this.genresRepository.SaveChangesAsync();
+
+            return genre.Id;
         }
 
         public async Task<IEnumerable<T>> GetGenresByGroupIdAsync<T>(int id)

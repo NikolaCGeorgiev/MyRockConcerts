@@ -1,18 +1,35 @@
-﻿@model MyRockConcerts.Web.ViewModels.Genres.GenresListViewModel
+﻿@using MyRockConcerts.Common
+@model MyRockConcerts.Web.ViewModels.Genres.GenresListViewModel
 
 @{
-    ViewData["Title"] = "AllGenres";
+    ViewData["Title"] = "All Genres";
 }
 
-<div class="row row-cols-1 row-cols-md-4">
-    @foreach (var genre in Model.Genres)
+<div class="container-fluid">
+    @if (this.TempData["Success"] != null)
     {
-        <div class="col mb-4">
-            <div class="card-body align-self-md-center">
-                <a class="alert-link" asp-controller="Groups" asp-action="ByGenre" asp-route-id="@genre.Id">@genre.Name</a>
-            </div>
+        @await Component.InvokeAsync("SuccessAlert", new { message = this.TempData["Success"] })
+    }
+    <div class="text-center">
+        <h1 class="display-4">@ViewData["Title"]</h1>
+    </div>
+    @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+    {
+        <div class="text-center">
+            <h1 class="display-4"><a class="btn btn-primary btn-lg" asp-area="Administration" asp-controller="Genres" asp-action="Create" title="Admin">Create genre</a></h1>
         </div>
     }
+    <hr />
+    <div class="row row-cols-1 row-cols-md-4">
+        @foreach (var genre in Model.Genres)
+        {
+            <div class="col mb-4">
+                <div class="card-body align-self-md-center">
+                    <a class="alert-link" asp-controller="Groups" asp-action="ByGenre" asp-route-id="@genre.Id">@genre.Name</a>
+                </div>
+            </div>
+        }
+    </div>
 </div>
 
 
