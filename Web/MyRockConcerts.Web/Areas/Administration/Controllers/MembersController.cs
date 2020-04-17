@@ -9,6 +9,7 @@
     using MyRockConcerts.Services.Data;
     using MyRockConcerts.Web.ViewModels.Groups;
     using MyRockConcerts.Web.ViewModels.InputModels.Members;
+    using MyRockConcerts.Web.ViewModels.Members;
 
     public class MembersController : AdministrationController
     {
@@ -26,23 +27,36 @@
         }
 
         [Authorize]
+        public async Task<IActionResult> All()
+        {
+            var members = await this.membersService.GetAllAsync<MemberInfoViewModel>();
+
+            var viewModel = new MemebersListViewModel
+            {
+                Members = members,
+            };
+
+            return this.View(viewModel);
+        }
+
+        [Authorize]
         public async Task<IActionResult> Create(int? id = null)
         {
-            if (id == null)
+            if (id != null)
             {
-                var groups = await this.groupsService.GetAll<GroupDropDownViewModel>().ToListAsync();
+                this.TempData["groupId"] = id;
 
-                var viewModel = new MemberCreateInputModel
-                {
-                    Groups = groups,
-                };
-
-                return this.View(viewModel);
+                return this.View();
             }
 
-            this.TempData["groupId"] = id;
+            var groups = await this.groupsService.GetAll<GroupDropDownViewModel>().ToListAsync();
 
-            return this.View();
+            var viewModel = new MemberCreateInputModel
+            {
+                Groups = groups,
+            };
+
+            return this.View(viewModel);
         }
 
         [HttpPost]

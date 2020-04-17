@@ -56,7 +56,7 @@
 
             this.TempData["groupId"] = id;
 
-            return this.View();
+            return this.Redirect("/Administration/Albums/Create");
         }
 
         [HttpPost]
