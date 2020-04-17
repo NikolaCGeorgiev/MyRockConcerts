@@ -19,5 +19,7 @@
         Task AddToMyFavoritesAsync(int groupId, string userId);
 
         Task RemoveFromMyFavoritesAsync(int groupId, string userId);
+
+        Task<int> CreateAsync(string name, string imgUrl, string description);
     }
 }

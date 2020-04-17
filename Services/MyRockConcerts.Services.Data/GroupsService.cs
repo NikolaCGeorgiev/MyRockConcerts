@@ -1,5 +1,6 @@
 ﻿namespace MyRockConcerts.Services.Data
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -11,6 +12,8 @@
 
     public class GroupsService : IGroupsService
     {
+        private const string ErrorMessageNameExist = "Group with this name alredy exist!";
+
         private readonly IRepository<ConcertGroup> concertGroupsRepository;
         private readonly IDeletableEntityRepository<Group> groupsRepository;
         private readonly IRepository<GroupGenre> groupGenresRepository;
@@ -43,6 +46,26 @@
 
             await this.userGroupsRepository.AddAsync(userGroup);
             await this.userGroupsRepository.SaveChangesAsync();
+        }
+
+        public async Task<int> CreateAsync(string name, string imgUrl, string description)
+        {
+            if (this.groupsRepository.All().FirstOrDefault(x => x.Name == name) != null)
+            {
+                throw new ArgumentException(ErrorMessageNameExist);
+            }
+
+            var group = new Group
+            {
+                Name = name,
+                ImgUrl = imgUrl,
+                Description = description,
+            };
+
+            await this.groupsRepository.AddAsync(group);
+            await this.groupsRepository.SaveChangesAsync();
+
+            return group.Id;
         }
 
         public IQueryable<T> GetAll<T>(string userId = null)
