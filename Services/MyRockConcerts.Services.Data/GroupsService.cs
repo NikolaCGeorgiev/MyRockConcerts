@@ -13,6 +13,7 @@
     public class GroupsService : IGroupsService
     {
         private const string ErrorMessageNameExist = "Group with this name alredy exist!";
+        private const string ErrorMessageAlreadyAdded = "The group has already been added!";
 
         private readonly IRepository<ConcertGroup> concertGroupsRepository;
         private readonly IDeletableEntityRepository<Group> groupsRepository;
@@ -29,6 +30,29 @@
             this.groupsRepository = groupsRepository;
             this.groupGenresRepository = groupGenresRepository;
             this.userGroupsRepository = userGroupsRepository;
+        }
+
+        public async Task<int> AddGroupAsync(int concertId, int groupId)
+        {
+            var concertGroup = await this.concertGroupsRepository
+                .All()
+                .FirstOrDefaultAsync(x => x.ConcertId == concertId && x.GroupId == groupId);
+
+            if (concertGroup != null)
+            {
+                throw new ArgumentException(ErrorMessageAlreadyAdded);
+            }
+
+            concertGroup = new ConcertGroup
+            {
+                ConcertId = concertId,
+                GroupId = groupId,
+            };
+
+            await this.concertGroupsRepository.AddAsync(concertGroup);
+            await this.groupGenresRepository.SaveChangesAsync();
+
+            return concertGroup.ConcertId;
         }
 
         public async Task AddToMyFavoritesAsync(int groupId, string userId)

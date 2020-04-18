@@ -14,7 +14,7 @@
     public class GenresService : IGenresService
     {
         private const string ErrorMessageNameExist = "Genre with this name alredy exist!";
-        private const string ErrorMessageGroupHaveGenre = "This genre is added to this group already!";
+        private const string ErrorMessageGroupHaveGenre = "The genre has already been added!";
 
         private readonly IRepository<GroupGenre> groupGenresRepository;
         private readonly IDeletableEntityRepository<Genre> genresRepository;

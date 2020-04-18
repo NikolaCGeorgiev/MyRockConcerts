@@ -21,5 +21,7 @@
         Task RemoveFromMyFavoritesAsync(int groupId, string userId);
 
         Task<int> CreateAsync(string name, string imgUrl, string description);
+
+        Task<int> AddGroupAsync(int concertId, int groupId);
     }
 }

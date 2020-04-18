@@ -1,24 +1,32 @@
 ﻿namespace MyRockConcerts.Web.Areas.Administration.Controllers
 {
-    using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Mvc;
-    using MyRockConcerts.Services.Data;
-    using MyRockConcerts.Web.ViewModels.InputModels.Concerts;
-    using MyRockConcerts.Web.ViewModels.Venues;
     using System;
     using System.Threading.Tasks;
+
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
+    using MyRockConcerts.Services.Data;
+    using MyRockConcerts.Web.ViewModels.Concerts;
+    using MyRockConcerts.Web.ViewModels.Groups;
+    using MyRockConcerts.Web.ViewModels.InputModels.Concerts;
+    using MyRockConcerts.Web.ViewModels.Venues;
 
     public class ConcertsController : AdministrationController
     {
         private const string CreateSuccessMessage = "You successfully added a concert!";
+        private const string AddGroupSuccessMessage = "You successfully added a group!";
 
+        private readonly IGroupsService groupsService;
         private readonly IVenuesService venuesService;
         private readonly IConcertsService concertsService;
 
         public ConcertsController(
+            IGroupsService groupsService,
             IVenuesService venuesService,
             IConcertsService concertsService)
         {
+            this.groupsService = groupsService;
             this.venuesService = venuesService;
             this.concertsService = concertsService;
         }
@@ -57,6 +65,44 @@
                 this.TempData["Error"] = e.Message;
 
                 return this.RedirectToAction(nameof(this.Create));
+            }
+        }
+
+        [Authorize]
+        public async Task<IActionResult> AddGroup(int id)
+        {
+            var groups = await this.groupsService.GetAll<GroupDropDownViewModel>().ToListAsync();
+
+            var viewModel = new AddGroupViewModel
+            {
+                Id = id,
+                Groups = groups,
+            };
+
+            return this.View(viewModel);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> AddGroup(AddGroupViewModel input)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.View(input);
+            }
+
+            try
+            {
+                var id = await this.groupsService.AddGroupAsync(input.Id, input.GroupId);
+
+                this.TempData["Success"] = AddGroupSuccessMessage;
+                return this.Redirect("/Concerts/Details/" + id);
+            }
+            catch (Exception e)
+            {
+                this.TempData["Error"] = e.Message;
+
+                return this.RedirectToAction(nameof(this.AddGroup));
             }
         }
     }
