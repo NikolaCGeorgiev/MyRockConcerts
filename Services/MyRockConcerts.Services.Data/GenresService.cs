@@ -91,5 +91,17 @@
 
             return await name;
         }
+
+        public async Task<int> RemoveGenreAsync(int groupId, int genreId)
+        {
+            var groupGenre = await this.groupGenresRepository
+                .All()
+                .FirstOrDefaultAsync(x => x.GroupId == groupId && x.GenreId == genreId);
+
+            this.groupGenresRepository.Delete(groupGenre);
+            await this.groupGenresRepository.SaveChangesAsync();
+
+            return groupGenre.GroupId;
+        }
     }
 }

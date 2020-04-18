@@ -2,6 +2,7 @@
 {
     using System;
     using System.Linq;
+    using System.Globalization;
     using System.Threading.Tasks;
 
     using Microsoft.EntityFrameworkCore;
@@ -13,6 +14,7 @@
     {
         private const string ErrorMessageConcertExist = "Concert with this name already exist!";
         private const string ErrorMessageDate = "Мust be an upcoming date!";
+        private const string ErrorMessageDateTimeFormat = "Date must bi in format yyyy-MM-dd HH:mm";
 
         private readonly IDeletableEntityRepository<Concert> concertsRepository;
         private readonly IRepository<UserConcert> userConcertRepository;
@@ -127,6 +129,13 @@
 
         public async Task<int> CreateAsync(string name, string imgUrl, DateTime date, string ticketUrl, int venueId)
         {
+            var isValidDateFormat = DateTime.TryParseExact(date.ToString(), "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime result);
+
+            if (!isValidDateFormat)
+            {
+                throw new ArgumentException(ErrorMessageDateTimeFormat);
+            }
+
             var concert = await this.concertsRepository
                 .All()
                 .Where(x => x.Name == name)
@@ -148,7 +157,7 @@
             {
                 Name = name,
                 ImgUrl = imgUrl,
-                Date = date,
+                Date = result,
                 TicketUrl = ticketUrl,
                 VenueId = venueId,
             };

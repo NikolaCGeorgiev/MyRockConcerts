@@ -13,6 +13,7 @@
     {
         private const string CreateSuccessMessage = "You successfully added a group!";
         private const string AddGenreSuccessMessage = "You successfully added a genre!";
+        private const string RemoveGenreSuccessMessage = "You successfully removed a genre!";
 
         private readonly IGroupsService groupsService;
         private readonly IGenresService genresService;
@@ -91,6 +92,16 @@
 
                 return this.RedirectToAction(nameof(this.AddGenre));
             }
+        }
+
+        [Authorize]
+        public async Task<IActionResult> RemoveGenre(int id, int genreId)
+        {
+            var groupId = await this.genresService.RemoveGenreAsync(id, genreId);
+
+            this.TempData["Success"] = RemoveGenreSuccessMessage;
+
+            return this.Redirect("/Groups/Details/" + groupId);
         }
     }
 }

@@ -11,6 +11,8 @@
 
         Task<int> AddGenreAsync(int groupId, int genreId);
 
+        Task<int> RemoveGenreAsync(int groupId, int genreId);
+
         Task<string> GetNameByIdAsync(int genreId);
 
         Task<int> CreateAsync(string name);

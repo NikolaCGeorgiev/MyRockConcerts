@@ -42,6 +42,10 @@
                 @foreach (var genre in Model.Genres)
                 {
                     <a class="alert-link" asp-controller="Groups" asp-action="ByGenre" asp-route-id="@genre.Id">@genre.Name</a>
+                    @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                    {
+                        <a class="btn btn-danger btn-sm" asp-area="Administration" asp-controller="Groups" asp-action="RemoveGenre" asp-route-id="@Model.Id" asp-route-genreId="@genre.Id" title="Admin">X</a>
+                    }
                 }
             }
         </p>
