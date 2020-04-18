@@ -23,5 +23,7 @@
         Task<int> CreateAsync(string name, string imgUrl, string description);
 
         Task<int> AddGroupAsync(int concertId, int groupId);
+
+        Task<int> RemoveGroupAsync(int concertId, int groupId);
     }
 }

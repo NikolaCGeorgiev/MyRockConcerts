@@ -14,8 +14,9 @@
 
     public class ConcertsController : AdministrationController
     {
-        private const string CreateSuccessMessage = "You successfully added a concert!";
-        private const string AddGroupSuccessMessage = "You successfully added a group!";
+        private const string CreateSuccessMessage = "You have successfully added a concert!";
+        private const string AddGroupSuccessMessage = "You have successfully added a group!";
+        private const string RemoveGroupSuccessMessage = "You have successfully removed the group!";
 
         private readonly IGroupsService groupsService;
         private readonly IVenuesService venuesService;
@@ -104,6 +105,16 @@
 
                 return this.RedirectToAction(nameof(this.AddGroup));
             }
+        }
+
+        [Authorize]
+        public async Task<IActionResult> RemoveGroup(int id, int groupId)
+        {
+            var concertId = await this.groupsService.RemoveGroupAsync(id, groupId);
+
+            this.TempData["Success"] = RemoveGroupSuccessMessage;
+
+            return this.Redirect("/Concerts/Details/" + concertId);
         }
     }
 }

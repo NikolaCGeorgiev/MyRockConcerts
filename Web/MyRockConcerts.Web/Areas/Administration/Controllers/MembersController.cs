@@ -13,7 +13,7 @@
 
     public class MembersController : AdministrationController
     {
-        private const string CreateSuccessMessage = "You successfully added a member!";
+        private const string CreateSuccessMessage = "You have successfully added a member!";
 
         private readonly IGroupsService groupsService;
         private readonly IMembersService membersService;

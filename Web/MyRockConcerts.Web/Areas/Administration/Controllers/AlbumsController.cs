@@ -13,7 +13,7 @@
 
     public class AlbumsController : AdministrationController
     {
-        private const string CreateSuccessMessage = "You successfully added an album!";
+        private const string CreateSuccessMessage = "You have successfully added an album!";
 
         private readonly IGroupsService groupsService;
         private readonly IAlbumsService albumsService;

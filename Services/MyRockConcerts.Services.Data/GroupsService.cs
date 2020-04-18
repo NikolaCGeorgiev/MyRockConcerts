@@ -160,5 +160,17 @@
             this.userGroupsRepository.Delete(userGroup);
             await this.userGroupsRepository.SaveChangesAsync();
         }
+
+        public async Task<int> RemoveGroupAsync(int concertId, int groupId)
+        {
+            var concertGroup = await this.concertGroupsRepository
+                .All()
+                .FirstOrDefaultAsync(x => x.ConcertId == concertId && x.GroupId == groupId);
+
+            this.concertGroupsRepository.Delete(concertGroup);
+            await this.concertGroupsRepository.SaveChangesAsync();
+
+            return concertGroup.ConcertId;
+        }
     }
 }

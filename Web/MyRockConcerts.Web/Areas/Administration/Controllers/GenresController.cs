@@ -10,7 +10,7 @@
 
     public class GenresController : AdministrationController
     {
-        private const string CreateSuccessMessage = "You successfully created a genre!";
+        private const string CreateSuccessMessage = "You have successfully created a genre!";
 
         private readonly IGenresService genresService;
 

@@ -11,9 +11,9 @@
 
     public class GroupsController : AdministrationController
     {
-        private const string CreateSuccessMessage = "You successfully added a group!";
-        private const string AddGenreSuccessMessage = "You successfully added a genre!";
-        private const string RemoveGenreSuccessMessage = "You successfully removed a genre!";
+        private const string CreateSuccessMessage = "You have successfully added a group!";
+        private const string AddGenreSuccessMessage = "You have successfully added a genre!";
+        private const string RemoveGenreSuccessMessage = "You have successfully removed the genre!";
 
         private readonly IGroupsService groupsService;
         private readonly IGenresService genresService;

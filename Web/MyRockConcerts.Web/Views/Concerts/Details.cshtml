@@ -44,7 +44,20 @@
         {
             @foreach (var group in Model.Groups)
             {
-                <partial name="_GroupPartial" model="group" />
+                <div class="col mb-4">
+                    <div class="card text-center">
+                        <div class="text-right">
+                            @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                            {
+                                <a class="btn btn-danger btn-sm" asp-area="Administration" asp-controller="Concerts" asp-action="RemoveGroup" asp-route-id="@Model.Id" asp-route-groupId="@group.Id" title="Admin">X</a>
+                            }
+                        </div>
+                        <img src="@group.ImgUrl" height="200" class="card-img-top d-block w-100" alt="...">
+                        <div class="card-body align-self-md-center">
+                            <a class="alert-link" asp-controller="Groups" asp-action="Details" asp-route-id="@group.Id">@group.Name</a>
+                        </div>
+                    </div>
+                </div>
             }
         }
     </div>
