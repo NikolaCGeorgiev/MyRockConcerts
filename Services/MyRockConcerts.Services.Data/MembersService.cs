@@ -33,7 +33,7 @@
                 throw new ArgumentException(ErrorMessageMemeberExist);
             }
 
-            var currentMember = new Member
+            member = new Member
             {
                 FullName = fullName,
                 ImgUrl = imgUrl,
@@ -41,10 +41,10 @@
                 GroupId = groupId,
             };
 
-            await this.membersRepository.AddAsync(currentMember);
+            await this.membersRepository.AddAsync(member);
             await this.membersRepository.SaveChangesAsync();
 
-            return currentMember.Id;
+            return member.Id;
         }
 
         public async Task<IEnumerable<T>> GetAllAsync<T>()

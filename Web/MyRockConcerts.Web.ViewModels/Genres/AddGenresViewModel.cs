@@ -1,9 +1,10 @@
 ﻿namespace MyRockConcerts.Web.ViewModels.Genres
 {
-    using MyRockConcerts.Data.Models;
-    using MyRockConcerts.Services.Mapping;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+
+    using MyRockConcerts.Data.Models;
+    using MyRockConcerts.Services.Mapping;
 
     public class AddGenresViewModel : IMapFrom<Group>
     {

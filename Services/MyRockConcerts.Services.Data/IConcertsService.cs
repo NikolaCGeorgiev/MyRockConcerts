@@ -1,5 +1,6 @@
 ﻿namespace MyRockConcerts.Services.Data
 {
+    using System;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -18,5 +19,7 @@
         Task AddToMyConcertsAsync(int concertId, string userId);
 
         Task RemoveFromMyConcertsAsync(int concertId, string userId);
+
+        Task<int> CreateAsync(string name, string imgUrl, DateTime date, string ticketUrl, int venueId);
     }
 }

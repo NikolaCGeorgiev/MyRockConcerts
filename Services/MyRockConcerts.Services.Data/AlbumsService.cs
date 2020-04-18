@@ -33,7 +33,7 @@
                 throw new ArgumentException(ErrorMessageAlbumExist);
             }
 
-            var currentAlbum = new Album
+            album = new Album
             {
                 Name = name,
                 CoverUrl = coverUrl,
@@ -41,10 +41,10 @@
                 GroupId = groupId,
             };
 
-            await this.albumsRepository.AddAsync(currentAlbum);
+            await this.albumsRepository.AddAsync(album);
             await this.albumsRepository.SaveChangesAsync();
 
-            return currentAlbum.Id;
+            return album.Id;
         }
 
         public async Task<IEnumerable<T>> GetAlbumsByGroupIdAsync<T>(int id)

@@ -11,6 +11,9 @@
 
     public class ConcertsService : IConcertsService
     {
+        private const string ErrorMessageConcertExist = "Concert with this name already exist!";
+        private const string ErrorMessageDate = "Мust be an upcoming date!";
+
         private readonly IDeletableEntityRepository<Concert> concertsRepository;
         private readonly IRepository<UserConcert> userConcertRepository;
         private readonly IRepository<ConcertGroup> concertsGroupsRepository;
@@ -120,6 +123,40 @@
                 .OrderBy(c => c.Date);
 
             return concerts.To<T>();
+        }
+
+        public async Task<int> CreateAsync(string name, string imgUrl, DateTime date, string ticketUrl, int venueId)
+        {
+            var concert = await this.concertsRepository
+                .All()
+                .Where(x => x.Name == name)
+                .FirstOrDefaultAsync(y => y.Name == name);
+
+            if (concert != null)
+            {
+                throw new ArgumentException(ErrorMessageConcertExist);
+            }
+
+            var filterDate = DateTime.UtcNow;
+
+            if (date < filterDate)
+            {
+                throw new ArgumentException(ErrorMessageDate);
+            }
+
+            concert = new Concert
+            {
+                Name = name,
+                ImgUrl = imgUrl,
+                Date = date,
+                TicketUrl = ticketUrl,
+                VenueId = venueId,
+            };
+
+            await this.concertsRepository.AddAsync(concert);
+            await this.concertsRepository.SaveChangesAsync();
+
+            return concert.Id;
         }
     }
 }
