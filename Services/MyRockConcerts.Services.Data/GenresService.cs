@@ -9,10 +9,12 @@
     using MyRockConcerts.Data.Common.Repositories;
     using MyRockConcerts.Data.Models;
     using MyRockConcerts.Services.Mapping;
+    using MyRockConcerts.Web.ViewModels.Genres;
 
     public class GenresService : IGenresService
     {
         private const string ErrorMessageNameExist = "Genre with this name alredy exist!";
+        private const string ErrorMessageGroupHaveGenre = "This genre is added to this group already!";
 
         private readonly IRepository<GroupGenre> groupGenresRepository;
         private readonly IDeletableEntityRepository<Genre> genresRepository;
@@ -23,6 +25,29 @@
         {
             this.groupGenresRepository = groupGenresRepository;
             this.genresRepository = genresRepository;
+        }
+
+        public async Task<int> AddGenreAsync(int groupId, int genreId)
+        {
+            var groupGenre = await this.groupGenresRepository
+                .All()
+                .FirstOrDefaultAsync(x => x.GroupId == groupId && x.GenreId == genreId);
+
+            if (groupGenre != null)
+            {
+                throw new ArgumentException(ErrorMessageGroupHaveGenre);
+            }
+
+            groupGenre = new GroupGenre
+            {
+                GroupId = groupId,
+                GenreId = genreId,
+            };
+
+            await this.groupGenresRepository.AddAsync(groupGenre);
+            await this.groupGenresRepository.SaveChangesAsync();
+
+            return groupGenre.GroupId;
         }
 
         public async Task<IEnumerable<T>> AllAsync<T>()

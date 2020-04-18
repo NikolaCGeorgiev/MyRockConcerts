@@ -1,0 +1,29 @@
+﻿@using System.Linq;
+@model MyRockConcerts.Web.ViewModels.Genres.AddGenresViewModel
+@{
+    ViewData["Title"] = "Add Genre";
+    var genres = Model.Genres.Select(x => new SelectListItem(x.Name, x.Id.ToString()));
+}
+
+    <div class="container-fluid">
+        <div class="text-center">
+            <h1 class="display-4">@this.ViewData["Title"]</h1>
+        </div>
+
+        @if (this.TempData["Error"] != null)
+        {
+            @await Component.InvokeAsync("ErrorAlert", new { message = this.TempData["Error"] })
+        }
+
+        <form method="post" asp-action="AddGenre">
+            <label asp-for="GenreId"></label>
+            <select asp-for="GenreId" asp-items="genres" class="form-control"></select>
+            <span asp-validation-for="GenreId" class="text-danger"></span>
+            <hr />
+            <div class="text-center">
+                <input type="submit" class="btn btn-primary" />
+                <a asp-area="" asp-controller="Groups" asp-action="Details" asp-route-id="@Model.Id" class="btn btn-primary">Back</a>
+            </div>
+        </form>
+    </div>
+

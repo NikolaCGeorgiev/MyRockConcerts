@@ -39,8 +39,4 @@
     <ProjectReference Include="..\MyRockConcerts.Web.Infrastructure\MyRockConcerts.Web.Infrastructure.csproj" />
     <ProjectReference Include="..\MyRockConcerts.Web.ViewModels\MyRockConcerts.Web.ViewModels.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Views\Shared\Components\" />
-  </ItemGroup>
 </Project>

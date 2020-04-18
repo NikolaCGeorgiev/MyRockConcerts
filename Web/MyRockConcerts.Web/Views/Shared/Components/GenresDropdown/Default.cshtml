@@ -1,0 +1,6 @@
+﻿@model ICollection<MyRockConcerts.Web.ViewComponents.Models.GenresDropdownViewModel>
+
+@foreach (var genre in Model)
+{
+    <option value="@genre.Id">@genre.Name</option>
+}

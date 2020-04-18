@@ -5,6 +5,7 @@
 
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
     using MyRockConcerts.Common;
     using MyRockConcerts.Services.Data;
     using MyRockConcerts.Web.Infrastructure;
