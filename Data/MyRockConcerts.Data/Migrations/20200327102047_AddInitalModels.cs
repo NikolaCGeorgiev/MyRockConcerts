@@ -1,8 +1,9 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
-
-namespace MyRockConcerts.Data.Migrations
+﻿namespace MyRockConcerts.Data.Migrations
 {
+    using System;
+
+    using Microsoft.EntityFrameworkCore.Migrations;
+
     public partial class AddInitalModels : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -17,7 +18,7 @@ namespace MyRockConcerts.Data.Migrations
                     ModifiedOn = table.Column<DateTime>(nullable: true),
                     IsDeleted = table.Column<bool>(nullable: false),
                     DeletedOn = table.Column<DateTime>(nullable: true),
-                    Name = table.Column<string>(maxLength: 50, nullable: false)
+                    Name = table.Column<string>(maxLength: 50, nullable: false),
                 },
                 constraints: table =>
                 {
@@ -36,7 +37,7 @@ namespace MyRockConcerts.Data.Migrations
                     DeletedOn = table.Column<DateTime>(nullable: true),
                     Name = table.Column<string>(maxLength: 50, nullable: false),
                     ImgUrl = table.Column<string>(nullable: false),
-                    Description = table.Column<string>(nullable: false)
+                    Description = table.Column<string>(nullable: false),
                 },
                 constraints: table =>
                 {
@@ -54,7 +55,7 @@ namespace MyRockConcerts.Data.Migrations
                     IsDeleted = table.Column<bool>(nullable: false),
                     DeletedOn = table.Column<DateTime>(nullable: true),
                     Name = table.Column<string>(maxLength: 50, nullable: false),
-                    Url = table.Column<string>(nullable: false)
+                    Url = table.Column<string>(nullable: false),
                 },
                 constraints: table =>
                 {
@@ -76,7 +77,7 @@ namespace MyRockConcerts.Data.Migrations
                     Country = table.Column<string>(nullable: false),
                     City = table.Column<string>(nullable: false),
                     Address = table.Column<string>(nullable: false),
-                    Capacity = table.Column<int>(nullable: false)
+                    Capacity = table.Column<int>(nullable: false),
                 },
                 constraints: table =>
                 {
@@ -88,7 +89,7 @@ namespace MyRockConcerts.Data.Migrations
                 columns: table => new
                 {
                     GenreId = table.Column<int>(nullable: false),
-                    GroupId = table.Column<int>(nullable: false)
+                    GroupId = table.Column<int>(nullable: false),
                 },
                 constraints: table =>
                 {
@@ -120,7 +121,7 @@ namespace MyRockConcerts.Data.Migrations
                     FullName = table.Column<string>(maxLength: 50, nullable: false),
                     ImgUrl = table.Column<string>(nullable: false),
                     Description = table.Column<string>(nullable: false),
-                    GroupId = table.Column<int>(nullable: false)
+                    GroupId = table.Column<int>(nullable: false),
                 },
                 constraints: table =>
                 {
@@ -147,7 +148,7 @@ namespace MyRockConcerts.Data.Migrations
                     ImgUrl = table.Column<string>(nullable: false),
                     Date = table.Column<DateTime>(nullable: false),
                     OrganiserId = table.Column<int>(nullable: false),
-                    VenueId = table.Column<int>(nullable: false)
+                    VenueId = table.Column<int>(nullable: false),
                 },
                 constraints: table =>
                 {
@@ -171,7 +172,7 @@ namespace MyRockConcerts.Data.Migrations
                 columns: table => new
                 {
                     ConcertId = table.Column<int>(nullable: false),
-                    GroupId = table.Column<int>(nullable: false)
+                    GroupId = table.Column<int>(nullable: false),
                 },
                 constraints: table =>
                 {
@@ -195,7 +196,7 @@ namespace MyRockConcerts.Data.Migrations
                 columns: table => new
                 {
                     ConcertId = table.Column<int>(nullable: false),
-                    UserId = table.Column<string>(nullable: false)
+                    UserId = table.Column<string>(nullable: false),
                 },
                 constraints: table =>
                 {

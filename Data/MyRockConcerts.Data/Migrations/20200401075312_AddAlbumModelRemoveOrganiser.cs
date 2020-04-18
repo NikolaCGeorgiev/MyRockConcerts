@@ -1,8 +1,9 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
-
-namespace MyRockConcerts.Data.Migrations
+﻿namespace MyRockConcerts.Data.Migrations
 {
+    using System;
+
+    using Microsoft.EntityFrameworkCore.Migrations;
+
     public partial class AddAlbumModelRemoveOrganiser : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -26,7 +27,7 @@ namespace MyRockConcerts.Data.Migrations
                 name: "TicketUrl",
                 table: "Concerts",
                 nullable: false,
-                defaultValue: "");
+                defaultValue: string.Empty);
 
             migrationBuilder.CreateTable(
                 name: "Albums",
@@ -41,7 +42,7 @@ namespace MyRockConcerts.Data.Migrations
                     Name = table.Column<string>(nullable: true),
                     CoverUrl = table.Column<string>(nullable: true),
                     ReleaseDate = table.Column<DateTime>(nullable: false),
-                    GroupId = table.Column<int>(nullable: false)
+                    GroupId = table.Column<int>(nullable: false),
                 },
                 constraints: table =>
                 {
@@ -92,7 +93,7 @@ namespace MyRockConcerts.Data.Migrations
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Url = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Url = table.Column<string>(type: "nvarchar(max)", nullable: false),
                 },
                 constraints: table =>
                 {

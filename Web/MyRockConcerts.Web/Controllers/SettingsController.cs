@@ -3,12 +3,11 @@
     using System;
     using System.Threading.Tasks;
 
+    using Microsoft.AspNetCore.Mvc;
     using MyRockConcerts.Data.Common.Repositories;
     using MyRockConcerts.Data.Models;
     using MyRockConcerts.Services.Data;
     using MyRockConcerts.Web.ViewModels.Settings;
-
-    using Microsoft.AspNetCore.Mvc;
 
     public class SettingsController : BaseController
     {

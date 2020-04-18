@@ -2,9 +2,8 @@
 {
     using System.Linq;
 
-    using MyRockConcerts.Data.Common.Models;
-
     using Microsoft.EntityFrameworkCore;
+    using MyRockConcerts.Data.Common.Models;
 
     internal static class EntityIndexesConfiguration
     {

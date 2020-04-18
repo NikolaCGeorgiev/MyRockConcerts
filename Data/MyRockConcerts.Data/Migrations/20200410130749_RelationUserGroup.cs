@@ -1,7 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-
-namespace MyRockConcerts.Data.Migrations
+﻿namespace MyRockConcerts.Data.Migrations
 {
+    using Microsoft.EntityFrameworkCore.Migrations;
+
     public partial class RelationUserGroup : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -27,7 +27,7 @@ namespace MyRockConcerts.Data.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<string>(nullable: false),
-                    GroupId = table.Column<int>(nullable: false)
+                    GroupId = table.Column<int>(nullable: false),
                 },
                 constraints: table =>
                 {

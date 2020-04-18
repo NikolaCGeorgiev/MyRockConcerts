@@ -3,9 +3,8 @@
     using System;
     using System.Threading.Tasks;
 
-    using MyRockConcerts.Data.Common;
-
     using Microsoft.EntityFrameworkCore;
+    using MyRockConcerts.Data.Common;
 
     public class DbQueryRunner : IDbQueryRunner
     {
