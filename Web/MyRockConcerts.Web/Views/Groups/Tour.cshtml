@@ -3,19 +3,19 @@
 @model PaginatedList<MyRockConcerts.Web.ViewModels.Concerts.LoggedInConcertViewModel>
 
 @{
-    this.ViewData["Title"] = "Tour";
+    var groupName = this.TempData["GroupName"];
+    this.ViewData["Title"] = groupName + " Tour";
 }
 
 <div class="container">
     <div class="text-center">
         <h1 class="display-4">@this.ViewData["Title"]</h1>
     </div>
-
+    <hr />
     @if (!Model.Any())
     {
         <div class="text-center">
-            <img src="https://cdn1.iconfinder.com/data/icons/chat-6/447/speech-bubble-balloon-chat-message-talk-conversation_195-512.png" height="400" class="d-block w-100" alt="...">
-            <a class="btn btn-primary btn-lg" asp-controller="Home" asp-action="Index">Upcoming concerts</a>
+            <h1 class="display-4">Тhere are no upcoming concerts!</h1>
         </div>
     }
     else

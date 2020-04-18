@@ -109,7 +109,16 @@
         [Authorize]
         public async Task<IActionResult> Tour(int? pageNumber, int id)
         {
+            var group = await this.groupsService.GetGroupByIdAsync<GroupInfoViewModel>(id);
+
+            if (group == null)
+            {
+                return this.NotFound();
+            }
+
             var viewModel = this.concertsService.GetByGroupsId<LoggedInConcertViewModel>(id);
+
+            this.TempData["GroupName"] = group.Name;
 
             return this.View(await PaginatedList<LoggedInConcertViewModel>
                 .CreateAsync(viewModel, pageNumber ?? GlobalConstants.DefaultPageNumber, GlobalConstants.PageSize));
