@@ -25,8 +25,8 @@
         {
             var album = await this.albumsRepository
                 .All()
-                .Where(x => x.GroupId == groupId)
-                .FirstOrDefaultAsync(y => y.Name == name);
+                .Where(a => a.GroupId == groupId)
+                .FirstOrDefaultAsync(a => a.Name.ToUpper() == name.ToUpper());
 
             if (album != null)
             {
@@ -51,7 +51,7 @@
         {
             var albums = this.albumsRepository
                 .All()
-                .Where(x => x.GroupId == id);
+                .Where(a => a.GroupId == id);
 
             return await albums.To<T>().ToListAsync();
         }

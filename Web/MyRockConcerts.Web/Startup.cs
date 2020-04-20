@@ -1,7 +1,7 @@
 ﻿namespace MyRockConcerts.Web
 {
     using System.Reflection;
-
+    using CloudinaryDotNet;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
@@ -16,6 +16,7 @@
     using MyRockConcerts.Data.Models;
     using MyRockConcerts.Data.Repositories;
     using MyRockConcerts.Data.Seeding;
+    using MyRockConcerts.Services;
     using MyRockConcerts.Services.Data;
     using MyRockConcerts.Services.Mapping;
     using MyRockConcerts.Services.Messaging;
@@ -38,6 +39,15 @@
 
             services.AddDefaultIdentity<ApplicationUser>(IdentityOptionsProvider.GetIdentityOptions)
                 .AddRoles<ApplicationRole>().AddEntityFrameworkStores<ApplicationDbContext>();
+
+            Account account = new Account(
+                this.configuration["Cloudinary:CloudName"],
+                this.configuration["Cloudinary:ApiKey"],
+                this.configuration["Cloudinary:ApiSecret"]);
+
+            Cloudinary cloudinary = new Cloudinary(account);
+
+            services.AddSingleton(cloudinary);
 
             services.Configure<CookiePolicyOptions>(
                 options =>
@@ -72,6 +82,7 @@
             services.AddTransient<IMembersService, MembersService>();
             services.AddTransient<IGenresService, GenresService>();
             services.AddTransient<IVenuesService, VenuesService>();
+            services.AddTransient<ICloudinaryService, CloudinaryService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

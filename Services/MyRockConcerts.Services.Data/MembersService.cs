@@ -25,8 +25,8 @@
         {
             var member = await this.membersRepository
                 .All()
-                .Where(x => x.GroupId == groupId)
-                .FirstOrDefaultAsync(y => y.FullName == fullName);
+                .Where(m => m.GroupId == groupId)
+                .FirstOrDefaultAsync(m => m.FullName.ToUpper() == fullName.ToUpper());
 
             if (member != null)
             {
@@ -49,7 +49,8 @@
 
         public async Task<IEnumerable<T>> GetAllAsync<T>()
         {
-            var members = this.membersRepository.All();
+            var members = this.membersRepository
+                .All();
 
             return await members.To<T>().ToListAsync();
         }

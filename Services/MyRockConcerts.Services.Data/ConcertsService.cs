@@ -1,8 +1,8 @@
 ﻿namespace MyRockConcerts.Services.Data
 {
     using System;
-    using System.Linq;
     using System.Globalization;
+    using System.Linq;
     using System.Threading.Tasks;
 
     using Microsoft.EntityFrameworkCore;
@@ -139,7 +139,7 @@
             var concert = await this.concertsRepository
                 .All()
                 .Where(x => x.Name == name)
-                .FirstOrDefaultAsync(y => y.Name == name);
+                .FirstOrDefaultAsync(y => y.Name.ToUpper() == name.ToUpper());
 
             if (concert != null)
             {

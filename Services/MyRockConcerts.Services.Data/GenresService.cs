@@ -31,7 +31,7 @@
         {
             var groupGenre = await this.groupGenresRepository
                 .All()
-                .FirstOrDefaultAsync(x => x.GroupId == groupId && x.GenreId == genreId);
+                .FirstOrDefaultAsync(gg => gg.GroupId == groupId && gg.GenreId == genreId);
 
             if (groupGenre != null)
             {
@@ -52,19 +52,23 @@
 
         public async Task<IEnumerable<T>> AllAsync<T>()
         {
-            var genres = this.genresRepository.All().OrderBy(x => x.Name);
+            var genres = this.genresRepository.All().OrderBy(g => g.Name);
 
             return await genres.To<T>().ToListAsync();
         }
 
         public async Task<int> CreateAsync(string name)
         {
-            if (this.genresRepository.All().FirstOrDefault(x => x.Name == name) != null)
+            var genre = this.genresRepository
+                .All()
+                .FirstOrDefault(g => g.Name.ToUpper() == name.ToUpper());
+
+            if (genre != null)
             {
                 throw new ArgumentException(ErrorMessageNameExist);
             }
 
-            var genre = new Genre
+            genre = new Genre
             {
                 Name = name,
             };
@@ -78,16 +82,16 @@
         public async Task<IEnumerable<T>> GetGenresByGroupIdAsync<T>(int id)
         {
             var genres = this.groupGenresRepository.All()
-                .Where(x => x.GroupId == id)
-                .Select(y => y.Genre);
+                .Where(gg => gg.GroupId == id)
+                .Select(gg => gg.Genre);
 
             return await genres.To<T>().ToListAsync();
         }
 
         public async Task<string> GetNameByIdAsync(int genreId)
         {
-            var name = this.genresRepository.All().Where(x => x.Id == genreId)
-                .Select(x => x.Name).FirstOrDefaultAsync();
+            var name = this.genresRepository.All().Where(g => g.Id == genreId)
+                .Select(g => g.Name).FirstOrDefaultAsync();
 
             return await name;
         }
@@ -96,7 +100,7 @@
         {
             var groupGenre = await this.groupGenresRepository
                 .All()
-                .FirstOrDefaultAsync(x => x.GroupId == groupId && x.GenreId == genreId);
+                .FirstOrDefaultAsync(gg => gg.GroupId == groupId && gg.GenreId == genreId);
 
             this.groupGenresRepository.Delete(groupGenre);
             await this.groupGenresRepository.SaveChangesAsync();

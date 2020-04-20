@@ -8,7 +8,7 @@
     <div class="text-center">
         <h1 class="display-4">@this.ViewData["Title"]</h1>
     </div>
-
+    <hr />
     @if (Model.Groups.Any())
     {
         <div class="row row-cols-1 row-cols-md-3">
@@ -17,7 +17,6 @@
                 <partial name="_GroupPartial" model="group" />
             }
         </div>
-
         <nav>
             <ul class="pagination justify-content-center">
                 @if (this.Model.Groups.PageIndex == 1)

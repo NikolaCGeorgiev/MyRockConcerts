@@ -24,12 +24,16 @@
 
         public async Task<int> CreateAsync(string name, string imgUrl, string country, string city, string address, int capacity)
         {
-            if (this.venuesRepository.All().FirstOrDefault(x => x.Name == name) != null)
+            var venue = await this.venuesRepository
+                .All()
+                .FirstOrDefaultAsync(v => v.Name.ToUpper() == name.ToUpper());
+
+            if (venue != null)
             {
                 throw new ArgumentException(ErrorMessageNameExist);
             }
 
-            var venue = new Venue
+            venue = new Venue
             {
                 Name = name,
                 ImgUrl = imgUrl,

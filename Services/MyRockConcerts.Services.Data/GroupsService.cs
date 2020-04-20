@@ -36,7 +36,7 @@
         {
             var concertGroup = await this.concertGroupsRepository
                 .All()
-                .FirstOrDefaultAsync(x => x.ConcertId == concertId && x.GroupId == groupId);
+                .FirstOrDefaultAsync(cg => cg.ConcertId == concertId && cg.GroupId == groupId);
 
             if (concertGroup != null)
             {
@@ -74,12 +74,16 @@
 
         public async Task<int> CreateAsync(string name, string imgUrl, string description)
         {
-            if (this.groupsRepository.All().FirstOrDefault(x => x.Name == name) != null)
+            var group = this.groupsRepository
+                .All()
+                .FirstOrDefault(g => g.Name.ToUpper() == name.ToUpper());
+
+            if (group != null)
             {
                 throw new ArgumentException(ErrorMessageNameExist);
             }
 
-            var group = new Group
+            group = new Group
             {
                 Name = name,
                 ImgUrl = imgUrl,
@@ -99,10 +103,13 @@
 
             if (userId != null)
             {
-                groups = this.userGroupsRepository.All().Where(x => x.UserId == userId).Select(x => x.Group);
+                groups = this.userGroupsRepository
+                    .All()
+                    .Where(ug => ug.UserId == userId)
+                    .Select(ug => ug.Group);
             }
 
-            return groups.OrderBy(x => x.Name).To<T>();
+            return groups.OrderBy(g => g.Name).To<T>();
         }
 
         public async Task<T> GetGroupByIdAsync<T>(int id)
@@ -165,7 +172,7 @@
         {
             var concertGroup = await this.concertGroupsRepository
                 .All()
-                .FirstOrDefaultAsync(x => x.ConcertId == concertId && x.GroupId == groupId);
+                .FirstOrDefaultAsync(cg => cg.ConcertId == concertId && cg.GroupId == groupId);
 
             this.concertGroupsRepository.Delete(concertGroup);
             await this.concertGroupsRepository.SaveChangesAsync();
