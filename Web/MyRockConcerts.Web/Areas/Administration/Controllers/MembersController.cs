@@ -63,9 +63,10 @@
         [Authorize]
         public async Task<IActionResult> Create(MemberCreateInputModel input)
         {
+            var groups = await this.groupsService.GetAll<GroupDropDownViewModel>().ToListAsync();
+
             if (!this.ModelState.IsValid)
             {
-                var groups = await this.groupsService.GetAll<GroupDropDownViewModel>().ToListAsync();
                 input.Groups = groups;
 
                 return this.View(input);
@@ -82,7 +83,9 @@
             {
                 this.TempData["Error"] = e.Message;
 
-                return this.RedirectToAction(nameof(this.Create));
+                input.Groups = groups;
+
+                return this.View(input);
             }
         }
     }

@@ -3,9 +3,8 @@
     using System.ComponentModel.DataAnnotations;
 
     using Microsoft.AspNetCore.Http;
-    using MyRockConcerts.Services.Mapping;
 
-    public class GroupCreateInputModel : IMapTo<GroupServiceModel>
+    public class GroupCreateInputModel
     {
         [Required]
         [MaxLength(50)]

@@ -3,9 +3,8 @@
     using System.ComponentModel.DataAnnotations;
 
     using Microsoft.AspNetCore.Http;
-    using MyRockConcerts.Services.Mapping;
 
-    public class VenueCreateInputModel : IMapTo<VenueServiceModel>
+    public class VenueCreateInputModel
     {
         [Required]
         [MinLength(5)]

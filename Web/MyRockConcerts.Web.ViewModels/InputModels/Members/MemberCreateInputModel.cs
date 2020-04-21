@@ -4,17 +4,16 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
-    using MyRockConcerts.Data.Models;
-    using MyRockConcerts.Services.Mapping;
+    using Microsoft.AspNetCore.Http;
     using MyRockConcerts.Web.ViewModels.Groups;
 
-    public class MemberCreateInputModel : IMapTo<Member>
+    public class MemberCreateInputModel
     {
         [Required]
         public string FullName { get; set; }
 
         [Required]
-        public string ImgUrl { get; set; }
+        public IFormFile ImgUrl { get; set; }
 
         [Required]
         public string Description { get; set; }
