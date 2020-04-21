@@ -138,7 +138,6 @@
         {
             var concert = await this.concertsRepository
                 .All()
-                .Where(x => x.Name == name)
                 .FirstOrDefaultAsync(y => y.Name.ToUpper() == name.ToUpper());
 
             if (concert != null)
@@ -168,6 +167,53 @@
             };
 
             await this.concertsRepository.AddAsync(concert);
+            await this.concertsRepository.SaveChangesAsync();
+
+            return concert.Id;
+        }
+
+        public async Task<int> EditAsync(int id, ConcertEditInputModel model)
+        {
+            var concert = await this.concertsRepository
+               .All()
+               .FirstOrDefaultAsync(x => x.Id == id);
+
+            if (concert.Name.ToUpper() != model.Name.ToUpper())
+            {
+                var concertWithSameName = await this.concertsRepository
+                .All()
+                .FirstOrDefaultAsync(y => y.Name.ToUpper() == model.Name.ToUpper());
+
+                if (concertWithSameName != null)
+                {
+                    throw new ArgumentException(ErrorMessageConcertExist);
+                }
+            }
+
+            var filterDate = DateTime.UtcNow;
+
+            if (model.Date < filterDate)
+            {
+                throw new ArgumentException(ErrorMessageDate);
+            }
+
+            var url = model.ImgUrl;
+
+            if (model.Photo != null)
+            {
+                url = await this.cloudinaryService.UploadPhotoAsync(
+                model.Photo,
+                model.Name,
+                GlobalConstants.CloudFolderForConcertsPhotos);
+            }
+
+            concert.Name = model.Name;
+            concert.ImgUrl = url;
+            concert.Date = model.Date;
+            concert.TicketUrl = model.TicketUrl;
+            concert.VenueId = model.VenueId;
+
+            this.concertsRepository.Update(concert);
             await this.concertsRepository.SaveChangesAsync();
 
             return concert.Id;

@@ -30,10 +30,16 @@
     <img src="@Model.ImgUrl" height="400" class="d-block w-100" alt="...">
     <br />
     <div class="row">
-        <div class="col-6 d-flex justify-content-start">
+        <div class="col-4 d-flex justify-content-start">
             <partial name="_TimeCountDownPartial" model="date">
         </div>
-        <div class="col-6 d-flex justify-content-end">
+        <div class="col-4 d-flex justify-content-center">
+            @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+            {
+                <a class="btn btn-primary btn-lg" asp-area="Administration" asp-controller="Concerts" asp-action="Edit" asp-route-id="@Model.Id" title="Admin">Edit</a>
+            }
+        </div>
+        <div class="col-4 d-flex justify-content-end">
             <a class="fas fa-map-marked-alt alert-link" asp-controller="Venues" asp-action="Details" asp-route-id="@Model.VenueId"> @Model.VenueCountry, @Model.VenueCity, @Model.VenueName</a>
         </div>
     </div>

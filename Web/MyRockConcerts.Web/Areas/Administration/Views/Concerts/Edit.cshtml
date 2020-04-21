@@ -1,7 +1,7 @@
 ﻿@using System
-@model MyRockConcerts.Web.ViewModels.InputModels.Concerts.GoncertCreateInputModel
+@model MyRockConcerts.Web.ViewModels.InputModels.Concerts.ConcertEditInputModel
 @{
-    ViewData["Title"] = "Add Concert";
+    ViewData["Title"] = "Edit concert - " + Model.Name;
     var venues = Model.Venues.Select(x => new SelectListItem(x.Name, x.Id.ToString()));
 }
 
@@ -14,37 +14,41 @@
     @await Component.InvokeAsync("ErrorAlert", new { message = this.TempData["Error"] })
 }
 
-<form enctype="multipart/form-data" method="post" asp-action="Create">
+<form enctype="multipart/form-data" method="post" asp-action="Edit">
     <div class="form-group row">
         <label asp-for="Name"></label>
-        <input asp-for="Name" type="text" class="form-control" placeholder="Name">
+        <input asp-for="Name" type="text" class="form-control" placeholder="Name" value="@Model.Name">
         <span asp-validation-for="Name" class="text-danger"></span>
     </div>
 
     <div class="form-group row">
-        <label asp-for="ImgUrl" class="upload-btn">
-            <i class="fas fa-cloud-upload-alt"></i> Upload Photo
+        <img src="@Model.ImgUrl" height="400" class="d-block w-100" alt="...">
+        <input asp-for="@Model.ImgUrl" type="hidden" class="form-control" value=@Model.ImgUrl>
+    </div>
+
+    <div class="form-group row">
+        <label asp-for="Photo" class="upload-btn">
+            <i class="fas fa-cloud-upload-alt"></i> Upload New Photo
         </label>
-        <input asp-for="ImgUrl" type="file" class="form-control-file">
-        <span asp-validation-for="ImgUrl" class="text-danger"></span>
+        <input asp-for="Photo" type="file" class="form-control-file">
     </div>
 
     <div class="form-group row">
         <label asp-for="Date"></label>
-        <input asp-for="Date" type="text" class="form-control" placeholder="yyyy-MM-dd HH:mm" value="@DateTime.UtcNow">
+        <input asp-for="Date" type="text" class="form-control" placeholder="yyyy-MM-dd HH:mm" value="@Model.Date.ToString("yyyy-MM-dd HH:mm")">
         <span asp-validation-for="Date " class="text-danger"></span>
     </div>
 
     <div class="form-group row">
         <label asp-for="TicketUrl"></label>
-        <input asp-for="TicketUrl" type="text" class="form-control" placeholder="TicketUrl">
+        <input asp-for="TicketUrl" type="text" class="form-control" placeholder="TicketUrl" value="@Model.TicketUrl">
         <span asp-validation-for="TicketUrl" class="text-danger"></span>
     </div>
 
     <div class="form-group row">
         <label asp-for="VenueId"></label>
         <select asp-for="VenueId" asp-items="venues" class="form-control">
-            <option selected="selected" disabled="disabled">Select venue</option>
+            <option selected="selected" disabled="disabled" value="@Model.VenueId">Select venue</option>
         </select>
         <span asp-validation-for="VenueId" class="text-danger"></span>
     </div>
