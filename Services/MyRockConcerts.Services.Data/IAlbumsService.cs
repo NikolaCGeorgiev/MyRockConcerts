@@ -1,9 +1,10 @@
 ﻿namespace MyRockConcerts.Services.Data
 {
+    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
-    using MyRockConcerts.Web.ViewModels.InputModels.Albums;
+    using Microsoft.AspNetCore.Http;
 
     public interface IAlbumsService
     {
@@ -11,6 +12,6 @@
 
         Task<IEnumerable<T>> GetAllAsync<T>();
 
-        Task<int> CreateAsync(AlbumServiceModel model);
+        Task<int> CreateAsync(string name, IFormFile coverUrl, DateTime releaseDate, int groupId);
     }
 }

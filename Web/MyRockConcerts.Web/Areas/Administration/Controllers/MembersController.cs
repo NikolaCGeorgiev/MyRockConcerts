@@ -65,7 +65,10 @@
         {
             if (!this.ModelState.IsValid)
             {
-                return this.RedirectToAction(nameof(this.Create));
+                var groups = await this.groupsService.GetAll<GroupDropDownViewModel>().ToListAsync();
+                input.Groups = groups;
+
+                return this.View(input);
             }
 
             try

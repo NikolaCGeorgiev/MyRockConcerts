@@ -5,6 +5,7 @@
 
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using MyRockConcerts.Services;
     using MyRockConcerts.Services.Data;
     using MyRockConcerts.Web.ViewModels.InputModels.Venues;
     using MyRockConcerts.Web.ViewModels.Venues;
@@ -14,10 +15,14 @@
         private const string CreateSuccessMessage = "You have successfully added a venue!";
 
         private readonly IVenuesService venuesService;
+        private readonly ICloudinaryService cloudinaryService;
 
-        public VenuesController(IVenuesService venuesService)
+        public VenuesController(
+            IVenuesService venuesService,
+            ICloudinaryService cloudinaryService)
         {
             this.venuesService = venuesService;
+            this.cloudinaryService = cloudinaryService;
         }
 
         [Authorize]
@@ -50,7 +55,8 @@
 
             try
             {
-                var id = await this.venuesService.CreateAsync(input.Name, input.ImgUrl, input.Country, input.City, input.Address, input.Capacity);
+                var id = await this.venuesService
+                    .CreateAsync(input.Name, input.ImgUrl, input.Country, input.City, input.Address, input.Capacity);
 
                 this.TempData["Success"] = CreateSuccessMessage;
                 return this.Redirect("/Venues/Details/" + id);
@@ -59,7 +65,7 @@
             {
                 this.TempData["Error"] = e.Message;
 
-                return this.View(nameof(this.Create));
+                return this.View(input);
             }
         }
     }

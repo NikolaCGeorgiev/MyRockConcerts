@@ -49,14 +49,19 @@
         [Authorize]
         public async Task<IActionResult> Create(GoncertCreateInputModel input)
         {
+            var venues = await this.venuesService.GetAllAsync<VenuesDropDownViewModel>();
+
             if (!this.ModelState.IsValid)
             {
+                input.Venues = venues;
+
                 return this.View(input);
             }
 
             try
             {
-                var id = await this.concertsService.CreateAsync(input.Name, input.ImgUrl, input.Date, input.TicketUrl, input.VenueId);
+                var id = await this.concertsService
+                    .CreateAsync(input.Name, input.ImgUrl, input.Date, input.TicketUrl, input.VenueId);
 
                 this.TempData["Success"] = CreateSuccessMessage;
                 return this.Redirect("/Concerts/Details/" + id);
@@ -65,7 +70,9 @@
             {
                 this.TempData["Error"] = e.Message;
 
-                return this.RedirectToAction(nameof(this.Create));
+                input.Venues = venues;
+
+                return this.View(input);
             }
         }
 

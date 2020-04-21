@@ -5,9 +5,12 @@
     using System.Linq;
     using System.Threading.Tasks;
 
+    using Microsoft.AspNetCore.Http;
     using Microsoft.EntityFrameworkCore;
+    using MyRockConcerts.Common;
     using MyRockConcerts.Data.Common.Repositories;
     using MyRockConcerts.Data.Models;
+    using MyRockConcerts.Services;
     using MyRockConcerts.Services.Mapping;
     using MyRockConcerts.Web.ViewModels.InputModels.Groups;
 
@@ -20,17 +23,20 @@
         private readonly IDeletableEntityRepository<Group> groupsRepository;
         private readonly IRepository<GroupGenre> groupGenresRepository;
         private readonly IRepository<UserGroup> userGroupsRepository;
+        private readonly ICloudinaryService cloudinaryService;
 
         public GroupsService(
             IRepository<ConcertGroup> concertGroupsRepository,
             IDeletableEntityRepository<Group> groupsRepository,
             IRepository<GroupGenre> groupGenresRepository,
-            IRepository<UserGroup> userGroupsRepository)
+            IRepository<UserGroup> userGroupsRepository,
+            ICloudinaryService cloudinaryService)
         {
             this.concertGroupsRepository = concertGroupsRepository;
             this.groupsRepository = groupsRepository;
             this.groupGenresRepository = groupGenresRepository;
             this.userGroupsRepository = userGroupsRepository;
+            this.cloudinaryService = cloudinaryService;
         }
 
         public async Task<int> AddGroupAsync(int concertId, int groupId)
@@ -73,22 +79,27 @@
             await this.userGroupsRepository.SaveChangesAsync();
         }
 
-        public async Task<int> CreateAsync(GroupServiceModel model)
+        public async Task<int> CreateAsync(string name, IFormFile imgUrl, string description)
         {
             var group = this.groupsRepository
                 .All()
-                .FirstOrDefault(g => g.Name.ToUpper() == model.Name.ToUpper());
+                .FirstOrDefault(g => g.Name.ToUpper() == name.ToUpper());
 
             if (group != null)
             {
                 throw new ArgumentException(ErrorMessageNameExist);
             }
 
+            var url = await this.cloudinaryService.UploadPhotoAsync(
+                imgUrl,
+                name,
+                GlobalConstants.CloudFolderForGroupsPhotos);
+
             group = new Group
             {
-                Name = model.Name,
-                ImgUrl = model.ImgUrl,
-                Description = model.Description,
+                Name = name,
+                ImgUrl = url,
+                Description = description,
             };
 
             await this.groupsRepository.AddAsync(group);

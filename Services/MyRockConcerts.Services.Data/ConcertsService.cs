@@ -5,10 +5,14 @@
     using System.Linq;
     using System.Threading.Tasks;
 
+    using Microsoft.AspNetCore.Http;
     using Microsoft.EntityFrameworkCore;
+    using MyRockConcerts.Common;
     using MyRockConcerts.Data.Common.Repositories;
     using MyRockConcerts.Data.Models;
+    using MyRockConcerts.Services;
     using MyRockConcerts.Services.Mapping;
+    using MyRockConcerts.Web.ViewModels.InputModels.Concerts;
 
     public class ConcertsService : IConcertsService
     {
@@ -19,15 +23,18 @@
         private readonly IDeletableEntityRepository<Concert> concertsRepository;
         private readonly IRepository<UserConcert> userConcertRepository;
         private readonly IRepository<ConcertGroup> concertsGroupsRepository;
+        private readonly ICloudinaryService cloudinaryService;
 
         public ConcertsService(
             IDeletableEntityRepository<Concert> concertsRepository,
             IRepository<UserConcert> userConcertRepository,
-            IRepository<ConcertGroup> concertsGroupsRepository)
+            IRepository<ConcertGroup> concertsGroupsRepository,
+            ICloudinaryService cloudinaryService)
         {
             this.concertsRepository = concertsRepository;
             this.userConcertRepository = userConcertRepository;
             this.concertsGroupsRepository = concertsGroupsRepository;
+            this.cloudinaryService = cloudinaryService;
         }
 
         public async Task<bool> IsInMyConcertsAsync(int concertId, string userId)
@@ -127,15 +134,8 @@
             return concerts.To<T>();
         }
 
-        public async Task<int> CreateAsync(string name, string imgUrl, DateTime date, string ticketUrl, int venueId)
+        public async Task<int> CreateAsync(string name, IFormFile imgUrl, DateTime date, string ticketUrl, int venueId)
         {
-            var isValidDateFormat = DateTime.TryParseExact(date.ToString(), "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime result);
-
-            if (!isValidDateFormat)
-            {
-                throw new ArgumentException(ErrorMessageDateTimeFormat);
-            }
-
             var concert = await this.concertsRepository
                 .All()
                 .Where(x => x.Name == name)
@@ -153,11 +153,16 @@
                 throw new ArgumentException(ErrorMessageDate);
             }
 
+            var url = await this.cloudinaryService.UploadPhotoAsync(
+                imgUrl,
+                name,
+                GlobalConstants.CloudFolderForConcertsPhotos);
+
             concert = new Concert
             {
                 Name = name,
-                ImgUrl = imgUrl,
-                Date = result,
+                ImgUrl = url,
+                Date = date,
                 TicketUrl = ticketUrl,
                 VenueId = venueId,
             };

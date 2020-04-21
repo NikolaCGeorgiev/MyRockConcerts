@@ -5,41 +5,52 @@
     using System.Linq;
     using System.Threading.Tasks;
 
+    using Microsoft.AspNetCore.Http;
     using Microsoft.EntityFrameworkCore;
+    using MyRockConcerts.Common;
     using MyRockConcerts.Data.Common.Repositories;
     using MyRockConcerts.Data.Models;
+    using MyRockConcerts.Services;
     using MyRockConcerts.Services.Mapping;
-    using MyRockConcerts.Web.ViewModels.InputModels.Albums;
 
     public class AlbumsService : IAlbumsService
     {
         private const string ErrorMessageAlbumExist = "Тhe band already has such an album!";
 
         private readonly IDeletableEntityRepository<Album> albumsRepository;
+        private readonly ICloudinaryService cloudinaryService;
 
-        public AlbumsService(IDeletableEntityRepository<Album> albumsRepository)
+        public AlbumsService(
+            IDeletableEntityRepository<Album> albumsRepository,
+            ICloudinaryService cloudinaryService)
         {
             this.albumsRepository = albumsRepository;
+            this.cloudinaryService = cloudinaryService;
         }
 
-        public async Task<int> CreateAsync(AlbumServiceModel model)
+        public async Task<int> CreateAsync(string name, IFormFile coverUrl, DateTime releaseDate, int groupId)
         {
             var album = await this.albumsRepository
                 .All()
-                .Where(a => a.GroupId == model.GroupId)
-                .FirstOrDefaultAsync(a => a.Name.ToUpper() == model.Name.ToUpper());
+                .Where(a => a.GroupId == groupId)
+                .FirstOrDefaultAsync(a => a.Name.ToUpper() == name.ToUpper());
 
             if (album != null)
             {
                 throw new ArgumentException(ErrorMessageAlbumExist);
             }
 
+            var url = await this.cloudinaryService.UploadPhotoAsync(
+               coverUrl,
+               name,
+               GlobalConstants.CloudFolderForAlbumsPhotos);
+
             album = new Album
             {
-                Name = model.Name,
-                CoverUrl = model.CoverUrl,
-                ReleaseDate = model.ReleaseDate,
-                GroupId = model.GroupId,
+                Name = name,
+                CoverUrl = url,
+                ReleaseDate = releaseDate,
+                GroupId = groupId,
             };
 
             await this.albumsRepository.AddAsync(album);

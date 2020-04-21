@@ -4,18 +4,17 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
-    using MyRockConcerts.Data.Models;
-    using MyRockConcerts.Services.Mapping;
+    using Microsoft.AspNetCore.Http;
     using MyRockConcerts.Web.ViewModels.Venues;
 
-    public class GoncertCreateInputModel : IMapTo<Concert>
+    public class GoncertCreateInputModel
     {
         [Required]
         [MaxLength(50)]
         public string Name { get; set; }
 
         [Required]
-        public string ImgUrl { get; set; }
+        public IFormFile ImgUrl { get; set; }
 
         public DateTime Date { get; set; }
 

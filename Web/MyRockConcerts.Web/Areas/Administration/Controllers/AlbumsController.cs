@@ -6,8 +6,6 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
-    using MyRockConcerts.Common;
-    using MyRockConcerts.Services;
     using MyRockConcerts.Services.Data;
     using MyRockConcerts.Web.ViewModels.Albums;
     using MyRockConcerts.Web.ViewModels.Groups;
@@ -19,16 +17,13 @@
 
         private readonly IGroupsService groupsService;
         private readonly IAlbumsService albumsService;
-        private readonly ICloudinaryService cloudinaryService;
 
         public AlbumsController(
             IGroupsService groupsService,
-            IAlbumsService albumsService,
-            ICloudinaryService cloudinaryService)
+            IAlbumsService albumsService)
         {
             this.groupsService = groupsService;
             this.albumsService = albumsService;
-            this.cloudinaryService = cloudinaryService;
         }
 
         [Authorize]
@@ -63,27 +58,19 @@
         [Authorize]
         public async Task<IActionResult> Create(AlbumCreateInputModel input)
         {
+            var groups = await this.groupsService.GetAll<GroupDropDownViewModel>().ToListAsync();
+
             if (!this.ModelState.IsValid)
             {
-                return this.RedirectToAction(nameof(this.Create));
+                input.Groups = groups;
+
+                return this.View(input);
             }
-
-            var coverUrl = await this.cloudinaryService.UploadPhotoAsync(
-               input.CoverUrl,
-               input.Name,
-               GlobalConstants.CloudFolderForAlbumsPhotos);
-
-            var serviceModel = new AlbumServiceModel
-            {
-                Name = input.Name,
-                CoverUrl = coverUrl,
-                ReleaseDate = input.ReleaseDate,
-                GroupId = input.GroupId,
-            };
 
             try
             {
-                var id = await this.albumsService.CreateAsync(serviceModel);
+                var id = await this.albumsService
+                    .CreateAsync(input.Name, input.CoverUrl, input.ReleaseDate, input.GroupId);
 
                 this.TempData["Success"] = CreateSuccessMessage;
                 return this.Redirect("/Groups/Details/" + input.GroupId);
@@ -92,7 +79,9 @@
             {
                 this.TempData["Error"] = e.Message;
 
-                return this.RedirectToAction(nameof(this.Create));
+                input.Groups = groups;
+
+                return this.View(input);
             }
         }
     }

@@ -22,8 +22,10 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Data\MyRockConcerts.Data.Common\MyRockConcerts.Data.Common.csproj" />
     <ProjectReference Include="..\..\Data\MyRockConcerts.Data.Models\MyRockConcerts.Data.Models.csproj" />
+    <ProjectReference Include="..\..\MyRockConcerts.Common\MyRockConcerts.Common.csproj" />
     <ProjectReference Include="..\..\Web\MyRockConcerts.Web.ViewModels\MyRockConcerts.Web.ViewModels.csproj" />
     <ProjectReference Include="..\MyRockConcerts.Services.Mapping\MyRockConcerts.Services.Mapping.csproj" />
+    <ProjectReference Include="..\MyRockConcerts.Services\MyRockConcerts.Services.csproj" />
   </ItemGroup>
 
 </Project>

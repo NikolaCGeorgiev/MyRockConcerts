@@ -4,6 +4,7 @@
     using System.Linq;
     using System.Threading.Tasks;
 
+    using Microsoft.AspNetCore.Http;
     using MyRockConcerts.Web.ViewModels.InputModels.Groups;
 
     public interface IGroupsService
@@ -22,7 +23,7 @@
 
         Task RemoveFromMyFavoritesAsync(int groupId, string userId);
 
-        Task<int> CreateAsync(GroupServiceModel model);
+        Task<int> CreateAsync(string name, IFormFile imgUrl, string description);
 
         Task<int> AddGroupAsync(int concertId, int groupId);
 

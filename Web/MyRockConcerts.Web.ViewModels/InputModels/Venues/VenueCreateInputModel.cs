@@ -2,10 +2,10 @@
 {
     using System.ComponentModel.DataAnnotations;
 
-    using MyRockConcerts.Data.Models;
+    using Microsoft.AspNetCore.Http;
     using MyRockConcerts.Services.Mapping;
 
-    public class VenueCreateInputModel : IMapTo<Venue>
+    public class VenueCreateInputModel : IMapTo<VenueServiceModel>
     {
         [Required]
         [MinLength(5)]
@@ -13,7 +13,7 @@
         public string Name { get; set; }
 
         [Required]
-        public string ImgUrl { get; set; }
+        public IFormFile ImgUrl { get; set; }
 
         [Required]
         public string Country { get; set; }
