@@ -1,14 +1,14 @@
-﻿using Microsoft.AspNetCore.Http;
-using MyRockConcerts.Data.Models;
-using MyRockConcerts.Services.Mapping;
-using MyRockConcerts.Web.ViewModels.Venues;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
-
-namespace MyRockConcerts.Web.ViewModels.InputModels.Concerts
+﻿namespace MyRockConcerts.Web.ViewModels.InputModels.Concerts
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+
+    using Microsoft.AspNetCore.Http;
+    using MyRockConcerts.Data.Models;
+    using MyRockConcerts.Services.Mapping;
+    using MyRockConcerts.Web.ViewModels.Venues;
+
     public class ConcertEditInputModel : IMapFrom<Concert>
     {
         [Required]

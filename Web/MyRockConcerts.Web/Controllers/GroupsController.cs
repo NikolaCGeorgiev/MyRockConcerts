@@ -52,7 +52,6 @@
         [Authorize]
         public async Task<IActionResult> Details(int id)
         {
-            // var albums = await this.albumsService.GetAlbumsByGroupIdAsync<AlbumDetailsViewModel>(id);
             var group = await this.groupsService.GetGroupByIdAsync<GroupDetailsViewModel>(id);
 
             if (group == null)

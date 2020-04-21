@@ -1,5 +1,4 @@
-﻿@using System
-@model MyRockConcerts.Web.ViewModels.InputModels.Concerts.ConcertEditInputModel
+﻿@model MyRockConcerts.Web.ViewModels.InputModels.Concerts.ConcertEditInputModel
 @{
     ViewData["Title"] = "Edit concert - " + Model.Name;
     var venues = Model.Venues.Select(x => new SelectListItem(x.Name, x.Id.ToString()));

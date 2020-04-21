@@ -18,7 +18,6 @@
     {
         private const string ErrorMessageConcertExist = "Concert with this name already exist!";
         private const string ErrorMessageDate = "Мust be an upcoming date!";
-        private const string ErrorMessageDateTimeFormat = "Date must bi in format yyyy-MM-dd HH:mm";
 
         private readonly IDeletableEntityRepository<Concert> concertsRepository;
         private readonly IRepository<UserConcert> userConcertRepository;
@@ -138,7 +137,7 @@
         {
             var concert = await this.concertsRepository
                 .All()
-                .FirstOrDefaultAsync(y => y.Name.ToUpper() == name.ToUpper());
+                .FirstOrDefaultAsync(c => c.Name.ToUpper() == name.ToUpper());
 
             if (concert != null)
             {
@@ -176,13 +175,13 @@
         {
             var concert = await this.concertsRepository
                .All()
-               .FirstOrDefaultAsync(x => x.Id == id);
+               .FirstOrDefaultAsync(c => c.Id == id);
 
             if (concert.Name.ToUpper() != model.Name.ToUpper())
             {
                 var concertWithSameName = await this.concertsRepository
                 .All()
-                .FirstOrDefaultAsync(y => y.Name.ToUpper() == model.Name.ToUpper());
+                .FirstOrDefaultAsync(c => c.Name.ToUpper() == model.Name.ToUpper());
 
                 if (concertWithSameName != null)
                 {

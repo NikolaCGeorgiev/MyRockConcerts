@@ -12,6 +12,7 @@
     using MyRockConcerts.Data.Models;
     using MyRockConcerts.Services;
     using MyRockConcerts.Services.Mapping;
+    using MyRockConcerts.Web.ViewModels.InputModels.Albums;
 
     public class AlbumsService : IAlbumsService
     {
@@ -59,13 +60,42 @@
             return album.Id;
         }
 
-        public async Task<IEnumerable<T>> GetAlbumsByGroupIdAsync<T>(int id)
+        public async Task<bool> EditAsync(int id, AlbumEditInputModel model)
         {
-            var albums = this.albumsRepository
+            var album = await this.albumsRepository
                 .All()
-                .Where(a => a.GroupId == id);
+                .FirstOrDefaultAsync(a => a.Id == id);
 
-            return await albums.To<T>().ToListAsync();
+            var groupAllAlbums = await this.albumsRepository
+                .All()
+                .Where(a => a.GroupId == model.GroupId && a.Id != id)
+                .Select(a => a.Name)
+                .ToListAsync();
+
+            if (groupAllAlbums.Contains(model.Name))
+            {
+                throw new ArgumentException(ErrorMessageAlbumExist);
+            }
+
+            var url = model.CoverUrl;
+
+            if (model.Photo != null)
+            {
+                url = await this.cloudinaryService.UploadPhotoAsync(
+                model.Photo,
+                model.Name,
+                GlobalConstants.CloudFolderForAlbumsPhotos);
+            }
+
+            album.Name = model.Name;
+            album.CoverUrl = url;
+            album.ReleaseDate = model.ReleaseDate;
+            album.GroupId = model.GroupId;
+
+            this.albumsRepository.Update(album);
+            await this.albumsRepository.SaveChangesAsync();
+
+            return true;
         }
 
         public async Task<IEnumerable<T>> GetAllAsync<T>()
@@ -73,6 +103,15 @@
             var albums = this.albumsRepository.All();
 
             return await albums.To<T>().ToListAsync();
+        }
+
+        public async Task<T> GetByIdAsync<T>(int id)
+        {
+            var album = this.albumsRepository
+               .All()
+               .Where(c => c.Id == id);
+
+            return await album.To<T>().FirstOrDefaultAsync();
         }
     }
 }

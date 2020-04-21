@@ -14,6 +14,7 @@
     public class AlbumsController : AdministrationController
     {
         private const string CreateSuccessMessage = "You have successfully added an album!";
+        private const string EditSuccessMessage = "You have successfully edited an album!";
 
         private readonly IGroupsService groupsService;
         private readonly IAlbumsService albumsService;
@@ -73,6 +74,53 @@
                     .CreateAsync(input.Name, input.CoverUrl, input.ReleaseDate, input.GroupId);
 
                 this.TempData["Success"] = CreateSuccessMessage;
+                return this.Redirect("/Groups/Details/" + input.GroupId);
+            }
+            catch (Exception e)
+            {
+                this.TempData["Error"] = e.Message;
+
+                input.Groups = groups;
+
+                return this.View(input);
+            }
+        }
+
+        [Authorize]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var album = await this.albumsService.GetByIdAsync<AlbumEditInputModel>(id);
+
+            if (album == null)
+            {
+                return this.NotFound();
+            }
+
+            var groups = await this.groupsService.GetAll<GroupDropDownViewModel>().ToListAsync();
+
+            album.Groups = groups;
+
+            return this.View(album);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> Edit(int id, AlbumEditInputModel input)
+        {
+            var groups = await this.groupsService.GetAll<GroupDropDownViewModel>().ToListAsync();
+
+            if (!this.ModelState.IsValid)
+            {
+                input.Groups = groups;
+
+                return this.View(input);
+            }
+
+            try
+            {
+                await this.albumsService.EditAsync(id, input);
+
+                this.TempData["Success"] = EditSuccessMessage;
                 return this.Redirect("/Groups/Details/" + input.GroupId);
             }
             catch (Exception e)
