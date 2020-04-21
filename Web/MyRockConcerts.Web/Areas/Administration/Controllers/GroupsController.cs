@@ -12,6 +12,7 @@
     public class GroupsController : AdministrationController
     {
         private const string CreateSuccessMessage = "You have successfully added a group!";
+        private const string EditSuccessMessage = "You have successfully edited a group!";
         private const string AddGenreSuccessMessage = "You have successfully added a genre!";
         private const string RemoveGenreSuccessMessage = "You have successfully removed the genre!";
 
@@ -46,6 +47,43 @@
                 var id = await this.groupsService.CreateAsync(input.Name, input.ImgUrl, input.Description);
 
                 this.TempData["Success"] = CreateSuccessMessage;
+                return this.Redirect("/Groups/Details/" + id);
+            }
+            catch (Exception e)
+            {
+                this.TempData["Error"] = e.Message;
+
+                return this.View(input);
+            }
+        }
+
+        [Authorize]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var group = await this.groupsService.GetGroupByIdAsync<GroupEditInputModel>(id);
+
+            if (group == null)
+            {
+                return this.NotFound();
+            }
+
+            return this.View(group);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> Edit(int id, GroupEditInputModel input)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.View(input);
+            }
+
+            try
+            {
+                await this.groupsService.EditAsync(id, input);
+
+                this.TempData["Success"] = EditSuccessMessage;
                 return this.Redirect("/Groups/Details/" + id);
             }
             catch (Exception e)

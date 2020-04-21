@@ -171,7 +171,7 @@
             return concert.Id;
         }
 
-        public async Task<int> EditAsync(int id, ConcertEditInputModel model)
+        public async Task<bool> EditAsync(int id, ConcertEditInputModel model)
         {
             var concert = await this.concertsRepository
                .All()
@@ -215,7 +215,7 @@
             this.concertsRepository.Update(concert);
             await this.concertsRepository.SaveChangesAsync();
 
-            return concert.Id;
+            return true;
         }
     }
 }

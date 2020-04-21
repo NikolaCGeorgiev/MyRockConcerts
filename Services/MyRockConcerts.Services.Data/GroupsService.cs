@@ -108,6 +108,44 @@
             return group.Id;
         }
 
+        public async Task<bool> EditAsync(int id, GroupEditInputModel model)
+        {
+            var group = await this.groupsRepository
+                .All()
+                .FirstOrDefaultAsync(g => g.Id == id);
+
+            if (group.Name.ToUpper() != model.Name.ToUpper())
+            {
+                var groupWithSameName = await this.groupsRepository
+                .All()
+                .FirstOrDefaultAsync(c => c.Name.ToUpper() == model.Name.ToUpper());
+
+                if (groupWithSameName != null)
+                {
+                    throw new ArgumentException(ErrorMessageNameExist);
+                }
+            }
+
+            var url = model.ImgUrl;
+
+            if (model.Photo != null)
+            {
+                url = await this.cloudinaryService.UploadPhotoAsync(
+                model.Photo,
+                model.Name,
+                GlobalConstants.CloudFolderForGroupsPhotos);
+            }
+
+            group.Name = model.Name;
+            group.ImgUrl = model.ImgUrl;
+            group.Description = model.Description;
+
+            this.groupsRepository.Update(group);
+            var result = await this.groupsRepository.SaveChangesAsync();
+
+            return result > 0;
+        }
+
         public IQueryable<T> GetAll<T>(string userId = null)
         {
             var groups = this.groupsRepository

@@ -25,6 +25,8 @@
 
         Task<int> CreateAsync(string name, IFormFile imgUrl, string description);
 
+        Task<bool> EditAsync(int id, GroupEditInputModel model);
+
         Task<int> AddGroupAsync(int concertId, int groupId);
 
         Task<int> RemoveGroupAsync(int concertId, int groupId);

@@ -25,6 +25,6 @@
 
         Task<int> CreateAsync(string name, IFormFile imgUrl, DateTime date, string ticketUrl, int venueId);
 
-        Task<int> EditAsync(int id, ConcertEditInputModel model);
+        Task<bool> EditAsync(int id, ConcertEditInputModel model);
     }
 }
