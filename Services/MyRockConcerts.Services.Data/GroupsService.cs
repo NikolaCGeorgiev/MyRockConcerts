@@ -9,6 +9,7 @@
     using MyRockConcerts.Data.Common.Repositories;
     using MyRockConcerts.Data.Models;
     using MyRockConcerts.Services.Mapping;
+    using MyRockConcerts.Web.ViewModels.InputModels.Groups;
 
     public class GroupsService : IGroupsService
     {
@@ -72,11 +73,11 @@
             await this.userGroupsRepository.SaveChangesAsync();
         }
 
-        public async Task<int> CreateAsync(string name, string imgUrl, string description)
+        public async Task<int> CreateAsync(GroupServiceModel model)
         {
             var group = this.groupsRepository
                 .All()
-                .FirstOrDefault(g => g.Name.ToUpper() == name.ToUpper());
+                .FirstOrDefault(g => g.Name.ToUpper() == model.Name.ToUpper());
 
             if (group != null)
             {
@@ -85,9 +86,9 @@
 
             group = new Group
             {
-                Name = name,
-                ImgUrl = imgUrl,
-                Description = description,
+                Name = model.Name,
+                ImgUrl = model.ImgUrl,
+                Description = model.Description,
             };
 
             await this.groupsRepository.AddAsync(group);

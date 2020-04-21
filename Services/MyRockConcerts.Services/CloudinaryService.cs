@@ -34,6 +34,7 @@
                 {
                     Folder = folder,
                     File = new FileDescription(fileName, memoryStream),
+                    UseFilename = true,
                 };
 
                 uploadResult = await this.cloudinary.UploadAsync(uploadParams);

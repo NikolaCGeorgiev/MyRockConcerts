@@ -9,6 +9,7 @@
     using MyRockConcerts.Data.Common.Repositories;
     using MyRockConcerts.Data.Models;
     using MyRockConcerts.Services.Mapping;
+    using MyRockConcerts.Web.ViewModels.InputModels.Albums;
 
     public class AlbumsService : IAlbumsService
     {
@@ -21,12 +22,12 @@
             this.albumsRepository = albumsRepository;
         }
 
-        public async Task<int> CreateAsync(string name, string coverUrl, DateTime releaseDate, int groupId)
+        public async Task<int> CreateAsync(AlbumServiceModel model)
         {
             var album = await this.albumsRepository
                 .All()
-                .Where(a => a.GroupId == groupId)
-                .FirstOrDefaultAsync(a => a.Name.ToUpper() == name.ToUpper());
+                .Where(a => a.GroupId == model.GroupId)
+                .FirstOrDefaultAsync(a => a.Name.ToUpper() == model.Name.ToUpper());
 
             if (album != null)
             {
@@ -35,10 +36,10 @@
 
             album = new Album
             {
-                Name = name,
-                CoverUrl = coverUrl,
-                ReleaseDate = releaseDate,
-                GroupId = groupId,
+                Name = model.Name,
+                CoverUrl = model.CoverUrl,
+                ReleaseDate = model.ReleaseDate,
+                GroupId = model.GroupId,
             };
 
             await this.albumsRepository.AddAsync(album);

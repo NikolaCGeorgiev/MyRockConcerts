@@ -6,6 +6,8 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
+    using MyRockConcerts.Common;
+    using MyRockConcerts.Services;
     using MyRockConcerts.Services.Data;
     using MyRockConcerts.Web.ViewModels.Albums;
     using MyRockConcerts.Web.ViewModels.Groups;
@@ -17,13 +19,16 @@
 
         private readonly IGroupsService groupsService;
         private readonly IAlbumsService albumsService;
+        private readonly ICloudinaryService cloudinaryService;
 
         public AlbumsController(
             IGroupsService groupsService,
-            IAlbumsService albumsService)
+            IAlbumsService albumsService,
+            ICloudinaryService cloudinaryService)
         {
             this.groupsService = groupsService;
             this.albumsService = albumsService;
+            this.cloudinaryService = cloudinaryService;
         }
 
         [Authorize]
@@ -42,21 +47,16 @@
         [Authorize]
         public async Task<IActionResult> Create(int? id = null)
         {
-            if (id == null)
+            var groups = await this.groupsService.GetAll<GroupDropDownViewModel>().ToListAsync();
+
+            var viewModel = new AlbumCreateInputModel
             {
-                var groups = await this.groupsService.GetAll<GroupDropDownViewModel>().ToListAsync();
-
-                var viewModel = new AlbumCreateInputModel
-                {
-                    Groups = groups,
-                };
-
-                return this.View(viewModel);
-            }
+                Groups = groups,
+            };
 
             this.TempData["groupId"] = id;
 
-            return this.Redirect("/Administration/Albums/Create");
+            return this.View(viewModel);
         }
 
         [HttpPost]
@@ -68,9 +68,22 @@
                 return this.RedirectToAction(nameof(this.Create));
             }
 
+            var coverUrl = await this.cloudinaryService.UploadPhotoAsync(
+               input.CoverUrl,
+               input.Name,
+               GlobalConstants.CloudFolderForAlbumsPhotos);
+
+            var serviceModel = new AlbumServiceModel
+            {
+                Name = input.Name,
+                CoverUrl = coverUrl,
+                ReleaseDate = input.ReleaseDate,
+                GroupId = input.GroupId,
+            };
+
             try
             {
-                var id = await this.albumsService.CreateAsync(input.Name, input.CoverUrl, input.ReleaseDate, input.GroupId);
+                var id = await this.albumsService.CreateAsync(serviceModel);
 
                 this.TempData["Success"] = CreateSuccessMessage;
                 return this.Redirect("/Groups/Details/" + input.GroupId);

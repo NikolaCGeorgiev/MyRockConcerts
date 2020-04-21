@@ -4,17 +4,17 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
-    using MyRockConcerts.Data.Models;
+    using Microsoft.AspNetCore.Http;
     using MyRockConcerts.Services.Mapping;
     using MyRockConcerts.Web.ViewModels.Groups;
 
-    public class AlbumCreateInputModel : IMapTo<Album>
+    public class AlbumCreateInputModel : IMapTo<AlbumServiceModel>
     {
         [Required]
         public string Name { get; set; }
 
         [Required]
-        public string CoverUrl { get; set; }
+        public IFormFile CoverUrl { get; set; }
 
         public DateTime ReleaseDate { get; set; }
 

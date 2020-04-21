@@ -37,7 +37,9 @@
         {
             var groups = Model.Groups.Select(x => new SelectListItem(x.Name, x.Id.ToString()));
             <label asp-for="GroupId"></label>
-            <select asp-for="GroupId" asp-items="groups" class="form-control"></select>
+            <select asp-for="GroupId" asp-items="groups" class="form-control">
+                <option selected="selected" disabled="disabled">Select group</option>
+            </select>
             <span asp-validation-for="GroupId" class="text-danger"></span>
         }
         else

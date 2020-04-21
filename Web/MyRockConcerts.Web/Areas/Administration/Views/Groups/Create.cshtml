@@ -12,7 +12,7 @@
     @await Component.InvokeAsync("ErrorAlert", new { message = this.TempData["Error"] })
 }
 
-<form method="post" asp-action="Create">
+<form enctype="multipart/form-data" method="post" asp-action="Create">
     <div class="form-group row">
         <label asp-for="Name"></label>
         <input asp-for="Name" type="text" class="form-control" placeholder="Name">
@@ -20,8 +20,10 @@
     </div>
 
     <div class="form-group row">
-        <label asp-for="ImgUrl"></label>
-        <input asp-for="ImgUrl" type="text" class="form-control" placeholder="ImgUrl">
+        <label asp-for="ImgUrl" class="upload-btn">
+            <i class="fas fa-cloud-upload-alt"></i> Upload Photo
+        </label>
+        <input asp-for="ImgUrl" type="file" class="form-control-file">
         <span asp-validation-for="ImgUrl" class="text-danger"></span>
     </div>
 

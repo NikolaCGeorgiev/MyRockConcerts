@@ -1,9 +1,8 @@
 ﻿namespace MyRockConcerts.Web.ViewModels.Settings
 {
+    using AutoMapper;
     using MyRockConcerts.Data.Models;
     using MyRockConcerts.Services.Mapping;
-
-    using AutoMapper;
 
     public class SettingViewModel : IMapFrom<Setting>, IHaveCustomMappings
     {

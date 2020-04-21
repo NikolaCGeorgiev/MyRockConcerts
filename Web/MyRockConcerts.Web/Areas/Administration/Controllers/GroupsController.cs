@@ -5,6 +5,8 @@
 
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using MyRockConcerts.Common;
+    using MyRockConcerts.Services;
     using MyRockConcerts.Services.Data;
     using MyRockConcerts.Web.ViewModels.Genres;
     using MyRockConcerts.Web.ViewModels.InputModels.Groups;
@@ -17,13 +19,16 @@
 
         private readonly IGroupsService groupsService;
         private readonly IGenresService genresService;
+        private readonly ICloudinaryService cloudinaryService;
 
         public GroupsController(
             IGroupsService groupsService,
-            IGenresService genresService)
+            IGenresService genresService,
+            ICloudinaryService cloudinaryService)
         {
             this.groupsService = groupsService;
             this.genresService = genresService;
+            this.cloudinaryService = cloudinaryService;
         }
 
         [Authorize]
@@ -41,9 +46,21 @@
                 return this.View(input);
             }
 
+            var imgUrl = await this.cloudinaryService.UploadPhotoAsync(
+                input.ImgUrl,
+                input.Name,
+                GlobalConstants.CloudFolderForGroupsPhotos);
+
+            var serviceModel = new GroupServiceModel
+            {
+                Name = input.Name,
+                ImgUrl = imgUrl,
+                Description = input.Description,
+            };
+
             try
             {
-                var id = await this.groupsService.CreateAsync(input.Name, input.ImgUrl, input.Description);
+                var id = await this.groupsService.CreateAsync(serviceModel);
 
                 this.TempData["Success"] = CreateSuccessMessage;
                 return this.Redirect("/Groups/Details/" + id);

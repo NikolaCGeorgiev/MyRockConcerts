@@ -17,7 +17,9 @@
 
         <form method="post" asp-action="AddGenre">
             <label asp-for="GenreId"></label>
-            <select asp-for="GenreId" asp-items="genres" class="form-control"></select>
+            <select asp-for="GenreId" asp-items="genres" class="form-control">
+                <option selected="selected" disabled="disabled">Select genre</option>
+            </select>
             <span asp-validation-for="GenreId" class="text-danger"></span>
             <hr />
             <div class="text-center">
