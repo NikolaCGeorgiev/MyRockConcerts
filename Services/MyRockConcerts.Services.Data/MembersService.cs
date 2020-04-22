@@ -12,6 +12,7 @@
     using MyRockConcerts.Data.Models;
     using MyRockConcerts.Services;
     using MyRockConcerts.Services.Mapping;
+    using MyRockConcerts.Web.ViewModels.InputModels.Members;
 
     public class MembersService : IMembersService
     {
@@ -57,6 +58,45 @@
             await this.membersRepository.SaveChangesAsync();
 
             return member.Id;
+        }
+
+        public async Task<bool> EditAsync(int id, MemberEditInputModel model)
+        {
+            var member = await this.membersRepository
+                .All()
+                .FirstOrDefaultAsync(m => m.Id == id);
+
+            if (member.FullName.ToUpper() != model.FullName.ToUpper())
+            {
+                var memberWithSameName = await this.membersRepository
+                    .All()
+                    .FirstOrDefaultAsync(m => m.FullName == model.FullName && m.Id != id);
+
+                if (memberWithSameName != null)
+                {
+                    throw new ArgumentException(ErrorMessageMemeberExist);
+                }
+            }
+
+            var url = model.ImgUrl;
+
+            if (model.Photo != null)
+            {
+                url = await this.cloudinaryService.UploadPhotoAsync(
+                model.Photo,
+                model.FullName,
+                GlobalConstants.CloudFolderForMembersPhotos);
+            }
+
+            member.FullName = model.FullName;
+            member.ImgUrl = url;
+            member.Description = model.Description;
+            member.GroupId = model.GroupId;
+
+            this.membersRepository.Update(member);
+            var result = await this.membersRepository.SaveChangesAsync();
+
+            return result > 0;
         }
 
         public async Task<IEnumerable<T>> GetAllAsync<T>()
