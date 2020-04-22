@@ -21,15 +21,16 @@
     </div>
 
     <div class="form-group row">
-        <img src="@Model.CoverUrl" height="400" class="d-block w-100" alt="...">
-        <input asp-for="@Model.CoverUrl" type="hidden" class="form-control" value=@Model.CoverUrl>
-    </div>
-
-    <div class="form-group row">
-        <label asp-for="Photo" class="upload-btn">
-            <i class="fas fa-cloud-upload-alt"></i> Upload New Photo
-        </label>
-        <input asp-for="Photo" type="file" class="form-control-file">
+        <div class="col-6 d-flex justify-content-start">
+            <img src="@Model.CoverUrl" height="400" class="d-block w-100" alt="...">
+            <input asp-for="@Model.CoverUrl" type="hidden" class="form-control" value=@Model.CoverUrl>
+        </div>
+        <div>
+            <label asp-for="Photo" class="upload-btn">
+                <i class="fas fa-cloud-upload-alt"></i> Upload New Photo
+            </label>
+            <input asp-for="Photo" type="file" class="form-control-file">
+        </div>
     </div>
 
     <div class="form-group row">

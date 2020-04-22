@@ -1,7 +1,6 @@
 ﻿namespace MyRockConcerts.Services.Data
 {
     using System;
-    using System.Globalization;
     using System.Linq;
     using System.Threading.Tasks;
 

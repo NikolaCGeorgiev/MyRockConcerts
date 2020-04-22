@@ -4,15 +4,12 @@
     using System.Linq;
     using System.Threading.Tasks;
 
+    using Microsoft.EntityFrameworkCore;
+    using Moq;
     using MyRockConcerts.Data;
     using MyRockConcerts.Data.Common.Repositories;
     using MyRockConcerts.Data.Models;
     using MyRockConcerts.Data.Repositories;
-
-    using Microsoft.EntityFrameworkCore;
-
-    using Moq;
-
     using Xunit;
 
     public class SettingsServiceTests

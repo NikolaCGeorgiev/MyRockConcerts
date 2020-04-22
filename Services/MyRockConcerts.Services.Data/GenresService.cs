@@ -9,7 +9,6 @@
     using MyRockConcerts.Data.Common.Repositories;
     using MyRockConcerts.Data.Models;
     using MyRockConcerts.Services.Mapping;
-    using MyRockConcerts.Web.ViewModels.Genres;
 
     public class GenresService : IGenresService
     {
