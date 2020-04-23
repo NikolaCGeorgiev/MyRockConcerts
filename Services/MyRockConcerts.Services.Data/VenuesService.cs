@@ -12,6 +12,7 @@
     using MyRockConcerts.Data.Models;
     using MyRockConcerts.Services;
     using MyRockConcerts.Services.Mapping;
+    using MyRockConcerts.Web.ViewModels.InputModels.Venues;
 
     public class VenuesService : IVenuesService
     {
@@ -58,6 +59,47 @@
             await this.venuesRepository.SaveChangesAsync();
 
             return venue.Id;
+        }
+
+        public async Task<bool> EditAsync(int id, VenueEditInputModel model)
+        {
+            var venue = await this.venuesRepository
+                .All()
+                .FirstOrDefaultAsync(v => v.Id == id);
+
+            if (venue.Name.ToUpper() != model.Name.ToUpper())
+            {
+                var venueWithSameName = await this.venuesRepository
+                    .All()
+                    .FirstOrDefaultAsync(v => v.Name == model.Name && v.Id != id);
+
+                if (venueWithSameName != null)
+                {
+                    throw new ArgumentException(ErrorMessageNameExist);
+                }
+            }
+
+            var url = model.ImgUrl;
+
+            if (model.Photo != null)
+            {
+                url = await this.cloudinaryService.UploadPhotoAsync(
+                model.Photo,
+                model.Name,
+                GlobalConstants.CloudFolderForVenuesPhotos);
+            }
+
+            venue.Name = model.Name;
+            venue.ImgUrl = url;
+            venue.Country = model.Country;
+            venue.City = model.City;
+            venue.Address = model.Address;
+            venue.Capacity = model.Capacity;
+
+            this.venuesRepository.Update(venue);
+            var result = await this.venuesRepository.SaveChangesAsync();
+
+            return result > 0;
         }
 
         public async Task<IEnumerable<T>> GetAllAsync<T>()
