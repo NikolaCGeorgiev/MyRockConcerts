@@ -5,7 +5,6 @@
 
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using MyRockConcerts.Services;
     using MyRockConcerts.Services.Data;
     using MyRockConcerts.Web.ViewModels.InputModels.Venues;
     using MyRockConcerts.Web.ViewModels.Venues;
@@ -16,14 +15,10 @@
         private const string EditSuccessMessage = "You have successfully edited a venue!";
 
         private readonly IVenuesService venuesService;
-        private readonly ICloudinaryService cloudinaryService;
 
-        public VenuesController(
-            IVenuesService venuesService,
-            ICloudinaryService cloudinaryService)
+        public VenuesController(IVenuesService venuesService)
         {
             this.venuesService = venuesService;
-            this.cloudinaryService = cloudinaryService;
         }
 
         [Authorize]

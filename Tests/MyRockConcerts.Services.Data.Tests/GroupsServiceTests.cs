@@ -193,7 +193,7 @@
             var usertGroupsRepository = new EfRepository<UserGroup>(dbContext);
             var groupService = new GroupsService(concertGroupsRepository, groupsRepository, groupGenresRepository, usertGroupsRepository, cloudinary.Object);
 
-            await concertGroupsRepository.AddAsync(new ConcertGroup { ConcertId = 5, GroupId = 1});
+            await concertGroupsRepository.AddAsync(new ConcertGroup { ConcertId = 5, GroupId = 1 });
             await concertGroupsRepository.SaveChangesAsync();
 
             var actual = await groupService.RemoveGroupAsync(5, 1);

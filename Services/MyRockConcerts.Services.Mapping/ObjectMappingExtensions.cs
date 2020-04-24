@@ -1,6 +1,6 @@
 ﻿namespace MyRockConcerts.Services.Mapping
 {
-    class ObjectMappingExtensions
+    public class ObjectMappingExtensions
     {
     }
 }
