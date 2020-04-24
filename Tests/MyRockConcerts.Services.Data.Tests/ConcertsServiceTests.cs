@@ -1,19 +1,18 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
-using Moq;
-using MyRockConcerts.Data;
-using MyRockConcerts.Data.Models;
-using MyRockConcerts.Data.Repositories;
-using MyRockConcerts.Web.ViewModels.InputModels.Concerts;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Text;
-using System.Threading.Tasks;
-using Xunit;
-
-namespace MyRockConcerts.Services.Data.Tests
+﻿namespace MyRockConcerts.Services.Data.Tests
 {
+    using System;
+    using System.Globalization;
+    using System.Threading.Tasks;
+
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.EntityFrameworkCore;
+    using Moq;
+    using MyRockConcerts.Data;
+    using MyRockConcerts.Data.Models;
+    using MyRockConcerts.Data.Repositories;
+    using MyRockConcerts.Web.ViewModels.InputModels.Concerts;
+    using Xunit;
+
     public class ConcertsServiceTests
     {
         [Fact]

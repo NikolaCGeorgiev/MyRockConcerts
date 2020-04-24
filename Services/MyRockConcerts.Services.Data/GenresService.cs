@@ -92,14 +92,24 @@
             var name = this.genresRepository.All().Where(g => g.Id == genreId)
                 .Select(g => g.Name).FirstOrDefaultAsync();
 
+            if (name == null)
+            {
+                throw new NullReferenceException();
+            }
+
             return await name;
         }
 
-        public async Task<int> RemoveGenreAsync(int groupId, int genreId)
+        public async Task<int> RemoveGenreAsync(int groupId,int genreId)
         {
             var groupGenre = await this.groupGenresRepository
                 .All()
                 .FirstOrDefaultAsync(gg => gg.GroupId == groupId && gg.GenreId == genreId);
+
+            if (groupGenre == null)
+            {
+                throw new NullReferenceException();
+            }
 
             this.groupGenresRepository.Delete(groupGenre);
             await this.groupGenresRepository.SaveChangesAsync();
