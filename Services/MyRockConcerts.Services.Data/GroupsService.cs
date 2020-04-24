@@ -18,6 +18,7 @@
     {
         private const string ErrorMessageNameExist = "Group with this name alredy exist!";
         private const string ErrorMessageAlreadyAdded = "The group has already been added!";
+        private const string ErrorMessageConcertOrGroupDoesNotExist = "Concert or group does not exist!";
 
         private readonly IRepository<ConcertGroup> concertGroupsRepository;
         private readonly IDeletableEntityRepository<Group> groupsRepository;
@@ -223,6 +224,11 @@
             var concertGroup = await this.concertGroupsRepository
                 .All()
                 .FirstOrDefaultAsync(cg => cg.ConcertId == concertId && cg.GroupId == groupId);
+
+            if (concertGroup == null)
+            {
+                throw new ArgumentException(ErrorMessageConcertOrGroupDoesNotExist);
+            }
 
             this.concertGroupsRepository.Delete(concertGroup);
             await this.concertGroupsRepository.SaveChangesAsync();
