@@ -100,7 +100,7 @@
             return await name;
         }
 
-        public async Task<int> RemoveGenreAsync(int groupId,int genreId)
+        public async Task<int> RemoveGenreAsync(int groupId, int genreId)
         {
             var groupGenre = await this.groupGenresRepository
                 .All()
